@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import ts from 'typescript-eslint';
 import globals from 'globals';
 export default ts.config(
-  { ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/generated/**', '.worktrees/**', '.superpowers/**', 'task-material/**'] },
+  { ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/test-results/**', '**/playwright-report/**', '**/generated/**', '.worktrees/**', '.superpowers/**', 'task-material/**'] },
   js.configs.recommended,
   ...ts.configs.recommended,
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },

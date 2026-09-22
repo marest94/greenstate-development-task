@@ -1,0 +1,72 @@
+import { test, expect } from '@playwright/test';
+import { ListingPageSchema } from '@greenstate/contracts';
+const plusDays = (date: string, count: number) => new Date(Date.parse(`${date}T00:00:00Z`) + count * 86_400_000).toISOString().slice(0, 10);
+const monthLabel = (date: string) => new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
+test('find a stay, browse calendars, clear dates and restore searches with browser navigation', async ({ page, request }, testInfo) => {
+  const initial = await request.get('/api/v1/t/greenstate/listings');
+  expect(initial.ok()).toBeTruthy();
+  const { today } = ListingPageSchema.parse(await initial.json());
+  const from = plusDays(today, 14); const to = plusDays(today, 17);
+  const searchRequests: URL[] = []; const calendarRequests: URL[] = [];
+  page.on('request', req => {
+    const url = new URL(req.url());
+    if (url.pathname === '/api/v1/t/greenstate/listings') searchRequests.push(url);
+    if (/\/api\/v1\/t\/greenstate\/listings\/[^/]+\/availability$/.test(url.pathname)) calendarRequests.push(url);
+  });
+  await page.goto('/greenstate');
+  await expect(page.getByRole('combobox', { name: 'City', exact: true })).toBeVisible();
+  await page.getByRole('combobox', { name: 'City', exact: true }).selectOption('Berlin');
+  await page.getByLabel('Guests', { exact: true }).fill('2');
+  await page.getByLabel('Maximum price (€)', { exact: true }).fill('200.00');
+  await page.getByLabel('Check-in', { exact: true }).fill(from);
+  await page.getByLabel('Checkout', { exact: true }).fill(to);
+  const filteredResponse = page.waitForResponse(resp => {
+    const url = new URL(resp.url());
+    return url.pathname === '/api/v1/t/greenstate/listings' && url.searchParams.get('city') === 'Berlin' && url.searchParams.get('from') === from && url.searchParams.get('maxPriceCents') === '20000';
+  });
+  await page.getByRole('button', { name: 'Search stays', exact: true }).click();
+  const filtered = ListingPageSchema.parse(await (await filteredResponse).json());
+  expect(filtered.total).toBeGreaterThan(1);
+  const listing = filtered.items[0]!;
+  await expect(page.getByRole('link', { name: listing.title, exact: true })).toBeVisible();
+  const effectiveUrl = page.url();
+  await page.getByRole('link', { name: listing.title, exact: true }).click();
+  await expect(page).toHaveURL(new RegExp(`/greenstate/listings/${listing.id}`));
+  await expect(page.getByRole('heading', { name: listing.title, exact: true })).toBeVisible();
+  await expect.poll(() => new Set(calendarRequests.map(url => url.searchParams.get('from'))).size).toBe(2);
+  const firstMonth = calendarRequests[0]!.searchParams.get('from')!;
+  await expect(page.getByRole('heading', { name: monthLabel(firstMonth), exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Next months', exact: true }).click();
+  await expect.poll(() => new Set(calendarRequests.map(url => url.searchParams.get('from'))).size).toBeGreaterThan(2);
+  await page.getByRole('button', { name: 'Previous months', exact: true }).click();
+  await expect(page.getByRole('heading', { name: monthLabel(firstMonth), exact: true })).toBeVisible();
+  await page.goBack();
+  await expect(page).toHaveURL(effectiveUrl);
+  await expect(page.getByRole('combobox', { name: 'City', exact: true })).toHaveValue('Berlin');
+  await expect(page.getByLabel('Check-in', { exact: true })).toHaveValue(from);
+  const pageTwoUrl = new URL(effectiveUrl); pageTwoUrl.searchParams.set('page', '2'); pageTwoUrl.searchParams.set('pageSize', '1');
+  for (const label of ['Check-in', 'Checkout']) {
+    await page.goto(pageTwoUrl.toString());
+    await expect(page.getByLabel('Check-in', { exact: true })).toHaveValue(from);
+    searchRequests.length = 0;
+    await page.getByLabel(label, { exact: true }).fill('');
+    await expect.poll(() => {
+      const params = new URL(page.url()).searchParams;
+      return !params.has('from') && !params.has('to') && (!params.has('page') || params.get('page') === '1');
+    }).toBe(true);
+    await expect.poll(() => searchRequests.some(url => !url.searchParams.has('from') && !url.searchParams.has('to'))).toBe(true);
+    const clearedUrl = page.url();
+    await page.goBack();
+    await expect(page).toHaveURL(pageTwoUrl.toString());
+    await expect(page.getByLabel('Check-in', { exact: true })).toHaveValue(from);
+    await expect(page.getByLabel('Checkout', { exact: true })).toHaveValue(to);
+    await page.goForward();
+    await expect(page).toHaveURL(clearedUrl);
+    await expect(page.getByLabel(label, { exact: true })).toHaveValue('');
+    expect(searchRequests.every(url => url.searchParams.has('from') === url.searchParams.has('to'))).toBeTruthy();
+  }
+  await expect(page.getByRole('button', { name: 'Search stays', exact: true })).toBeVisible();
+  const width = await page.evaluate(() => ({ page: document.documentElement.scrollWidth, viewport: window.innerWidth }));
+  expect(width.page).toBeLessThanOrEqual(width.viewport);
+  await page.screenshot({ path: testInfo.outputPath('portal.png'), fullPage: true });
+});

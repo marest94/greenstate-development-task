@@ -15,23 +15,25 @@
     "dev": "npm run db:generate && npm run build -w packages/contracts && concurrently -k -n api,web \"npm run dev -w apps/api\" \"npm run dev -w apps/web\"",
     "build": "npm run db:generate && npm run build -w packages/contracts && npm run build -w apps/api && npm run build -w apps/web",
     "lint": "eslint . --max-warnings=0",
-    "typecheck": "npm run db:generate && npm run build -w packages/contracts && npm run typecheck --workspaces",
+    "typecheck": "npm run db:generate && npm run build -w packages/contracts && npm run typecheck --workspaces && tsc -p tsconfig.e2e.json",
     "test": "npm run db:generate && npm run build -w packages/contracts && npm test -w apps/api && npm test -w apps/web",
     "db:generate": "npm run db:generate -w apps/api",
     "db:migrate": "npm run db:migrate -w apps/api",
     "test:integration": "npm run db:generate && npm run build -w packages/contracts && npm run test:integration -w apps/api",
     "test:stack": "node --test test/*.test.mjs",
-    "db:seed": "npm run db:generate && npm run build -w packages/contracts && npm run db:seed -w apps/api"
+    "db:seed": "npm run db:generate && npm run build -w packages/contracts && npm run db:seed -w apps/api",
+    "test:browser": "npm run build -w packages/contracts && playwright test"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.13.6",
+    "concurrently": "10.0.5",
+    "eslint": "10.11.0",
+    "globals": "17.12.0",
+    "tsx": "4.23.15",
     "typescript": "6.0.3",
     "typescript-eslint": "8.70.1",
-    "eslint": "10.11.0",
-    "@eslint/js": "10.0.1",
-    "globals": "17.12.0",
-    "@types/node": "24.13.6",
-    "tsx": "4.23.15",
-    "concurrently": "10.0.5",
     "vitest": "5.0.1"
   },
   "overrides": {
