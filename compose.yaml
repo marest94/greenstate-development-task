@@ -38,6 +38,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+      TRUST_PROXY_HOPS: 1
       APP_ORIGIN: ${APP_ORIGIN:-http://localhost:8080}
       DATABASE_URL: postgresql://gs_app:local-app-only@db:5432/greenstate
       ADMIN_DATABASE_URL: postgresql://gs_admin:local-admin-only@db:5432/greenstate

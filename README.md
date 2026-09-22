@@ -171,3 +171,19 @@ project's copies also match these originals.
 | `task-material/contracts.ts` | `d3b46cc388e1defa94fc191511a7aa80418c0314c713ab2be3badf72ff081711` |
 | `data/listings.csv` | `05c4ceb34325652c9cd65f0912fcaef4d02513c3bab93fa438fc3150fb5c200e` |
 | `data/bookings.csv` | `2b547c5439db31c8659264c6fb63c245a75aa59411e572c94878a55c523ebcf6` |
+
+### Local demo accounts
+
+With `SEED_DEMO_DATA=true`, account initialization follows inventory initialization as a separate, versioned transaction. Both tenant portals have the same example host and client emails; their identities, passwords and sessions are separate. All provisioned demo accounts require a password change on first sign-in.
+
+| Realm | Email | Initial local password |
+| --- | --- | --- |
+| Each tenant — host | `host@example.test` | `GreenState demo host 2026!` |
+| Each tenant — client | `client@example.test` | `GreenState demo client 2026!` |
+| Platform admin | `admin@example.test` | `GreenState demo admin 2026!` |
+
+These are public local examples enabled by the explicit demo-data option. Initialization reruns preserve changed passwords, account state and inventory edits. An already deleted tenant is skipped during an inventory-only upgrade. Conflicting existing accounts cause the entire new account phase to roll back instead of being overwritten.
+
+Authentication uses Argon2id (19 MiB, two iterations, parallelism one), random 32-byte session tokens stored only as SHA-256 hashes, and fixed seven-day sessions. New passwords accept 15–128 Unicode characters, including spaces. Password changes revoke every previous session in that realm. HTTP-only, SameSite=Lax cookies become Secure when `APP_ORIGIN` uses HTTPS; responses are not stored by HTTP caches.
+
+Mutations require an Origin matching `APP_ORIGIN` and `X-Requested-By: greenstate-web`. Authentication limits are configured in `.env.example`, applied before hashing, and held in bounded memory for this single API instance. Login limits apply both per IP and per tenant/platform account; registration applies per IP across portals; password changes apply per actor and target. A 429 response includes `Retry-After`. `TRUST_PROXY_HOPS` defaults to zero for direct Node development; Compose sets it to one behind nginx, which replaces forwarded IP headers. Multiple API replicas would require a shared limiter.
