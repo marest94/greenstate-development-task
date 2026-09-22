@@ -1,0 +1,34 @@
+.host-calendar-links { display: flex; flex-wrap: wrap; gap: 22px; margin: -6px 0 24px; font-size: 13px; }
+.host-calendar-links a, .host-filtered-listing a { text-underline-offset: 4px; }
+.host-calendar-toolbar { display: flex; align-items: end; flex-wrap: wrap; gap: 16px; margin: 26px 0 20px; }
+.host-calendar-toolbar label { display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
+.host-calendar-toolbar input { box-sizing: border-box; border: 1px solid var(--line); border-radius: 6px; min-height: 44px; padding: 9px 12px; background: var(--paper); color: var(--ink); font: inherit; }
+.host-business-date { color: var(--muted); font-size: 12px; line-height: 1.8; margin: 20px 0; }
+.host-calendar-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 26px; align-items: start; margin-top: 20px; }
+.host-day-detail { border: 1px solid var(--line); border-radius: 12px; padding: 24px; background: var(--paper); min-width: 0; }
+.host-day-detail h2 { font-family: Georgia, serif; font-size: 25px; margin: 0 0 22px; }
+.host-day-detail p { font-size: 13px; line-height: 1.7; overflow-wrap: anywhere; }
+.host-day-detail form > button { margin-top: 20px; }
+.host-day-placeholder { color: var(--muted); }
+.host-booking-cards { list-style: none; padding: 0; margin: 20px 0; }
+.host-booking-cards li { border: 1px solid var(--line); padding: 14px 18px; border-radius: 8px; margin-bottom: 12px; }
+.host-booking-cards p:first-child { margin-top: 0; }
+.host-booking-cards dl { display: flex; flex-wrap: wrap; gap: 16px 30px; font-size: 12px; margin: 0; }
+.host-booking-cards dt { color: var(--muted); font-size: 11px; margin-bottom: 8px; }
+.host-booking-cards dd { margin: 0; }
+.host-block-detail { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 20px; }
+.host-block-detail h3 { font-size: 15px; }
+.host-notice { color: #6a5735; font-size: 13px; line-height: 1.8; padding: 16px 20px; background: #faf4e5; border: 1px solid #d7c197; border-radius: 8px; }
+.host-booking-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 18px; margin: 26px 0; }
+.host-booking-filters .host-field { flex: 1; min-width: 160px; }
+.host-booking-filter-feedback { flex-basis: 100%; }
+.host-booking-filter-feedback:empty { display: none; }
+.host-filtered-listing { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; font-size: 13px; }
+@media (max-width: 800px) { .host-calendar-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) {
+  .host-calendar-toolbar { gap: 12px; }
+  .host-calendar-toolbar label { width: 100%; order: -1; }
+  .host-calendar-toolbar button { flex: 1; font-size: 12px; padding-left: 12px; padding-right: 12px; }
+  .host-day-detail { padding: 20px; }
+  .host-booking-filters .host-field { flex-basis: 100%; }
+}
