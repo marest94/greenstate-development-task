@@ -22,7 +22,8 @@
     "test:integration": "npm run db:generate && npm run build -w packages/contracts && npm run test:integration -w apps/api",
     "test:stack": "node --test test/*.test.mjs",
     "db:seed": "npm run db:generate && npm run build -w packages/contracts && npm run db:seed -w apps/api",
-    "test:browser": "npm run build -w packages/contracts && playwright test"
+    "test:browser": "npm run build -w packages/contracts && playwright test",
+    "admin:recover": "npm run db:generate && npm run build -w packages/contracts && npm run admin:recover -w apps/api --"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

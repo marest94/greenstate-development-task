@@ -13,6 +13,12 @@ export const TenantConfigSchema = z.strictObject({
   contactEmail: EmailSchema.nullable().default(null),
 });
 export type TenantConfig = z.infer<typeof TenantConfigSchema>;
+export const TenantUpdateSchema = z.strictObject({
+  name: TenantConfigSchema.shape.name.optional(), timezone: TimezoneSchema.optional(),
+  primaryColor: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Use a six-digit hex colour.').nullable().optional(),
+  contactEmail: EmailSchema.nullable().optional(),
+}).refine(value => Object.keys(value).length > 0, 'Provide at least one configuration field.');
+export type TenantUpdate = z.infer<typeof TenantUpdateSchema>;
 export const TenantCreateSchema = TenantConfigSchema.extend({ slug: SlugSchema.refine(value => !(ReservedSlugs as readonly string[]).includes(value), 'This slug is reserved.') });
 export type TenantCreate = z.infer<typeof TenantCreateSchema>;
 export const AdminTenantSchema = z.strictObject({ ...TenantSchema.shape, createdAt: z.iso.datetime(), deletedAt: z.iso.datetime().nullable() });

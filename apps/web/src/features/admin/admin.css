@@ -1,0 +1,16 @@
+.admin-workspace { padding-block: 2rem 4rem; }
+.admin-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-block: 1.5rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: 1rem; }
+.admin-filters > div { display: grid; gap: .4rem; flex: 1 1 10rem; }
+.admin-filters label { font-weight: 600; }
+.admin-filters input, .admin-filters select { width: 100%; min-height: 2.75rem; padding: .6rem .7rem; border: 1px solid var(--line); border-radius: .5rem; background: white; color: inherit; }
+.admin-action { margin-block: 1.5rem; padding: 1.5rem; background: var(--surface-soft, #f5f8f4); border: 1px solid var(--line); border-radius: 1rem; }
+.admin-action .host-field { margin-bottom: 1rem; }
+.admin-check { display: flex; align-items: start; gap: .7rem; line-height: 1.5; margin-block: 1.25rem; }
+.admin-check input { flex: 0 0 auto; width: 1.15rem; height: 1.15rem; margin-top: .2rem; }
+.admin-row-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.admin-row-actions button { font-size: .85rem; padding: .45rem .65rem; }
+.admin-account-name { display: block; margin-top: .35rem; font-weight: 400; }
+.admin-workspace input[readonly] { background: #f0f2ed; }
+@media (max-width: 600px) { .admin-filters { padding: 1rem; } .admin-action { padding: 1rem; } .admin-filters > div { flex-basis: 100%; } }
+
+.admin-workspace .host-heading > .button-primary { flex-shrink: 0; }

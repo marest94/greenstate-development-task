@@ -69,7 +69,7 @@ jobs:
           npm run test:stack
       - name: Install Chromium for browser checks
         run: npx playwright install --with-deps chromium
-      - name: Verify portal, account, saved-list and host journeys in desktop and narrow browsers
+      - name: Verify portal, account, host calendar and administration journeys in desktop and narrow browsers
         env:
           STACK_BASE_URL: http://localhost:18080
           STACK_TEST_ADMIN_DATABASE_URL: postgresql://gs_admin:local-admin-only@127.0.0.1:54330/greenstate

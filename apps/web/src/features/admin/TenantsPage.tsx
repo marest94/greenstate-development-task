@@ -1,0 +1,18 @@
+import { Link, useSearchParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { AdminTenantsPageSchema, AdminTenantsQuerySchema } from '@greenstate/contracts';
+import { useAuth } from '../auth/AuthProvider';
+import { api } from '../../lib/api';
+import { ErrorScreen } from '../../app/ErrorScreen';
+import { Pagination } from '../../components/Pagination';
+import { tenantsApi } from './shared';
+export function TenantsPage() {
+ const auth = useAuth(); const [params, setParams] = useSearchParams(); const parsed = AdminTenantsQuerySchema.safeParse(Object.fromEntries(params)); const filters = parsed.success ? parsed.data : null;
+ const query = useQuery({ queryKey: [...(auth.privateKey ?? []), 'admin-tenants', filters], enabled: !!auth.privateKey && !!filters, queryFn: ({ signal }) => api.get(tenantsApi, filters!, AdminTenantsPageSchema, signal) });
+ if (!parsed.success) return <section role="alert"><h1>Check tenant filters</h1><button className="button-secondary" onClick={() => setParams({})}>Reset filters</button></section>;
+ return <section><div className="host-heading"><div><p className="eyebrow">Platform administration</p><h1>Tenants</h1><p>Manage rental portals and their account access.</p></div><Link className="button-primary" to="/admin/tenants/new">Create tenant</Link></div>
+ <form key={params.toString()} className="admin-filters" onSubmit={event => { event.preventDefault(); const form = new FormData(event.currentTarget); const search = String(form.get('search') ?? '').trim(); setParams({ status: String(form.get('status')), page: '1', ...(search ? { search } : {}) }); }}><div><label htmlFor="tenant-search">Search tenants</label><input id="tenant-search" name="search" defaultValue={filters?.search ?? ''} maxLength={120} /></div><div><label htmlFor="tenant-status">Tenant status</label><select id="tenant-status" name="status" defaultValue={filters?.status}><option value="active">Active</option><option value="deleted">Deleted</option><option value="all">All tenants</option></select></div><button className="button-secondary">Apply filters</button></form>
+ {query.isPending && <p role="status">Loading tenants…</p>}{query.isError && <ErrorScreen error={query.error} onRetry={() => { void query.refetch(); }} />}
+ {query.data && <><p role="status">{query.data.total} {query.data.total === 1 ? 'tenant' : 'tenants'}</p>{query.data.items.length ? <div className="host-table-scroll"><table className="host-table"><caption className="host-sr-only">Platform tenants</caption><thead><tr><th>Tenant</th><th>Portal</th><th>Business time zone</th><th>Status</th><th>Accounts</th></tr></thead><tbody>{query.data.items.map(tenant => <tr key={tenant.id}><th scope="row"><Link to={`/admin/tenants/${tenant.id}`}>{tenant.name}</Link></th><td>{tenant.deletedAt ? tenant.slug : <Link to={`/${tenant.slug}`}>{tenant.slug}</Link>}</td><td>{tenant.timezone}</td><td>{tenant.deletedAt ? 'Deleted' : 'Active'}</td><td>{!tenant.deletedAt && <Link to={`/admin/tenants/${tenant.id}/accounts`}>Manage accounts</Link>}</td></tr>)}</tbody></table></div> : <div className="empty-state"><h2>No tenants on this page</h2><p>Adjust your filters or create a tenant.</p></div>}<Pagination {...query.data} onChange={page => { const next = new URLSearchParams(params); next.set('page', String(page)); setParams(next); }} /></>}
+ </section>;
+}
