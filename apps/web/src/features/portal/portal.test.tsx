@@ -163,6 +163,34 @@ describe('public screen states', () => {
 });
 
 describe('listing detail availability', () => {
+  it('opens the illustration gallery, navigates images with the keyboard, and restores focus on close', async () => {
+    intercept(); mount(`/greenstate/listings/${listing.id}`);
+    const open = await screen.findByRole('button', { name: 'View all illustrations' });
+    await userEvent.setup().click(open);
+    const dialog = screen.getByRole('dialog', { name: 'Stay inspiration' });
+    const first = within(dialog).getByRole('img').getAttribute('src');
+    fireEvent.keyDown(dialog, { key: 'ArrowRight' });
+    expect(within(dialog).getByRole('img').getAttribute('src')).not.toBe(first);
+    fireEvent.keyDown(dialog, { key: 'Escape' });
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(open).toHaveFocus();
+  });
+  it('keeps a usable location link with the exact supplied coordinates independently of map tiles', async () => {
+    intercept(); mount(`/greenstate/listings/${listing.id}`);
+    const link = await screen.findByRole('link', { name: 'Open in OpenStreetMap' });
+    const url = new URL(link.getAttribute('href')!);
+    expect(url.hostname).toBe('www.openstreetmap.org');
+    expect(url.searchParams.get('mlat')).toBe('52.52');
+    expect(url.searchParams.get('mlon')).toBe('13.405');
+    expect(screen.getByRole('region', { name: 'Property location' })).toBeVisible();
+  });
+  it('returns from details to the same search filters and page', async () => {
+    intercept(); const router = mount('/greenstate?city=Berlin&guests=4&page=2');
+    await userEvent.setup().click(await screen.findByRole('link', { name: listing.title }));
+    await userEvent.setup().click(await screen.findByRole('link', { name: 'Back to listings' }));
+    expect(router.state.location.search).toBe('?city=Berlin&guests=4&page=2');
+    expect(screen.getByLabelText('City')).toHaveValue('Berlin');
+  });
   it('preserves the listing date and exact supplied coordinates in secondary details', async () => {
     intercept(); mount(`/greenstate/listings/${listing.id}`);
     await screen.findByRole('heading', { name: listing.title });
