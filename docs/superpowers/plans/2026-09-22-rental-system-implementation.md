@@ -1,6 +1,6 @@
 # Accommodation Rental System Implementation Plan
 
-> **For agentic workers:** The user selected hybrid execution. Use superpowers:executing-plans for the main implementation, superpowers:dispatching-parallel-agents for the bounded independent work below, and superpowers:requesting-code-review at the stated checkpoints. Keep one integration owner with continuous context. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** The user selected hybrid execution. Use superpowers:executing-plans for the main implementation, superpowers:dispatching-parallel-agents for the bounded independent work below, and superpowers:requesting-code-review at the stated checkpoints. Keep one integration owner with continuous context. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Deliver the full original challenge, listing creation/archiving, private saved listings, account administration, and the approved engineering and security baseline in a fresh repository.
 
@@ -542,7 +542,7 @@ guards attach a validated principal. Tenant `/auth/register`, `/auth/login`, `/a
 `/auth/me`, `/auth/password` routes sit beneath `/t/:slug`; platform login/logout/me/password
 sit beneath `/admin/auth`. Registration never accepts a role. `me` returns the principal.
 
-- [ ] Write HTTP tests for registration, wrong password, same email in two tenants, session
+- [x] Write HTTP tests for registration, wrong password, same email in two tenants, session
   crossover, expiration, logout, password change, role injection, missing CSRF, and throttling.
   Run `npm run test:integration -w apps/api -- test/auth.test.ts` and observe failures.
   Capture `cookieA` from a real login on tenant A; replay it against tenant B:
@@ -553,17 +553,17 @@ sit beneath `/admin/auth`. Registration never accepts a role. `me` returns the p
   await request(app.getHttpServer()).post(`/api/v1/t/${tenantA.slug}/auth/logout`)
     .set('Cookie', cookieA).expect(403); // Missing Origin and X-Requested-By.
   ```
-- [ ] Use separate tenant-user/tenant-session and platform-user/platform-session tables.
+- [x] Use separate tenant-user/tenant-session and platform-user/platform-session tables.
   Tenant users have non-null tenant IDs; composite session/user foreign keys prevent realm
   mismatch without nullable-key exceptions. Tenant tables use RLS. Only platform identity and
   administration access platform tables through the restricted privileged pool. Tenant users
   include `disabledAt` and a credential version; session issuance checks both after acquiring
   the user lock. Only privileged account administration can change role or disabled state.
-- [ ] Implement Argon2id and 32-byte random session tokens. Hash tokens with SHA-256 for lookup,
+- [x] Implement Argon2id and 32-byte random session tokens. Hash tokens with SHA-256 for lookup,
   expire at seven days, and never refresh expiration silently. Cookies use distinct tenant-ID
   and platform names, HttpOnly, SameSite=Lax, and Secure when served through HTTPS. Session
   lookup still validates the realm, live user, and live tenant regardless of cookie name.
-- [ ] Implement permissions as a small explicit mapping and keep authorization separate:
+- [x] Implement permissions as a small explicit mapping and keep authorization separate:
 
   ```ts
   const rolePermissions: Record<Principal['role'], Permission[]> = {
@@ -574,33 +574,33 @@ sit beneath `/admin/auth`. Registration never accepts a role. `me` returns the p
   // Test each protected route with a client, foreign host, own host, and superadmin.
   ```
 
-- [ ] Apply same-origin/custom-header CSRF checks before browser mutations, including login and
+- [x] Apply same-origin/custom-header CSRF checks before browser mutations, including login and
   registration. Set configurable per-IP and per-account login limits and per-IP registration
   limits before expensive hashing. Bound authenticated password-change/reset attempts by actor
   and target account as applicable. Return Retry-After and use indistinguishable login failures
   for unknown, disabled, and wrong-password accounts. Use a dummy password hash check for
   unknown accounts. Validate password length before hashing; test each limit without sleeps.
-- [ ] Make every tenant identity mutation participate in task 2's shared live-tenant coordination
+- [x] Make every tenant identity mutation participate in task 2's shared live-tenant coordination
   from the outset: registration, session issuance, password changes, and logout. Tenant locks
   precede user locks. Platform identity has no tenant lock but uses the same user-race protection.
-- [ ] Coordinate login session issuance and password change on the same user row in both realms.
+- [x] Coordinate login session issuance and password change on the same user row in both realms.
   Password hashing/verification may happen before the transaction to avoid holding locks during
   expensive work; once locked, re-read and compare the credential version/hash used in validation
   and revalidate session/account state. Reject stale verification. Password change updates the
   hash, revokes existing sessions, and issues its replacement in that transaction. A delayed
   old-password login must not create a usable session after the password change commits.
-- [ ] Add transaction-barrier tests in both realms: pause login after old-password verification,
+- [x] Add transaction-barrier tests in both realms: pause login after old-password verification,
   commit a password change, then resume login and require rejection with no new session. Test
   the opposite ordering (login commits first, then its session is revoked), and concurrent
   password changes (the stale verification cannot overwrite the winner). Use no timing sleeps.
-- [ ] Restricted first-login sessions can only change password, inspect their own session, or
+- [x] Restricted first-login sessions can only change password, inspect their own session, or
   log out. This restriction applies equally to clients and hosts after an assisted reset or
   promotion; task 11 reuses it. A disabled user cannot sign in or use an existing session.
   Bootstrap local demo accounts as a separate transactionally marked initialization
   phase from task 3's inventory import. Test upgrading an inventory-only database and rerunning
   after a password change; neither inventory edits nor passwords may be overwritten. Keep
   credentials out of logs and add tests for privileged-role misuse and credential leakage.
-- [ ] Run auth integration tests, unit tests, lint/typecheck, and the complete API suite. Commit
+- [x] Run auth integration tests, unit tests, lint/typecheck, and the complete API suite. Commit
   identity and permission enforcement. Do not claim tenant isolation from unit tests alone.
 
 ### Task 7: Registration, sign-in, and account UI
@@ -613,7 +613,7 @@ sit beneath `/admin/auth`. Registration never accepts a role. `me` returns the p
 credentials; mutations are not automatically retried. `AuthProvider` scopes cached state by
 realm, tenant, and principal ID. `RequirePermission` is UX only; the server remains authoritative.
 
-- [ ] Write failing component tests for field errors, 401 reset, 429 feedback, temporary-password
+- [x] Write failing component tests for field errors, 401 reset, 429 feedback, temporary-password
   restriction, realm changes, and logout clearing private cached data.
   Use a test-owned protected fixture route, not the host inventory page introduced in task 9.
   First prove an unrestricted host sees its marker. With `mustChangePassword=true`, prove
@@ -623,15 +623,15 @@ realm, tenant, and principal ID. `RequirePermission` is UX only; the server rema
   expect(await screen.findByRole('heading', { name: 'Change your password' })).toBeTruthy();
   expect(screen.queryByText('Protected host content')).toBeNull();
   ```
-- [ ] Implement public/client navigation, host/admin entry points, forms, and session loading.
+- [x] Implement public/client navigation, host/admin entry points, forms, and session loading.
   Add an account page with identity, password-change, and logout controls. On logout, 401, or
   principal change, cancel in-flight private queries and clear the old account's private cache
   in that realm. An old response must not repopulate another account's cache. Do not keep
   passwords or tokens in persistent browser storage.
-- [ ] Preserve safe relative return paths after login; reject cross-origin return URLs. Route
+- [x] Preserve safe relative return paths after login; reject cross-origin return URLs. Route
   every `mustChangePassword` principal directly to password change, including reset clients.
   Submit forms once and surface API field errors.
-- [ ] Extend browser CI with registration, login, password change, logout and cross-portal
+- [x] Extend browser CI with registration, login, password change, logout and cross-portal
   navigation. Run `npm test -w apps/web -- src/features/auth/auth.test.tsx`, lint/typecheck/build,
   and the authentication browser journey.
   Commit the authentication UI.
@@ -659,7 +659,7 @@ filter so cards can fetch their saved state in one request. Its response remains
 sets tenant and user context transaction-locally; IDs come from the validated principal, never
 from client ownership fields.
 
-- [ ] Write failing API tests with two clients and a host in tenant A and one client in tenant B.
+- [x] Write failing API tests with two clients and a host in tenant A and one client in tenant B.
   Cover save/remove, duplicate PUT, missing DELETE, anonymous/restricted sessions, foreign and
   archived listing IDs, pagination, and rejected `userId`/`tenantId` input. Run
   `npm run test:integration -w apps/api -- test/saved-listings.test.ts` and observe failures.
@@ -675,25 +675,25 @@ from client ownership fields.
   // Repeat the read and removal attempt as the tenant's host; the first client's row remains.
   ```
 
-- [ ] Add a unique `(tenant_id, user_id, listing_id)` record with a saved timestamp and composite
+- [x] Add a unique `(tenant_id, user_id, listing_id)` record with a saved timestamp and composite
   foreign keys to both tenant user and listing. Require tenant AND user context in its RLS
   USING/WITH CHECK policies. Repositories also filter by the authenticated owner. Under the
   ordinary role, prove missing user context, another user, and reused pooled connections cannot
   expose or modify a previous user's rows. No host permission grants access to other shortlists.
-- [ ] Implement shared live-tenant coordination for PUT/DELETE. PUT locks the listing after
+- [x] Implement shared live-tenant coordination for PUT/DELETE. PUT locks the listing after
   tenant coordination and checks that it is active, coordinating with task 9's archive path;
   archived/foreign/missing listings return the same not-found response. DELETE can remove an
   existing unavailable entry. Neither request accepts a user ID or tenant ID as ownership input.
-- [ ] Retain saved rows when a listing is archived. The owner list returns an unavailable entry
+- [x] Retain saved rows when a listing is archived. The owner list returns an unavailable entry
   with a remove action, no booking/details payload, and no detail link; restoration exposes the
   active listing again. Test with database archive fixtures here, then real archive/restore
   endpoints in task 9. Tenant deletion blocks access while retaining rows.
-- [ ] Build Save/Remove controls on portal cards/detail and a paginated Saved listings page.
+- [x] Build Save/Remove controls on portal cards/detail and a paginated Saved listings page.
   Anonymous users are sent through sign-in using a safe relative return path and can then save;
   no unauthenticated pending save is stored. Hosts retain these controls alongside their panel.
   Query keys include tenant, principal ID, and filters; use task 7's cancellation/cache clearing
   on account changes. Test a delayed response from one account cannot populate another's page.
-- [ ] Add component and browser checks for save→reload→saved page→remove, unavailable entries,
+- [x] Add component and browser checks for save→reload→saved page→remove, unavailable entries,
   empty/error/loading states, and two same-tenant accounts. Run API/web checks, lint/typecheck,
   build, and `npm run test:browser`; add the new journey to CI. Commit the complete shortlist.
 
@@ -718,7 +718,7 @@ discoverable after reload and their links target host detail/edit/calendar route
 Archiving is allowed with active or future bookings; confirmation warns that existing stays
 remain unchanged and accessible to hosts. It never cancels bookings or deletes saved entries.
 
-- [ ] Write failing API tests for host/client/foreign-host permissions, validation, creation,
+- [x] Write failing API tests for host/client/foreign-host permissions, validation, creation,
   optimistic concurrency and archive/restore visibility. Add a form test for a stale-version response.
   Use two authorized requests with the same `version`, Origin and CSRF headers; regardless of
   completion order, assert:
@@ -728,12 +728,12 @@ remain unchanged and accessible to hosts. It never cancels bookings or deletes s
   expect(responses.map(response => response.status).sort()).toEqual([200, 409]);
   expect(responses.find(response => response.status === 409)?.body.code).toBe('STALE_VERSION');
   ```
-- [ ] Add capacity-edit tests with a fixed tenant-local today: reject a reduction below guests
+- [x] Add capacity-edit tests with a fixed tenant-local today: reject a reduction below guests
   on any noncancelled booking with `checkOut > today`, including a stay already in progress.
   Allow equal capacity, cancelled-only conflicts, and bookings checking out today or earlier;
   preserve every historical booking unchanged. Return `409 CAPACITY_CONFLICT` for a protected
   stay and explain the conflicting capacity in the form without changing the user's input.
-- [ ] Implement tenant-owned mutations and explicit field allowlists. Reject attempts to change
+- [x] Implement tenant-owned mutations and explicit field allowlists. Reject attempts to change
   tenant, rating, reviews, or ID. Within the tenant-coordinated transaction, acquire the listing
   row lock, check capacity against its bookings, then apply the atomic version predicate:
 
@@ -745,21 +745,21 @@ remain unchanged and accessible to hosts. It never cancels bookings or deletes s
   // Zero rows: scoped existence check distinguishes not-found from stale version.
   ```
 
-- [ ] Reuse task 2's shared live-tenant advisory coordination for mutations. Do not add a row
+- [x] Reuse task 2's shared live-tenant advisory coordination for mutations. Do not add a row
   lock on the SELECT-only tenant table. Coordinate archive/calendar/capacity changes with a
   listing-row lock after the tenant lock. Recheck live tenant and ownership inside the transaction.
-- [ ] Build the inventory table, create/edit forms and explicit archive/restore actions.
+- [x] Build the inventory table, create/edit forms and explicit archive/restore actions.
   Preserve user input on a conflict; offer to reload the server's current version. Allow editing
   archived inventory but no new calendar blocks until restored. Add an Archived filter/tab;
   navigate away and reload before finding and restoring an archived listing in the test.
-- [ ] Test archiving with an active and a future noncancelled booking: confirmation explains
+- [x] Test archiving with an active and a future noncancelled booking: confirmation explains
   the effect, the API succeeds, booking rows are unchanged, and host links still work. Using
   task 8's client account, verify saved→archive→unavailable/removable→restore→available. Also
   race save with archive under the listing lock; never create a new save after archive wins.
-- [ ] Now that the real host route exists, test first-login restrictions against that route
+- [x] Now that the real host route exists, test first-login restrictions against that route
   with a positive control showing an unrestricted host can reach Create listing. Extend the
   host browser journey with create/edit/archive/rediscover/restore and run it in CI.
-- [ ] Run `npm run test:integration -w apps/api -- test/host-listings.test.ts`, relevant web
+- [x] Run `npm run test:integration -w apps/api -- test/host-listings.test.ts`, relevant web
   tests, lint/typecheck, and verify create→public visibility→archive→hidden→restore in the browser.
   Commit the inventory workflow.
 
@@ -777,7 +777,7 @@ blocked cells plus API today; `POST /t/:slug/host/listings/:id/blocks` accepts `
 `DELETE /t/:slug/host/listings/:id/blocks/:blockId` removes that block. `GET /t/:slug/host/bookings` returns
 `Page<BookingDto & { listingTitle: string }>` with optional listing/date/status filters.
 
-- [ ] Write failing integration tests for occupied/past/duplicate block rejection, cancellation,
+- [x] Write failing integration tests for occupied/past/duplicate block rejection, cancellation,
   removal, concurrent duplicate submissions, archive races, foreign IDs, and booking read-only
   behavior. Verify changing blocks immediately changes public availability/search.
   With the clock fixed before October 10, POST two authorized blocks for the same free day:
@@ -790,25 +790,25 @@ blocked cells plus API today; `POST /t/:slug/host/listings/:id/blocks` accepts `
     .query({ from: '2026-10-10', to: '2026-10-11' }).expect(200);
   expect(calendar.body.days).toEqual([{ date: '2026-10-10', available: false }]);
   ```
-- [ ] Inside one tenant-scoped transaction, acquire shared live-tenant advisory coordination
+- [x] Inside one tenant-scoped transaction, acquire shared live-tenant advisory coordination
   then the listing-row lock, check archive state and today from the freshly read tenant
   configuration, then check overlap and
   write the block. Removing blocks follows the same lock order. Enforce a unique
   `(tenant_id, listing_id, date)` constraint and map duplicate violations to 409.
-- [ ] Booked cells show read-only booking information; blocked cells allow removal. The UI
+- [x] Booked cells show read-only booking information; blocked cells allow removal. The UI
   invalidates affected calendar/search queries after a mutation and never predicts success
   after a rejected write. Use the shared calendar with explicit click permissions.
-- [ ] Build paginated booking views with readable dates/status and listing links. There are no
+- [x] Build paginated booking views with readable dates/status and listing links. There are no
   booking mutation routes. Keep cancelled bookings visible with their status. Listing links
   use host routes and work for archived inventory; historical guest counts are not rewritten
   when current capacity changes.
-- [ ] Label date cutoffs as the tenant business date and show the configured timezone. Display
+- [x] Label date cutoffs as the tenant business date and show the configured timezone. Display
   imported booking status separately from a date-derived past/current/future label; a confirmed
   stay with checkout on/before today is past. Add a fixture for this combination and permit
   historical calendar navigation so supplied bookings remain inspectable as the data ages.
-- [ ] Extend the host browser journey with block/removal and booking history, including archived
+- [x] Extend the host browser journey with block/removal and booking history, including archived
   listing navigation. For new blocks, choose dates relative to API today on a new listing.
-- [ ] Run focused API/web tests, the full host suite, lint/typecheck, and verify the workflow
+- [x] Run focused API/web tests, the full host suite, lint/typecheck, and verify the workflow
   in a browser using a seeded host. Commit calendar and bookings.
 
 ## Stage 5 — Administration and delivery
@@ -839,7 +839,7 @@ Tenant DELETE returns 204 after soft deletion and session revocation.
 using explicitly supplied database-administration credentials and a new password from a hidden
 terminal prompt (stdin in controlled tests). It never creates accounts or runs as an HTTP route.
 
-- [ ] Write failing API tests for all admin permissions, duplicate/reserved slugs, invalid
+- [x] Write failing API tests for all admin permissions, duplicate/reserved slugs, invalid
   timezone/colour, host provisioning and soft deletion. Test a logged-in host's next request
   after deletion and an overlapping host write with transaction barriers, not timing sleeps.
   After deleting a fixture tenant through an authenticated admin request, assert both access
@@ -854,11 +854,11 @@ terminal prompt (stdin in controlled tests). It never creates accounts or runs a
     where: { tenantId: tenantA.id, revokedAt: null },
   })).toBe(0);
   ```
-- [ ] Implement platform-only administration. Slugs are unique across live and deleted tenants;
+- [x] Implement platform-only administration. Slugs are unique across live and deleted tenants;
   reserve route words such as `admin` and `api`. Slugs are immutable after creation. Exclude
   slug from the strict update schema and show it read-only in the edit form. Test rejected
   rename attempts and reuse after deletion. Use safe colour validation and plain text names.
-- [ ] Tenant deletion takes task 2's exclusive tenant advisory lock, checks current state,
+- [x] Tenant deletion takes task 2's exclusive tenant advisory lock, checks current state,
   sets `deleted_at`, and revokes all tenant sessions in one privileged transaction. It uses
   the same immutable-ID key and explicit READ COMMITTED isolation as ordinary mutations.
   Configuration updates take the exclusive tenant lock so timezone changes are ordered with
@@ -869,11 +869,11 @@ terminal prompt (stdin in controlled tests). It never creates accounts or runs a
   host creation, saved-list mutations, reset/promotion/enable, and listing/block writes.
   A mutation that commits first may succeed; once deletion commits, waiting/new
   mutations must reject. This does not promise to retract already authorized in-flight reads.
-- [ ] Provision hosts with Argon2id and `mustChangePassword=true`. The temporary password never
+- [x] Provision hosts with Argon2id and `mustChangePassword=true`. The temporary password never
   appears in logs or responses. A same-tenant existing email returns `409 ACCOUNT_EXISTS`
   without changing its account; the UI offers a separate explicit promotion for a client.
   Do not make superadmin a universal host role.
-- [ ] Write failing lifecycle tests for platform permissions, foreign user IDs, disabled login,
+- [x] Write failing lifecycle tests for platform permissions, foreign user IDs, disabled login,
   existing-session rejection, re-enable without session resurrection, reset of both roles,
   and promotion preserving account ID/saved rows. Run
   `npm run test:integration -w apps/api -- test/account-lifecycle.test.ts` and observe failures.
@@ -890,12 +890,12 @@ terminal prompt (stdin in controlled tests). It never creates accounts or runs a
   // until password change succeeds. The account ID and saved row remain unchanged.
   ```
 
-- [ ] Disable a host by setting `disabledAt` and revoking every tenant session atomically.
+- [x] Disable a host by setting `disabledAt` and revoking every tenant session atomically.
   Re-enable only clears disabled state; it does not restore revoked sessions or clear a pending
   password-change requirement. Retain its role, account ID, and saved rows. Subsequent requests
   must fail while disabled; already-authorized in-flight operations may finish. This is distinct
   from the stronger tenant-deletion write coordination. Do not introduce account deletion or demotion.
-- [ ] Reset either tenant role with a new Argon2id hash/credential version, revoke all sessions,
+- [x] Reset either tenant role with a new Argon2id hash/credential version, revoke all sessions,
   and set `mustChangePassword=true`, without clearing `disabledAt`. Promotion applies the same
   reset while explicitly changing client to host and preserving its account/saved data. Never
   retain the old password on promotion: an unverified email match does not establish identity.
@@ -903,12 +903,12 @@ terminal prompt (stdin in controlled tests). It never creates accounts or runs a
   add no email subsystem. No reset/promotion response issues a tenant session to the admin.
   Apply task 6's actor/target throttling before hashing for host provisioning, reset, and
   promotion, with API tests proving excess attempts receive 429 without performing the hash.
-- [ ] Reuse task 6's user-row coordination. Extend transaction-barrier cases for delayed login
+- [x] Reuse task 6's user-row coordination. Extend transaction-barrier cases for delayed login
   and password change versus reset/promotion/disable: stale validated credentials cannot issue
   sessions or overwrite the new credential, and login-first sessions are revoked by the later
   operation. Include disabled reset→still disabled→enable→forced password change. Test old
   passwords, old cookies, saved-list privacy, and client/host permissions after every transition.
-- [ ] Implement the local platform recovery command with explicit database-administration
+- [x] Implement the local platform recovery command with explicit database-administration
   credentials unavailable to the web image. Read the replacement password without echo; reject
   password command-line flags, redact failures, and never print hashes/tokens/passwords. Lock
   the existing platform user, update its password/version and revoke sessions atomically using
@@ -916,19 +916,19 @@ terminal prompt (stdin in controlled tests). It never creates accounts or runs a
   `npm run test:integration -w apps/api -- test/platform-recovery.test.ts`; verify captured output
   contains no secret, old login/session fails, replacement login works, and a delayed old login
   cannot survive recovery. Document invocation and required credentials in README.
-- [ ] Build admin tables/forms and an explicit deletion confirmation naming the tenant and
+- [x] Build admin tables/forms and an explicit deletion confirmation naming the tenant and
   explaining that access is disabled while records are retained. Tenant branding is applied
   through validated values, never injected HTML or arbitrary CSS.
-- [ ] Build account search/filter, host disable/enable controls, assisted reset, and explicit
+- [x] Build account search/filter, host disable/enable controls, assisted reset, and explicit
   promotion confirmation. Show role/disabled state and explain session revocation and required
   password change. Display no other account's saved list. Keep recovery credentials out of
   URL parameters, persistent browser state, telemetry, and logs; clear password inputs on success.
-- [ ] Add the new-tenant→host first-login→listing visibility journey in `e2e/admin.spec.ts` and
+- [x] Add the new-tenant→host first-login→listing visibility journey in `e2e/admin.spec.ts` and
   CI now. Add client→save→promote→temporary-password change→host access with shortlist retained,
   host disable/re-enable, and assisted client reset to the real-browser coverage. Extend seed
   restart tests after soft deletion, host disabling, promotion, and reset: no reactivation, role
   rollback, or credential reset.
-- [ ] Run `npm run test:integration -w apps/api -- test/admin.test.ts test/account-lifecycle.test.ts test/platform-recovery.test.ts`, admin component tests,
+- [x] Run `npm run test:integration -w apps/api -- test/admin.test.ts test/account-lifecycle.test.ts test/platform-recovery.test.ts`, admin component tests,
   all identity/host regressions, lint/typecheck, and manually create a new tenant and host.
   Sign in, change its password, create a listing and open its public page. Commit administration.
 
@@ -942,7 +942,7 @@ Compose test configuration, and API integration tests where failures are found.
 have stable IDs; created tenant/host/listing identifiers are unique per run. Tests do not reset
 the shared database between parallel journeys.
 
-- [ ] Review and complete the portal, authentication, saved-list, host, and admin journeys introduced with
+- [x] Review and complete the portal, authentication, saved-list, host, and admin journeys introduced with
   their features. Add missing cross-feature scenarios rather than rebuilding a late test harness.
   After the admin/host setup in `e2e/admin.spec.ts`, an anonymous browser must find the unique
   listing only on its new tenant's portal:
@@ -953,22 +953,22 @@ the shared database between parallel journeys.
   await page.goto(`/${otherTenantSlug}`);
   await expect(page.getByRole('link', { name: createdListingTitle })).toHaveCount(0);
   ```
-- [ ] Add browser checks for anonymous protected routes, client forbidden actions, session
+- [x] Add browser checks for anonymous protected routes, client forbidden actions, session
   crossover, same-tenant saved-list privacy, disabled accounts, soft-deleted tenant access,
   and logout/reset/disable in another tab. Invalidate auth state on
   relevant window focus and react to subsequent 401s. Fail journeys on unexpected console errors.
-- [ ] Run `npm run test:browser` twice against the same seeded stack. A repeat run must not
+- [x] Run `npm run test:browser` twice against the same seeded stack. A repeat run must not
   depend on manual cleanup. Use bounded waits for UI/network state, not arbitrary sleeps.
-- [ ] Verify the CI pipeline grown from task 1 includes clean install, lint, typecheck,
+- [x] Verify the CI pipeline grown from task 1 includes clean install, lint, typecheck,
   unit/component, real-database integration (including seed), build, and all selected browser
   journeys. Collect failing browser traces.
   Run role tests under restricted connections; schema/role provisioning uses owner credentials,
   while runtime host provisioning and lifecycle tests use the non-superuser privileged role.
-- [ ] Execute malformed JSON, unexpected keys, SQL-injection strings, XSS-like text, CSRF,
+- [x] Execute malformed JSON, unexpected keys, SQL-injection strings, XSS-like text, CSRF,
   unauthorized ownership/role changes, missing tenant/user context, expensive-auth throttling,
   and credential-redaction regressions (including reset/promotion/recovery input).
   Test ordinary-role misconfiguration refusal. Fix concrete failures with reproducing tests.
-- [ ] Run all checks, inspect an actual CI run once publishing is authorized, and distinguish
+- [x] Run all checks, inspect an actual CI run once publishing is authorized, and distinguish
   local success from remote CI success in the report. Commit the verified automation and fixes.
 
 ### Task 13: Final usability, clean-start verification, and handoff
@@ -976,24 +976,24 @@ the shared database between parallel journeys.
 **Modify:** `README.md`, `.env.example`, Dockerfiles/nginx/Compose and the specific UI files
 where verified usability defects occur. Do not add another process document.
 
-- [ ] Inspect portal, account/saved-list, host, and admin screens at mobile and desktop sizes, including empty and
+- [x] Inspect portal, account/saved-list, host, and admin screens at mobile and desktop sizes, including empty and
   failure states. Complete forms and calendar actions by keyboard. Check focus, labels,
   contrast, status text, and destructive-action confirmation. Fix observed defects.
-- [ ] Review the complete diff against the design and original brief. Request an
+- [x] Review the complete diff against the design and original brief. Request an
   independent review using the selected execution workflow; investigate findings before changes.
-- [ ] Verify clean-volume startup with `docker compose -f compose.yaml up --build -d` using an
+- [x] Verify clean-volume startup with `docker compose -f compose.yaml up --build -d` using an
   isolated Compose project name so no existing developer database is destroyed. Verify a second
   startup preserves data and the migration job exits rather than running in the API process.
-- [ ] Run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:integration`,
+- [x] Run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:integration`,
   `npm run build`, and `npm run test:browser`. If a check cannot run, report why and the scope
   left unverified. Inspect runtime role attributes, security headers and cookie settings.
-- [ ] Write concise README instructions: prerequisites, startup, demo accounts, seed behavior,
+- [x] Write concise README instructions: prerequisites, startup, demo accounts, seed behavior,
   useful commands, architecture, identity/isolation choices, soft deletion, limitations, and
   which features were verified. Explain saved-list privacy/unavailable entries, host disable versus
   tenant deletion, assisted reset/promotion and outside-app identity checking, local platform
   recovery, and the tenant business date. Preserve imported status and explain historical calendar
   browsing. Document local HTTP settings without calling them production-safe.
-- [ ] Commit reviewed fixes and docs. Present completion evidence and any remaining issues.
+- [x] Commit reviewed fixes and docs. Present completion evidence and any remaining issues.
   Publishing/remote repository setup happens only through the user's chosen host and visibility.
 
 ## Coverage of the design
@@ -1027,5 +1027,5 @@ where verified usability defects occur. Do not add another process document.
 
 The user approved the review decisions and selected hybrid execution. This remains a 13-task
 plan with one integration owner, the bounded overlaps above, and independent review at the
-database, identity, and final checkpoints. Application implementation has not begun. The
+database, identity, and final checkpoints. Implementation progress is preserved in the per-task commits and milestone pull requests. The
 execution strategy changes scheduling and ownership, not feature scope or verification requirements.

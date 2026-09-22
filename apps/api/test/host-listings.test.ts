@@ -1,15 +1,16 @@
 import { randomUUID } from 'node:crypto';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import type { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { HostListingViewSchema, HostListingsPageSchema } from '@greenstate/contracts';
+import * as locks from '../src/listings/listing-lock.js';
 import { createApp } from '../src/bootstrap.js';
 import { loadConfig } from '../src/config.js';
 import { createTestDatabase, type TestDatabase } from './setup.js';
 import { inventoryFixture, listingData } from './fixtures.js';
 let db: TestDatabase; let app: INestApplication; let f: Awaited<ReturnType<typeof inventoryFixture>>;
 let host: string; let client: string; let foreignHost: string; let restricted: string;
-const now = new Date('2026-10-01T22:30:00Z'); // Berlin's business date is October 2; Lisbon's is October 1.
+let now = new Date('2026-10-01T22:30:00Z'); // Berlin's business date is October 2; Lisbon's is October 1.
 const origin = 'http://localhost:5173';
 const csrf = { Origin: origin, 'X-Requested-By': 'greenstate-web' };
 const fields = { title: 'A bright studio', description: 'Space to relax.', city: 'Berlin', country: 'DE', latitude: 52.52, longitude: 13.4, propertyType: 'studio', maxGuests: 4, bedrooms: 1, pricePerNightCents: 12345 };
@@ -148,4 +149,18 @@ describe('Host inventory HTTP boundary', () => {
     await post(path(undefined, fixture.a.slug), session).send(fields).expect(404);
     await patch(path(fixture.listingA.id, fixture.a.slug), session).send({ ...fields, version: 1 }).expect(404);
   });
+});
+
+it('uses the business date after a listing lock wait crosses midnight for capacity edits', async () => {
+ const before = now; const entered = Promise.withResolvers<void>(); const release = Promise.withResolvers<void>();
+ const listing = await db.admin.listing.create({ data: listingData(f.a.id) });
+ await db.admin.booking.create({ data: { id: randomUUID(), tenantId: f.a.id, listingId: listing.id, checkIn: new Date('2026-10-01'), checkOut: new Date('2026-10-02'), guests: 4, status: 'confirmed' } });
+ const original = locks.lockListing;
+ const spy = vi.spyOn(locks, 'lockListing').mockImplementationOnce(async (...args) => { const locked = await original(...args); entered.resolve(); await release.promise; return locked; });
+ now = new Date('2026-10-01T21:59:59.900Z');
+ const response = patch(path(listing.id)).send({ ...fields, maxGuests: 2, version: 1 }).then(value => value);
+ try {
+  await entered.promise; now = new Date('2026-10-01T22:00:00.100Z'); release.resolve();
+  const result = await response; expect(result.status).toBe(200); expect(result.body.maxGuests).toBe(2);
+ } finally { release.resolve(); await response; spy.mockRestore(); now = before; }
 });

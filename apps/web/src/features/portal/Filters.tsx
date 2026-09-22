@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent } from 'react';
+import { useEffect, useId, useState, type FormEvent } from 'react';
 import { ListingSearchSchema, type ListingSearch } from '@greenstate/contracts';
 import { DateRangeField, type DateRangeValue } from '../../components/DateRangeField';
 import { parsePriceCents, priceInput } from '../../lib/format';
@@ -13,16 +13,14 @@ export function toSearchParams(filters: ListingSearch): URLSearchParams {
 }
 type Props = {
   value: ListingSearch;
+  resetKey?: string;
   cities: string[];
   today?: string;
   onSubmit: (value: ListingSearch) => void;
   onClearDates: () => void;
   onReset: () => void;
 };
-export function Filters(props: Props) {
-  return <FilterForm key={toSearchParams(props.value).toString()} {...props} />;
-}
-function FilterForm({ value, cities, today, onSubmit, onClearDates, onReset }: Props) {
+export function Filters({ value, resetKey, cities, today, onSubmit, onClearDates, onReset }: Props) {
   const id = useId();
   const [city, setCity] = useState(value.city ?? '');
   const [guests, setGuests] = useState(value.guests?.toString() ?? '');
@@ -30,6 +28,11 @@ function FilterForm({ value, cities, today, onSubmit, onClearDates, onReset }: P
   const [maxPrice, setMaxPrice] = useState(priceInput(value.maxPriceCents));
   const [dates, setDates] = useState<DateRangeValue>({ from: value.from ?? null, to: value.to ?? null });
   const [error, setError] = useState('');
+  useEffect(() => {
+    setCity(value.city ?? ''); setGuests(value.guests?.toString() ?? '');
+    setMinPrice(priceInput(value.minPriceCents)); setMaxPrice(priceInput(value.maxPriceCents));
+    setDates({ from: value.from ?? null, to: value.to ?? null }); setError('');
+  }, [resetKey, value.city, value.guests, value.minPriceCents, value.maxPriceCents, value.from, value.to, value.page, value.pageSize]);
   const changeDates = (next: DateRangeValue) => {
     setDates(next); setError('');
     if ((dates.from && !next.from) || (dates.to && !next.to)) {

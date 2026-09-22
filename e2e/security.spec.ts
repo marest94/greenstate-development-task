@@ -27,6 +27,10 @@ test('anonymous and client access stays within tenant and role boundaries', asyn
  expect((await page.request.put(`/api/v1/t/greenstate/me/saved-listings/${listing.id}`)).status()).toBe(403);
  expect((await page.request.post('/api/v1/t/greenstate/auth/register', { headers, data: { email: `injected-${randomUUID()}@example.test`, password, role: 'host' } })).status()).toBe(400);
  const injection = await page.request.get('/api/v1/t/greenstate/listings', { params: { city: "Berlin' OR 1=1 --" } }); expect(injection.status()).toBe(200); expect((await injection.json()).total).toBe(0);
+ const crossTenantRequests: string[] = []; page.on('request', req => { if (new URL(req.url()).pathname.startsWith('/api/v1/t/citystays/')) crossTenantRequests.push(req.url()); });
+ await page.goto(`/greenstate/listings/..%2F..%2Fcitystays%2Flistings%2F${foreign.id}`); await expect(page.getByRole('heading', { name: 'Page unavailable', exact: true })).toBeVisible();
+ await expect(page.getByRole('heading', { name: foreign.title, exact: true })).not.toBeVisible(); expect(crossTenantRequests).toEqual([]);
+
 });
 
 test('another tab observes logout and cannot display the previous account’s shortlist after account switching', async ({ page, context, browserErrors }) => {

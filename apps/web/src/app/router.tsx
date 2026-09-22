@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { App } from './App';
 import { TenantProvider } from './TenantProvider';
@@ -5,25 +6,26 @@ import { PortalLayout } from './PortalLayout';
 import { ErrorScreen } from './ErrorScreen';
 import { ApiProblem } from '../lib/api';
 import { AuthProvider } from '../features/auth/AuthProvider';
-import { LoginPage } from '../features/auth/LoginPage';
-import { RegisterPage } from '../features/auth/RegisterPage';
-import { AccountPage } from '../features/auth/AccountPage';
-import { PasswordPage } from '../features/auth/PasswordPage';
 import { RequirePermission } from '../features/auth/RequirePermission';
 import { TenantAccountProvider, ForcePasswordChange } from './AccountBoundary';
 import { AdminLayout } from './AdminLayout';
-import { SavedListingsPage } from '../features/saved/SavedListingsPage';
 import { HostLayout } from '../features/host/HostLayout';
-import { ListingsPage } from '../features/host/ListingsPage';
-import { ListingForm } from '../features/host/ListingForm';
-import { CalendarPage } from '../features/host/CalendarPage';
-import { BookingsPage } from '../features/host/BookingsPage';
 import { AdminLayout as Administration } from '../features/admin/AdminLayout';
-import { TenantsPage } from '../features/admin/TenantsPage';
-import { TenantForm } from '../features/admin/TenantForm';
-import { AccountsPage } from '../features/admin/AccountsPage';
-import { SearchPage } from '../features/portal/SearchPage';
-import { ListingPage } from '../features/portal/ListingPage';
+
+const LoginPage = lazy(() => import('../features/auth/LoginPage').then(module => ({ default: module.LoginPage })));
+const RegisterPage = lazy(() => import('../features/auth/RegisterPage').then(module => ({ default: module.RegisterPage })));
+const AccountPage = lazy(() => import('../features/auth/AccountPage').then(module => ({ default: module.AccountPage })));
+const PasswordPage = lazy(() => import('../features/auth/PasswordPage').then(module => ({ default: module.PasswordPage })));
+const SavedListingsPage = lazy(() => import('../features/saved/SavedListingsPage').then(module => ({ default: module.SavedListingsPage })));
+const ListingsPage = lazy(() => import('../features/host/ListingsPage').then(module => ({ default: module.ListingsPage })));
+const ListingForm = lazy(() => import('../features/host/ListingForm').then(module => ({ default: module.ListingForm })));
+const CalendarPage = lazy(() => import('../features/host/CalendarPage').then(module => ({ default: module.CalendarPage })));
+const BookingsPage = lazy(() => import('../features/host/BookingsPage').then(module => ({ default: module.BookingsPage })));
+const TenantsPage = lazy(() => import('../features/admin/TenantsPage').then(module => ({ default: module.TenantsPage })));
+const TenantForm = lazy(() => import('../features/admin/TenantForm').then(module => ({ default: module.TenantForm })));
+const AccountsPage = lazy(() => import('../features/admin/AccountsPage').then(module => ({ default: module.AccountsPage })));
+const SearchPage = lazy(() => import('../features/portal/SearchPage').then(module => ({ default: module.SearchPage })));
+const ListingPage = lazy(() => import('../features/portal/ListingPage').then(module => ({ default: module.ListingPage })));
 export const router = createBrowserRouter([
   { path: '/', element: <App /> },
   {

@@ -25,9 +25,9 @@ test('find a stay, browse calendars, clear dates and restore searches with brows
     const url = new URL(resp.url());
     return url.pathname === '/api/v1/t/greenstate/listings' && url.searchParams.get('city') === 'Berlin' && url.searchParams.get('from') === from && url.searchParams.get('maxPriceCents') === '20000';
   });
-  await page.getByRole('button', { name: 'Search stays', exact: true }).click();
+  const searchButton = page.getByRole('button', { name: 'Search stays', exact: true }); await searchButton.focus(); await page.keyboard.press('Enter');
   const filtered = ListingPageSchema.parse(await (await filteredResponse).json());
-  expect(filtered.total).toBeGreaterThan(1);
+  expect(filtered.total).toBeGreaterThan(1); await expect(searchButton).toBeFocused();
   const listing = filtered.items[0]!;
   await expect(page.getByRole('link', { name: listing.title, exact: true })).toBeVisible();
   const effectiveUrl = page.url();
@@ -39,7 +39,7 @@ test('find a stay, browse calendars, clear dates and restore searches with brows
   await expect(page.getByRole('heading', { name: monthLabel(firstMonth), exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Next months', exact: true }).click();
   await expect.poll(() => new Set(calendarRequests.map(url => url.searchParams.get('from'))).size).toBeGreaterThan(2);
-  await page.getByRole('button', { name: 'Previous months', exact: true }).click();
+  await page.getByRole('button', { name: 'Previous months', exact: true }).press('Enter');
   await expect(page.getByRole('heading', { name: monthLabel(firstMonth), exact: true })).toBeVisible();
   await page.goBack();
   await expect(page).toHaveURL(effectiveUrl);

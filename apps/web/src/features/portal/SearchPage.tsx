@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { ListingFacetsSchema, ListingPageSchema, type ListingSearch } from '@greenstate/contracts';
@@ -25,11 +26,13 @@ function SearchResults({ filters }: { filters: ListingSearch }) {
   const [, setParams] = useSearchParams();
   const results = useQuery({ queryKey: ['listings', tenant.slug, filters], queryFn: () => api.get(`/t/${tenant.slug}/listings`, filters, ListingPageSchema) });
   const facets = useQuery({ queryKey: ['listing-facets', tenant.slug], queryFn: () => api.get(`/t/${tenant.slug}/listings/facets`, undefined, ListingFacetsSchema) });
+  const [lastToday, setLastToday] = useState<string>();
+  useEffect(() => { if (results.data?.today) setLastToday(results.data.today); }, [results.data?.today]);
   const reset = () => setParams({});
   const clearDates = () => setParams(toSearchParams({ ...filters, from: undefined, to: undefined, page: 1 }));
   return <div className="search-page">
     <section className="search-intro"><p className="eyebrow">Somewhere to settle in</p><h1>A place for<br />your next chapter.</h1><p>Find a stay that fits you. Explore homes, compare the details, and make room for what comes next.</p><span className="intro-mark" aria-hidden="true">↗</span></section>
-    <Filters key={location.key} value={filters} cities={facets.data?.cities ?? []} today={results.data?.today} onSubmit={next => setParams(toSearchParams({ ...next, page: 1 }))} onClearDates={clearDates} onReset={reset} />
+    <Filters resetKey={location.key} value={filters} cities={facets.data?.cities ?? []} today={results.data?.today ?? lastToday} onSubmit={next => setParams(toSearchParams({ ...next, page: 1 }))} onClearDates={clearDates} onReset={reset} />
     {facets.isError && <p className="facet-error">City options could not be loaded. <button className="text-button" type="button" onClick={() => { void facets.refetch(); }}>Retry cities</button></p>}
     {results.data && <p className="business-date">Business date: {formatDate(results.data.today)} · {tenant.timezone}</p>}
     {results.isPending ? <div className="results-loading" role="status"><p>Finding your next stay…</p><div className="skeleton-grid" aria-hidden="true">{[0, 1, 2].map(index => <div key={index} className="skeleton-card" />)}</div></div> : results.isError ? <ErrorScreen error={results.error} onRetry={() => { void results.refetch(); }} /> : <section className="search-results" aria-labelledby="results-heading">
