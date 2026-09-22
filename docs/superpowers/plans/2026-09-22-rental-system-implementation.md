@@ -57,11 +57,15 @@ skill establishes the working branch/worktree before product edits. Publishing a
 repository or pushing is a separate action from implementing locally.
 
 Branching model: `main` holds the initial planning/input baseline and reviewed delivery
-milestones. Application work uses `codex/implementation`, with verified task commits preserving
-progress. Parallel implementation branches use `codex/task-<number>-<short-name>` from a verified
-integration commit and run in separate worktrees. Integrate them into `codex/implementation`
-one at a time, then review the combined changes through a pull request into `main` at a delivery
-milestone. A separate pull request for every task is not required. This describes workflow;
+milestones. Use a short-lived branch for each milestone in the schedule below, starting with
+`feat/foundation`; create the next milestone branch from the reviewed `main` after the preceding
+milestone merges. Keep verified task commits on that branch so progress remains visible.
+Parallel implementation branches use `feat/task-<number>-<short-name>` from a verified commit
+on the active milestone branch and run in separate worktrees. Integrate them into that milestone
+one at a time, then review the combined changes through a pull request into `main`. Preserve
+the task commits when merging the milestone rather than collapsing them into one squash commit.
+Sequential tasks need commits but not separate branches or pull requests. Create branches only
+when their work starts; there is no permanent development branch or required tool-name prefix.
 GitHub branch protection has not been configured.
 
 Root script contract, established in task 1 and extended as suites arrive:
@@ -94,14 +98,14 @@ No recursive delegation or new project-specific orchestration framework is neede
 Task numbers and stages describe deliverables. The following schedule permits implementation
 overlap; it does not mark a dependent task complete before its real-stack acceptance checks pass.
 
-| Wave | Main implementer | Parallel work | Prerequisites and integration checkpoint |
-|---|---|---|---|
-| Foundation — tasks 1–3 | Scaffold, database roles/RLS/locks, seed, date rules, and shared test harness, in order | Independent database/security review after task 2; task 3 may proceed during that review | Resolve isolation/locking findings and pass the seeded-stack checks before tenant-facing feature work |
-| Portal — tasks 4–5 | Task 4 API and shared portal contracts | Task 5 screens and component tests against those contracts | Tasks 1–3 complete; agree schemas, URL/date behavior, API client, tenant-provider and calendar interfaces first. Join on the real API before the task 5 browser journey |
-| Identity — tasks 6–7 | Task 6 sessions, guards, permissions, and task 7 shared auth provider/cache behavior | Task 7 forms and account navigation after the auth contracts and core session tests are stable | Complete the portal first. UI mocks may support implementation, but real login/password-change/crossover tests and the identity review must pass before tasks 8–9 |
-| Saved lists and inventory — tasks 8–9 | Task 8 saved-list data/API/UI and its user-context database extension | Task 9 host listing API/UI in its assigned files | Tasks 6–7 complete. Land the required schema, contracts, listing-lock helper, and archive/version fields before dispatch. Join for saved→archive→unavailable→restore and save/archive race checks |
-| Calendar and administration — tasks 10–11 | Task 11 tenant/account administration and local recovery | Task 10 host calendar and read-only bookings | Tasks 8–9 integrated; settle calendar/booking/admin contracts first. Join for deletion-versus-write tests, lifecycle regressions, and the new-tenant→host→listing journey |
-| Delivery — tasks 12–13 | Task 12 combined regression runs and final integration | Task 13 usability inspection/README work; independent final review of the integrated application | All feature work integrated. Inspection may overlap tests; apply resulting behavior/infrastructure fixes in a controlled sequence, then run final checks on the resulting code |
+| Wave | Milestone branch | Main implementer | Parallel work | Prerequisites and integration checkpoint |
+|---|---|---|---|---|
+| Foundation — tasks 1–3 | `feat/foundation` | Scaffold, database roles/RLS/locks, seed, date rules, and shared test harness, in order | Independent database/security review after task 2; task 3 may proceed during that review | Resolve isolation/locking findings and pass the seeded-stack checks before tenant-facing feature work |
+| Portal — tasks 4–5 | `feat/public-portal` | Task 4 API and shared portal contracts | Task 5 screens and component tests against those contracts | Tasks 1–3 complete; agree schemas, URL/date behavior, API client, tenant-provider and calendar interfaces first. Join on the real API before the task 5 browser journey |
+| Identity — tasks 6–7 | `feat/identity` | Task 6 sessions, guards, permissions, and task 7 shared auth provider/cache behavior | Task 7 forms and account navigation after the auth contracts and core session tests are stable | Complete the portal first. UI mocks may support implementation, but real login/password-change/crossover tests and the identity review must pass before tasks 8–9 |
+| Saved lists and inventory — tasks 8–9 | `feat/saved-listings-and-inventory` | Task 8 saved-list data/API/UI and its user-context database extension | Task 9 host listing API/UI in its assigned files | Tasks 6–7 complete. Land the required schema, contracts, listing-lock helper, and archive/version fields before dispatch. Join for saved→archive→unavailable→restore and save/archive race checks |
+| Calendar and administration — tasks 10–11 | `feat/calendar-and-administration` | Task 11 tenant/account administration and local recovery | Task 10 host calendar and read-only bookings | Tasks 8–9 integrated; settle calendar/booking/admin contracts first. Join for deletion-versus-write tests, lifecycle regressions, and the new-tenant→host→listing journey |
+| Delivery — tasks 12–13 | `chore/release-readiness` | Task 12 combined regression runs and final integration | Task 13 usability inspection/README work; independent final review of the integrated application | All feature work integrated. Inspection may overlap tests; apply resulting behavior/infrastructure fixes in a controlled sequence, then run final checks on the resulting code |
 
 Shared files need an explicit owner during each overlap: dependency manifests and lockfile,
 Prisma schema/migrations/role SQL, transaction helpers, shared contracts/barrels, app module,
@@ -215,12 +219,12 @@ both `main.ts` and tests; importing the factory never starts a server.
 
 - [x] Copy only the original brief, contracts, and CSV files into their designated paths;
   compare their SHA-256 hashes with the originals. Record attribution and data counts in README.
-  Completed during fresh-repository setup; the runnable scaffold and remaining task 1 checks
-  have not been implemented.
-- [ ] Establish workspaces and the minimal test harness. Select supported stable dependency
+  Completed during fresh-repository setup; the scaffold was subsequently verified with
+  unit/component tests, lint, typecheck, builds, and local Compose startup.
+- [x] Establish workspaces and the minimal test harness. Select supported stable dependency
   versions by checking official package engines and peer dependencies, use a supported Node LTS,
   and save exact versions and the lockfile. Record Node and required Docker setup in README.
-- [ ] Write the health test and a web test that shows API status. Run them and observe the
+- [x] Write the health test and a web test that shows API status. Run them and observe the
   application-level failure before implementing the app factories/components:
 
   ```ts
@@ -231,17 +235,17 @@ both `main.ts` and tests; importing the factory never starts a server.
   await app.close();
   ```
 
-- [ ] Implement bootstrap and a minimal landing page. Disable Nest's default JSON parser and
+- [x] Implement bootstrap and a minimal landing page. Disable Nest's default JSON parser and
   install one bounded parser; wire validation/errors/request IDs through the same factory used
   in tests. Add Helmet, safe logging, and startup environment validation. Test malformed and
   oversized JSON as HTTP requests; return 400 and 413 without internal details.
-- [ ] Configure Vite's development proxy and nginx's `/api` proxy/history fallback. Build
+- [x] Configure Vite's development proxy and nginx's `/api` proxy/history fallback. Build
   multi-stage images; the runtime image runs as a non-root user. Compose initially starts API,
   web, and PostgreSQL, with database credentials restricted to local development.
-- [ ] Add basic CI now: clean install, lint, typecheck, current unit/component tests, and build.
+- [x] Add basic CI now: clean install, lint, typecheck, current unit/component tests, and build.
   Add database, seed, and browser checks in the tasks that introduce them. Do not advertise
   remote CI success before a run has actually executed on the chosen repository host.
-- [ ] Run `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`, and
+- [x] Run `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`, and
   `docker compose -f compose.yaml up --build -d`. Verify the landing page and health through
   nginx. Commit the verified scaffold and original input copies.
 
@@ -263,7 +267,7 @@ the database layer. It acquires transaction-scoped coordination, then reads and 
 live tenant in a separate SQL statement in that transaction. Date-dependent mutations use
 this fresh configuration. Mutations and administration share the same key derivation.
 
-- [ ] Write integration cases for tenant A/B reads and writes, an unscoped read, a mismatched
+- [x] Write integration cases for tenant A/B reads and writes, an unscoped read, a mismatched
   booking/listing tenant, and a reused connection after a scoped transaction. Run
   `npm run test:integration -w apps/api -- test/tenant-isolation.test.ts` and confirm failure.
   The fixture creates two tenants and one listing each; `appDb` uses the ordinary role and a
@@ -276,10 +280,10 @@ this fresh configuration. Mutations and administration share the same key deriva
   const next = await tenantDb.run(tenantB.id, tx => tx.listing.findMany());
   expect(next.map(row => row.id)).toEqual([listingB.id]);
   ```
-- [ ] Model tenants, listings, bookings, and blocked days. Preserve supplied IDs, date and money
+- [x] Model tenants, listings, bookings, and blocked days. Preserve supplied IDs, date and money
   semantics; make `(listing_id, tenant_id)` child references target `(id, tenant_id)` on listings.
   Add positive capacity, nonnegative price, valid coordinates, and `check_in < check_out` checks.
-- [ ] Create migration-owner, ordinary application, and non-superuser privileged runtime roles.
+- [x] Create migration-owner, ordinary application, and non-superuser privileged runtime roles.
   Force RLS on tenant-owned tables. The ordinary role has SELECT-only access to tenants,
   reads bookings, manages
   inventory/blocks, and cannot hard-delete listings or alter table definitions. Implement
@@ -294,7 +298,7 @@ this fresh configuration. Mutations and administration share the same key deriva
   // tenant_id = NULLIF(current_setting('app.tenant_id', true), '')::uuid
   ```
 
-- [ ] Establish the tenant-deletion coordination mechanism under the actual restricted role.
+- [x] Establish the tenant-deletion coordination mechanism under the actual restricted role.
   Use a shared transaction-scoped advisory lock for tenant mutations and an exclusive lock
   for deletion, keyed consistently from the immutable tenant ID in a dedicated key namespace.
   Explicitly use READ COMMITTED in ordinary and privileged coordinated transactions. After
@@ -311,17 +315,17 @@ this fresh configuration. Mutations and administration share the same key deriva
   default set to Repeatable Read while the wrapper explicitly selects Read Committed.
   Also order a configuration update against a date-dependent write and assert that the
   resumed write uses the updated timezone, not the guard's earlier tenant snapshot.
-- [ ] Establish one lock order: tenant coordination first, then any user or listing row lock.
+- [x] Establish one lock order: tenant coordination first, then any user or listing row lock.
   Shared tenant locks allow unrelated host writes to proceed concurrently. Advisory locks
   coordinate cooperating code; RLS, foreign keys, and privileges still enforce isolation.
-- [ ] Add startup checks rejecting superuser/BYPASSRLS ordinary connections and superuser
+- [x] Add startup checks rejecting superuser/BYPASSRLS ordinary connections and superuser
   privileged connections. Run both negative startup cases in the integration suite. Keep
   AdminDb injectable only through the admin/platform module, seed entry point, and task 11's
   local platform-recovery command.
-- [ ] Implement strict slug validation, registry lookup, and the tenant guard. An unknown or
+- [x] Implement strict slug validation, registry lookup, and the tenant guard. An unknown or
   deleted slug returns `404 TENANT_NOT_FOUND`. Malformed/control-character slugs return 400
   before lookup. Test all three over HTTP, including an encoded NUL.
-- [ ] Add the one-off migration Compose service, database readiness probe, and the real-PostgreSQL
+- [x] Add the one-off migration Compose service, database readiness probe, and the real-PostgreSQL
   integration job in CI. Rerun focused
   integration tests, all unit tests, lint/typecheck, and migrations from an empty test database.
   Commit the working isolation boundary.
@@ -343,7 +347,7 @@ an injectable `Clock.now(): Date` supplies instants to application code and can 
 `BookingDto` comes unchanged from the supplied contracts; the seed does not invent guests/users
 for historical bookings.
 
-- [ ] Write failing unit vectors and run `npm test -w apps/api -- src/availability/availability.test.ts`:
+- [x] Write failing unit vectors and run `npm test -w apps/api -- src/availability/availability.test.ts`:
 
   ```ts
   expect(overlaps({ from: '2026-10-01', to: '2026-10-04' },
@@ -353,35 +357,35 @@ for historical bookings.
   // Repeat active/cancelled and blocked-night cases through isFree.
   ```
 
-- [ ] Review and selectively reuse the old pure functions and CSV mappers. Cover invalid dates,
+- [x] Review and selectively reuse the old pure functions and CSV mappers. Cover invalid dates,
   leap days, empty/inverted ranges, checkout turnover, cancelled stays, and time-zone midnight.
   Run date tests in both `Europe/Belgrade` and `America/New_York` processes.
-- [ ] Treat today as a tenant-wide business date, even when listings span different cities.
+- [x] Treat today as a tenant-wide business date, even when listings span different cities.
   Test one instant near midnight with different tenant timezones and verify listings in the
   same tenant share its cutoff. Do not add listing timezone fields or rewrite imported booking
   statuses as time passes. A past stay may still have the supplied status `confirmed`.
-- [ ] Write the real-database seed test: load 1,000 listings and 12,757 bookings across two
+- [x] Write the real-database seed test: load 1,000 listings and 12,757 bookings across two
   tenants, run twice without duplicates, and reject a corrupt CSV before committing any rows.
   After the first import, change a seeded title and add an extra listing through test fixtures;
   rerunning must preserve both, with no count-based rejection or data repair.
-- [ ] Implement deterministic tenant assignment by sorting listing UUIDs and assigning alternating
+- [x] Implement deterministic tenant assignment by sorting listing UUIDs and assigning alternating
   entries to the two tenants; bookings inherit their listing's tenant. Parse quoted CSV fields
   correctly and retain original IDs. Record an inventory-import version, input checksum, and
   completion marker in the same transaction as the imported rows. Serialize initialization
   with its own advisory lock namespace. A matching marker means already applied; do not infer
   completion from global counts or compare editable fields to the original CSV. Conflicting
   original IDs without a marker or a changed checksum fail explicitly rather than overwrite data.
-- [ ] Keep inventory import and task 6's demo-account bootstrap independently versioned and
+- [x] Keep inventory import and task 6's demo-account bootstrap independently versioned and
   idempotent. Adding the account phase must work over an already imported database. Neither
   phase overwrites user edits, resets an existing password, recreates a deleted tenant, or
   reactivates retained records. Return original import counts from the marker on a no-op.
-- [ ] Fix time through dependency injection in unit/API tests; do not expose a public clock
+- [x] Fix time through dependency injection in unit/API tests; do not expose a public clock
   override. Browser write journeys will choose dates relative to API today on newly created
   listings, so the fixed historical CSV does not eventually make those journeys fail.
-- [ ] Keep demo seeding opt-in and refuse it under production configuration without an explicit
+- [x] Keep demo seeding opt-in and refuse it under production configuration without an explicit
   demo-data switch. Do not put privileged credentials into the web image. Extend the one-off
   Compose job to run migrations followed by the enabled local seed.
-- [ ] Run unit/time-zone tests, `npm run test:integration -w apps/api -- test/seed.test.ts`,
+- [x] Run unit/time-zone tests, `npm run test:integration -w apps/api -- test/seed.test.ts`,
   lint/typecheck, and clean-volume local startup. Inspect counts using the intended runtime
   roles. Add the seed tests to the existing CI integration job. Commit the seed and date/availability functions.
 

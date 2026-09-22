@@ -14,3 +14,6 @@ playwright-report/
 
 # Local worktrees
 .worktrees/
+
+# Prisma client generated from the checked-in schema
+apps/api/src/generated/

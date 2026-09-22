@@ -1,7 +1,7 @@
 # Accommodation Rental System — fresh project design
 
 Status: original design and grill-review revisions approved by the user on 2026-09-22.
-Hybrid execution has been selected. No application code has been created or verified.
+Hybrid execution is underway. Task completion and verification evidence are tracked in the implementation plan and commits.
 
 ## Purpose and sources
 
@@ -298,9 +298,12 @@ are stable. The plan identifies the permitted overlaps and integration checks. L
 implementation to the main implementer and one focused agent, with independent read-only review
 at the database/isolation, identity, and final checkpoints. Shared-file ownership and isolated
 test environments prevent parallel work from interfering. Add no custom orchestration framework.
-Keep `main` for the initial baseline and reviewed milestones. Use `codex/implementation` for
-task commits and separate `codex/task-<number>-<short-name>` branches for parallel work;
-review integrated changes through a pull request before they enter `main`.
+Keep `main` for the initial baseline and reviewed milestones. Each milestone uses a short-lived
+branch, beginning with `feat/foundation`, and preserves commits at verified task boundaries.
+Parallel work uses separate `feat/task-<number>-<short-name>` branches based on the active
+milestone. Review integrated milestone changes through a pull request before they enter `main`,
+preserving task commits; start the next milestone from the updated `main`. Sequential tasks do
+not need separate branches, and no tool-name prefix or permanent development branch is required.
 
 The original design and these grill-review revisions are approved; the implementation plan is
 updated to match the selected hybrid execution strategy. This document does not claim implementation,

@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+  moduleFormat = "esm"
+  importFileExtension = "js"
+}
+datasource db {
+  provider = "postgresql"
+}
+model Tenant {
+  id String @id @default(uuid()) @db.Uuid
+  slug String @unique
+  name String
+  timezone String
+  primaryColor String? @map("primary_color")
+  contactEmail String? @map("contact_email")
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  listings Listing[]
+  @@map("tenants")
+}
+model Listing {
+  id String @id @default(uuid()) @db.Uuid
+  tenantId String @map("tenant_id") @db.Uuid
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  title String
+  city String
+  country String @db.Char(2)
+  latitude Float
+  longitude Float
+  propertyType String @map("property_type")
+  maxGuests Int @map("max_guests")
+  bedrooms Int
+  pricePerNightCents Int @map("price_per_night_cents")
+  currency String @default("EUR") @db.Char(3)
+  rating Float?
+  reviewCount Int @map("review_count")
+  createdAt DateTime @map("created_at") @db.Date
+  archivedAt DateTime? @map("archived_at") @db.Timestamptz(3)
+  version Int @default(1)
+  bookings Booking[]
+  blockedDays BlockedDay[]
+  @@unique([id, tenantId])
+  @@index([tenantId, archivedAt, city])
+  @@index([tenantId, pricePerNightCents, id])
+  @@map("listings")
+}
+model Booking {
+  id String @id @db.Uuid
+  tenantId String @map("tenant_id") @db.Uuid
+  listingId String @map("listing_id") @db.Uuid
+  listing Listing @relation(fields: [listingId, tenantId], references: [id, tenantId], onDelete: Restrict)
+  checkIn DateTime @map("check_in") @db.Date
+  checkOut DateTime @map("check_out") @db.Date
+  guests Int
+  status String
+  @@index([tenantId, listingId, checkIn, checkOut])
+  @@map("bookings")
+}
+model BlockedDay {
+  tenantId String @map("tenant_id") @db.Uuid
+  listingId String @map("listing_id") @db.Uuid
+  listing Listing @relation(fields: [listingId, tenantId], references: [id, tenantId], onDelete: Restrict)
+  date DateTime @db.Date
+  @@id([listingId, date])
+  @@index([tenantId, listingId, date])
+  @@map("blocked_days")
+}
+
+model SeedRun {
+  key String @id
+  version Int
+  checksum String
+  counts Json
+  completedAt DateTime @default(now()) @map("completed_at") @db.Timestamptz(3)
+  @@map("seed_runs")
+}
