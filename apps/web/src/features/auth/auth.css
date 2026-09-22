@@ -1,0 +1,34 @@
+.auth-card { width: min(100%, 500px); margin: clamp(36px, 6vw, 76px) auto; padding: clamp(24px, 4vw, 40px); border: 1px solid var(--line, #dce1d5); border-radius: 14px; background: var(--paper, #fffef9); }
+.auth-card .eyebrow { margin: 0 0 16px; }
+.auth-card h1 { font-size: clamp(36px, 4.5vw, 52px); margin: 0 0 22px; line-height: 1.08; overflow-wrap: anywhere; }
+.auth-intro, .auth-footer { font-size: 13px; line-height: 1.8; color: var(--muted, #637269); }
+.auth-intro { margin: 0 0 28px; }
+.auth-footer { border-top: 1px solid var(--line, #dce1d5); padding-top: 22px; margin: 25px 0 0; }
+.auth-footer a { color: var(--ink, #173d32); text-underline-offset: 4px; }
+.auth-field { display: flex; flex-direction: column; gap: 9px; margin-bottom: 22px; min-width: 0; }
+.auth-field label { font-size: 12px; font-weight: 600; }
+.auth-field input { width: 100%; min-width: 0; min-height: 48px; padding: 12px; border: 1px solid #ced7c6; border-radius: 6px; background: #fffefa; color: var(--ink, #173d32); font-size: 16px; }
+.auth-field input[aria-invalid=true] { border-color: #963b31; }
+.auth-hint { font-size: 11px; line-height: 1.65; color: var(--muted, #637269); margin: 0; }
+.auth-field-error { margin: 0; color: #963b31; font-size: 12px; line-height: 1.6; }
+.auth-error { margin: 0 0 20px; padding: 14px 16px; color: #8b3229; background: #fbf0e9; border: 1px solid #e4c8be; border-radius: 6px; overflow-wrap: anywhere; }
+.auth-error p { font-size: 12px; line-height: 1.65; margin: 0; }
+.auth-error p + p { margin-top: 6px; }
+.auth-card form > .button-primary { width: 100%; min-height: 48px; }
+.auth-card form > [role=status] { margin-top: 10px; }
+.auth-loading { margin: 56px auto; text-align: center; color: var(--muted, #637269); font-size: 13px; }
+.auth-signout .auth-error { margin: 14px 0 0; }
+.auth-footer + .auth-signout { margin-top: 20px; }
+.auth-identity { margin: 30px 0; display: grid; gap: 24px; }
+.auth-identity dt { font-size: 11px; color: var(--muted, #637269); margin-bottom: 8px; }
+.auth-identity dd { margin: 0; font-size: 15px; overflow-wrap: anywhere; }
+.auth-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: start; }
+.auth-success { font-size: 12px; line-height: 1.7; padding: 15px; border: 1px solid #cad7bd; border-radius: 6px; background: #e8eddf; }
+.auth-nav-loading { color: var(--muted, #637269); font-size: 12px; }
+.auth-nav-link { white-space: nowrap; }
+@media (max-width: 600px) {
+  .auth-card { margin: 32px auto; padding: 26px 22px; }
+  .auth-card h1 { font-size: 37px; }
+  .auth-actions { flex-direction: column; align-items: stretch; }
+  .auth-actions > .auth-signout > button { width: 100%; }
+}
