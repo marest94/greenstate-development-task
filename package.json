@@ -19,7 +19,9 @@
     "test": "npm run db:generate && npm run build -w packages/contracts && npm test -w apps/api && npm test -w apps/web",
     "db:generate": "npm run db:generate -w apps/api",
     "db:migrate": "npm run db:migrate -w apps/api",
-    "test:integration": "npm run db:generate && npm run build -w packages/contracts && npm run test:integration -w apps/api"
+    "test:integration": "npm run db:generate && npm run build -w packages/contracts && npm run test:integration -w apps/api",
+    "test:stack": "node --test test/*.test.mjs",
+    "db:seed": "npm run db:generate && npm run build -w packages/contracts && npm run db:seed -w apps/api"
   },
   "devDependencies": {
     "typescript": "6.0.3",

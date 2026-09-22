@@ -11,6 +11,7 @@ RUN npm ci --no-fund
 COPY tsconfig.base.json ./
 COPY packages/contracts packages/contracts
 COPY apps/api apps/api
+COPY data data
 RUN npm run db:generate -w apps/api && npm run build -w packages/contracts && npm run build -w apps/api
 
 FROM base AS dependencies

@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import express from 'express';
 import helmet from 'helmet';
+import { Clock } from './common/time/clock.js';
 import { loadDatabaseConfig, type DatabaseConfig } from './config.js';
 import { TenantDb } from './db/tenant-db.js';
 import { AdminDb } from './db/admin-db.js';
@@ -11,7 +12,7 @@ import { AppModule } from './app.module.js';
 import { ApiExceptionFilter, parserErrors } from './common/http/errors.js';
 import { requestMetadata, type RequestLog } from './common/http/request-id.js';
 
-export async function createApp(options: { log?: (record: RequestLog) => void; database?: DatabaseConfig | false } = {}) {
+export async function createApp(options: { log?: (record: RequestLog) => void; database?: DatabaseConfig | false; clock?: Clock } = {}) {
   let database: TenantDb | null = null;
   if (options.database !== false) {
     const config = options.database ?? loadDatabaseConfig();
@@ -23,7 +24,7 @@ export async function createApp(options: { log?: (record: RequestLog) => void; d
     } catch (error) { await database.onApplicationShutdown(); throw error; }
     finally { await privileged.close(); }
   }
-  const app = await NestFactory.create<NestExpressApplication>(AppModule.register(database), { bodyParser: false, logger: false });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule.register(database, options.clock ?? new Clock()), { bodyParser: false, logger: false });
   app.disable('x-powered-by');
   app.use(requestMetadata(options.log ?? ((record) => process.stdout.write(`${JSON.stringify(record)}\n`))));
   app.use(helmet());

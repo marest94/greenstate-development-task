@@ -66,3 +66,12 @@ model BlockedDay {
   @@index([tenantId, listingId, date])
   @@map("blocked_days")
 }
+
+model SeedRun {
+  key String @id
+  version Int
+  checksum String
+  counts Json
+  completedAt DateTime @default(now()) @map("completed_at") @db.Timestamptz(3)
+  @@map("seed_runs")
+}

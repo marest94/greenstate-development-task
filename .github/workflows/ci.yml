@@ -21,6 +21,10 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
+      - name: Calendar dates in two process timezones
+        run: |
+          TZ=Europe/Belgrade npm test -w apps/api -- src/common/time/dates.test.ts src/availability/availability.test.ts
+          TZ=America/New_York npm test -w apps/api -- src/common/time/dates.test.ts src/availability/availability.test.ts
       - run: npm run build
   integration:
     runs-on: ubuntu-latest
@@ -51,3 +55,13 @@ jobs:
           POSTGRES_CONTAINER: ${{ job.services.postgres.id }}
         run: docker exec -i "$POSTGRES_CONTAINER" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < infra/db/roles.sql
       - run: npm run test:integration
+      - name: Verify the complete local stack and proxy log redaction
+        env:
+          COMPOSE_PROJECT_NAME: greenstate-ci
+          DATABASE_PORT: 54330
+          WEB_PORT: 18080
+          APP_ORIGIN: http://localhost:18080
+          STACK_BASE_URL: http://localhost:18080
+        run: |
+          docker compose up --build -d --wait
+          npm run test:stack

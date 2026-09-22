@@ -7,8 +7,8 @@ import { lockLiveTenant } from './tenant-lock.js';
 export class AdminDb {
   readonly client;
   constructor(url: string) { this.client = createClient(url); }
-  transaction<T>(fn: (tx: Prisma.TransactionClient) => Promise<T>) {
-    return this.client.$transaction(fn, { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted });
+  transaction<T>(fn: (tx: Prisma.TransactionClient) => Promise<T>, options: { timeout?: number } = {}) {
+    return this.client.$transaction(fn, { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted, ...options });
   }
   forTenant<T>(tenantId: string, mode: 'shared' | 'exclusive', fn: (tx: Prisma.TransactionClient, tenant: Awaited<ReturnType<typeof lockLiveTenant>>) => Promise<T>) {
     return this.transaction(async tx => fn(tx, await lockLiveTenant(tx, tenantId, mode)));

@@ -347,7 +347,7 @@ an injectable `Clock.now(): Date` supplies instants to application code and can 
 `BookingDto` comes unchanged from the supplied contracts; the seed does not invent guests/users
 for historical bookings.
 
-- [ ] Write failing unit vectors and run `npm test -w apps/api -- src/availability/availability.test.ts`:
+- [x] Write failing unit vectors and run `npm test -w apps/api -- src/availability/availability.test.ts`:
 
   ```ts
   expect(overlaps({ from: '2026-10-01', to: '2026-10-04' },
@@ -357,35 +357,35 @@ for historical bookings.
   // Repeat active/cancelled and blocked-night cases through isFree.
   ```
 
-- [ ] Review and selectively reuse the old pure functions and CSV mappers. Cover invalid dates,
+- [x] Review and selectively reuse the old pure functions and CSV mappers. Cover invalid dates,
   leap days, empty/inverted ranges, checkout turnover, cancelled stays, and time-zone midnight.
   Run date tests in both `Europe/Belgrade` and `America/New_York` processes.
-- [ ] Treat today as a tenant-wide business date, even when listings span different cities.
+- [x] Treat today as a tenant-wide business date, even when listings span different cities.
   Test one instant near midnight with different tenant timezones and verify listings in the
   same tenant share its cutoff. Do not add listing timezone fields or rewrite imported booking
   statuses as time passes. A past stay may still have the supplied status `confirmed`.
-- [ ] Write the real-database seed test: load 1,000 listings and 12,757 bookings across two
+- [x] Write the real-database seed test: load 1,000 listings and 12,757 bookings across two
   tenants, run twice without duplicates, and reject a corrupt CSV before committing any rows.
   After the first import, change a seeded title and add an extra listing through test fixtures;
   rerunning must preserve both, with no count-based rejection or data repair.
-- [ ] Implement deterministic tenant assignment by sorting listing UUIDs and assigning alternating
+- [x] Implement deterministic tenant assignment by sorting listing UUIDs and assigning alternating
   entries to the two tenants; bookings inherit their listing's tenant. Parse quoted CSV fields
   correctly and retain original IDs. Record an inventory-import version, input checksum, and
   completion marker in the same transaction as the imported rows. Serialize initialization
   with its own advisory lock namespace. A matching marker means already applied; do not infer
   completion from global counts or compare editable fields to the original CSV. Conflicting
   original IDs without a marker or a changed checksum fail explicitly rather than overwrite data.
-- [ ] Keep inventory import and task 6's demo-account bootstrap independently versioned and
+- [x] Keep inventory import and task 6's demo-account bootstrap independently versioned and
   idempotent. Adding the account phase must work over an already imported database. Neither
   phase overwrites user edits, resets an existing password, recreates a deleted tenant, or
   reactivates retained records. Return original import counts from the marker on a no-op.
-- [ ] Fix time through dependency injection in unit/API tests; do not expose a public clock
+- [x] Fix time through dependency injection in unit/API tests; do not expose a public clock
   override. Browser write journeys will choose dates relative to API today on newly created
   listings, so the fixed historical CSV does not eventually make those journeys fail.
-- [ ] Keep demo seeding opt-in and refuse it under production configuration without an explicit
+- [x] Keep demo seeding opt-in and refuse it under production configuration without an explicit
   demo-data switch. Do not put privileged credentials into the web image. Extend the one-off
   Compose job to run migrations followed by the enabled local seed.
-- [ ] Run unit/time-zone tests, `npm run test:integration -w apps/api -- test/seed.test.ts`,
+- [x] Run unit/time-zone tests, `npm run test:integration -w apps/api -- test/seed.test.ts`,
   lint/typecheck, and clean-volume local startup. Inspect counts using the intended runtime
   roles. Add the seed tests to the existing CI integration job. Commit the seed and date/availability functions.
 

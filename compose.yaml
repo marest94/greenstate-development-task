@@ -23,9 +23,11 @@ services:
       target: build
     user: "1000:1000"
     working_dir: /app/apps/api
-    command: ["npm", "run", "db:migrate"]
+    command: ["sh", "-c", "npm run db:migrate && node dist/seed/main.js"]
     environment:
       MIGRATION_DATABASE_URL: postgresql://gs_owner:local-owner-only@db:5432/greenstate
+      ADMIN_DATABASE_URL: postgresql://gs_admin:local-admin-only@db:5432/greenstate
+      SEED_DEMO_DATA: ${SEED_DEMO_DATA:-true}
     depends_on:
       db:
         condition: service_healthy
@@ -58,5 +60,10 @@ services:
     depends_on:
       api:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--spider", "http://127.0.0.1:8080/api/health/live"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
 volumes:
   database:
