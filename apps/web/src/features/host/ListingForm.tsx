@@ -66,7 +66,7 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
     finally { settle(controller); }
   }
   async function changeArchive(archived: boolean) {
-    if (!server) return; const controller = begin(); if (!controller) return;
+    if (!server || dirty) return; const controller = begin(); if (!controller) return;
     try {
       const next = await api.post(`${apiPath}/${server.id}/${archived ? 'archive' : 'restore'}`, { version: server.version }, HostListingViewSchema, controller.signal);
       if (controller.signal.aborted) return;
@@ -82,6 +82,12 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
       clean(next); accept(next); setRevision(value => value + 1); setConfirmArchive(false); setMessage('Current listing loaded. Review its fields before saving.');
     } catch (error) { if (!controller.signal.aborted) feedback.report(error); }
     finally { settle(controller); }
+  }
+  function discard() {
+    if (busy || !dirty) return;
+    guard.accept(); setDirty(false); setConfirmArchive(false); feedback.clear();
+    setLocation({ latitude: String(server?.latitude ?? ''), longitude: String(server?.longitude ?? ''), city: server?.city ?? '', country: server?.country ?? '' });
+    setRevision(value => value + 1); setMessage('Unsaved changes discarded.');
   }
   const fieldErrors = (name: string) => feedback.problem?.fields?.[name];
   const inputProps = (name: string) => ({ id: `listing-${name}`, name, 'aria-invalid': fieldErrors(name)?.length ? true as const : undefined, 'aria-describedby': fieldErrors(name)?.length ? `listing-${name}-error` : undefined });
@@ -108,13 +114,13 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
         <div className="host-field"><label htmlFor="listing-latitude">Latitude</label><input {...inputProps('latitude')} type="number" step="any" min={-90} max={90} defaultValue={server?.latitude ?? ''} required />{errors('latitude')}</div>
         <div className="host-field"><label htmlFor="listing-longitude">Longitude</label><input {...inputProps('longitude')} type="number" step="any" min={-180} max={180} defaultValue={server?.longitude ?? ''} required />{errors('longitude')}</div>
 <div className="host-field-wide"><ListingLocationPreview {...location} /></div>
-      </div><div className="host-actions"><button className="button-primary" type="submit">{server ? 'Save changes' : 'Create listing'}</button></div></fieldset>
+      </div><div className="host-actions"><button className="button-primary" type="submit">{server ? 'Save changes' : 'Create listing'}</button>{dirty && <button className="button-secondary" type="button" onClick={discard}>Discard changes</button>}</div></fieldset>
     </form>
     {dirty && <p className="host-hint">Save or discard your changes before archiving or restoring this listing.</p>}
     {server && <section className="host-archive" aria-labelledby="archive-heading"><h2 id="archive-heading">{server.archivedAt ? 'Restore listing' : 'Archive listing'}</h2>
       <p>{server.archivedAt ? 'Restoring makes this listing available on the public portal again.' : 'Archiving hides this listing from the public portal. You can restore it later.'}</p>
       {confirmArchive ? <div className="host-confirm" role="group" aria-label="Confirm listing archive"><p>Existing active and future bookings remain unchanged and accessible to hosts. Saved listings remain in each account’s shortlist as unavailable.</p><div className="host-actions"><button className="button-secondary" disabled={busy || dirty} onClick={() => { void changeArchive(true); }}>Confirm archive</button><button className="button-secondary" disabled={busy} onClick={() => setConfirmArchive(false)}>Keep active</button></div></div>
-        : <button className="button-secondary" disabled={busy} onClick={() => server.archivedAt ? void changeArchive(false) : setConfirmArchive(true)}>{server.archivedAt ? 'Restore listing' : 'Archive listing'}</button>}
+        : <button className="button-secondary" disabled={busy || dirty} onClick={() => server.archivedAt ? void changeArchive(false) : setConfirmArchive(true)}>{server.archivedAt ? 'Restore listing' : 'Archive listing'}</button>}
     </section>}
   </section>;
 }

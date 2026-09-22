@@ -54,7 +54,7 @@ function Portfolio() {
     try {
       const result = await api.post(`${path}/listings/${selection.id}/block-range`, input.data, RangeResultSchema, controller.signal);
       if (controller.signal.aborted) return;
-      setMessage(`${result.changed} ${action === 'block' ? 'nights blocked' : 'blocks removed'}.`); setReason(''); reload();
+      setMessage(`${result.changed} ${action === 'block' ? `${result.changed === 1 ? 'night' : 'nights'} blocked` : `${result.changed === 1 ? 'block' : 'blocks'} removed`}.`); setReason(''); reload();
     } catch (error) { if (!controller.signal.aborted) { feedback.report(error); if (error instanceof ApiProblem && error.status === 409) reload(); } }
     finally { if (!controller.signal.aborted) { pending.current = null; setBusy(false); } }
   }

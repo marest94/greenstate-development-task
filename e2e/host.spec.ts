@@ -36,6 +36,10 @@ test('first-login host creates, edits, archives, rediscovers and restores invent
     await page.goto('/greenstate'); await page.getByRole('link', { name: 'Host workspace', exact: true }).click();
     await page.getByLabel('Listing status', { exact: true }).selectOption('archived'); await page.reload();
     await expect(page.getByLabel('Listing status', { exact: true })).toHaveValue('archived'); await page.getByRole('link', { name: revised, exact: true }).click();
+    await page.getByLabel('Title', { exact: true }).fill('Draft that must not be published');
+    await expect(page.getByRole('button', { name: 'Restore listing', exact: true })).toBeDisabled();
+    await page.getByRole('button', { name: 'Discard changes', exact: true }).click();
+    await expect(page.getByLabel('Title', { exact: true })).toHaveValue(revised);
     await page.getByRole('button', { name: 'Restore listing', exact: true }).click(); await expect(page.getByText('Listing restored and visible on the public portal.', { exact: true })).toBeVisible();
     await client.reload(); await expect(client.getByRole('link', { name: revised, exact: true })).toBeVisible();
     await client.getByRole('button', { name: `Remove ${revised} from saved listings`, exact: true }).click(); await expect(client.getByRole('heading', { name: 'Your shortlist starts here', exact: true })).toBeVisible();

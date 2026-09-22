@@ -45,4 +45,9 @@ test('host edits a property range in the shared calendar and preserves its view'
   await page.screenshot({ path: testInfo.outputPath('portfolio-overview.png'), fullPage: true });
   await page.request.post(`/api/v1/t/greenstate/host/listings/${second.id}/archive`, { headers, data: { version: second.version } });
   await page.request.post(`/api/v1/t/greenstate/host/listings/${listing.id}/archive`, { headers, data: { version: listing.version } });
+  await page.goto('/greenstate/host/calendar?pageSize=20');
+  await expect(page.getByRole('table', { name: 'Portfolio availability' }).getByRole('row')).toHaveCount(21);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('portfolio-full-page.png'), fullPage: true });
+
 });

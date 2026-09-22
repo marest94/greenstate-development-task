@@ -199,6 +199,6 @@ it('protects booked portfolio nights while allowing removal of a legacy manual b
   await userEvent.click(await screen.findByRole('button', { name: `${listing.title}, 1 October 2026, booked` }));
   expect(screen.getByText('4 guests · Confirmed · Past')).toBeVisible();
   expect(screen.getByText('2 guests · Completed · Current')).toBeVisible();
-  expect(screen.getByRole('button', { name: 'Remove 1 blocks' })).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Remove 1 block' })).toBeEnabled();
   expect(screen.queryByRole('button', { name: /^Block \d/ })).not.toBeInTheDocument();
 });

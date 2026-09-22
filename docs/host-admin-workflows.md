@@ -27,7 +27,7 @@ Tenant rows show active/archived listing counts, total accounts and enabled host
 
 `GET /api/v1/admin/tenants/:id/summary` returns the authenticated summary; ordinary tenant read/create/update DTOs remain unchanged. Host creation and credential/access actions use focused dialogs with tenant/account context, existing identity confirmation, request cancellation and focus restoration. Successful actions focus the persistent accounts heading so disappearing filtered rows do not lose keyboard focus.
 
-No new dependency or database migration was introduced. Platform accounts do not impersonate tenant hosts. No production deployment or remote push was performed.
+No new dependency or database migration was introduced. Platform accounts do not impersonate tenant hosts. Production deployment is separate from this change.
 
 ## Verification and review
 
@@ -42,3 +42,9 @@ Implementation notes: field groups use visible headings inside the existing disa
 ## Final validation record
 
 The full PostgreSQL run passed 263 tests across 25 files; two additional range concurrency/midnight tests subsequently passed in the 19-test calendar file. The final complete unit/component run passed 52 API and 197 web tests (249 total). Typecheck, ESLint and production Docker build passed. The final desktop/mobile browser run passed all 20 tests in 47.8 seconds after a clean local API restart to avoid accumulated test-login rate limits.
+
+## Release polish — 2026-09-23
+
+A final review caught a missing dirty-form guard on restoring archived listings. Both archive and restore now require saving or explicitly discarding edits. The editor includes a Discard changes control, and single-night/block calendar copy uses singular labels. Regression coverage includes the archived draft/restore flow and a full 20-property calendar page on desktop and mobile.
+
+The release check passed 250 unit/component tests, lint and typecheck. The production Docker build and focused desktop/mobile host/admin browser checks passed. A fresh independent release review covered the entire public/host/admin branch and found no additional blocker. Delivery is through a GitHub pull request; no merge or production deployment is performed by this task.

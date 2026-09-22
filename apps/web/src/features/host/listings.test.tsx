@@ -171,3 +171,13 @@ it('does not warn after reverting a draft to its saved values', async () => {
  await waitFor(() => expect(router.state.location.pathname).toBe('/greenstate/host/listings'));
  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
+it('requires saving or discarding edits before restoring an archived listing', async () => {
+ const requests = intercept({ listing: { ...listing, archivedAt: '2026-10-01T00:00:00.000Z' } });
+ mount(`/greenstate/host/listings/${listing.id}`); await screen.findByLabelText('Title');
+ fill('Title', 'An unsaved title');
+ expect(screen.getByRole('button', { name: 'Restore listing' })).toBeDisabled();
+ await userEvent.click(screen.getByRole('button', { name: 'Discard changes' }));
+ expect(screen.getByLabelText('Title')).toHaveValue(listing.title);
+ expect(screen.getByRole('button', { name: 'Restore listing' })).toBeEnabled();
+ expect(requests.some(r => r.init.method === 'POST' || r.init.method === 'PATCH')).toBe(false);
+});
