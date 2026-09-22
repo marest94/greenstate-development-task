@@ -23,3 +23,21 @@ it('validates successful response data when a wire schema is supplied', async ()
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('{}')));
   await expect(api.get('/t/demo', undefined, { parse: () => { throw new Error('Missing public field'); } })).rejects.toMatchObject({ code: 'INVALID_RESPONSE' });
 });
+it('sends JSON mutations once with CSRF headers and handles empty logout responses', async () => {
+  const fetch = vi.fn().mockResolvedValue(new Response(null, { status: 204 })); vi.stubGlobal('fetch', fetch);
+  for (const method of ['post', 'put', 'patch', 'delete'] as const) {
+    expect(await api[method]('/t/demo/auth/logout', {})).toBeUndefined();
+    expect(fetch).toHaveBeenLastCalledWith('/api/v1/t/demo/auth/logout', { method: method.toUpperCase(), credentials: 'same-origin', headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-By': 'greenstate-web' }, body: '{}' });
+  }
+  expect(fetch).toHaveBeenCalledTimes(4);
+});
+it('carries an abort signal without disguising cancellation as a network failure', async () => {
+  const controller = new AbortController(); const aborted = new DOMException('Aborted', 'AbortError');
+  const fetch = vi.fn().mockRejectedValue(aborted); vi.stubGlobal('fetch', fetch);
+  await expect(api.get('/t/demo/listings', undefined, undefined, controller.signal)).rejects.toBe(aborted);
+  expect(fetch.mock.calls[0]![1].signal).toBe(controller.signal);
+});
+it('includes Retry-After in a structured rate-limit error without retrying', async () => {
+  const fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ status: 429, code: 'RATE_LIMITED', message: 'Try later.', requestId: 'r' }), { status: 429, headers: { 'Retry-After': '37' } })); vi.stubGlobal('fetch', fetch);
+  await expect(api.post('/admin/auth/login', {})).rejects.toMatchObject({ status: 429, retryAfter: 37 }); expect(fetch).toHaveBeenCalledTimes(1);
+});
