@@ -3,7 +3,8 @@
 Fresh implementation of the GreenState accommodation rental challenge.
 
 Status: foundation, portal and identity tasks 1–7 are merged with successful GitHub CI. Private
-saved listings are implemented in the current milestone; host inventory and administration follow.
+saved listings and host inventory management are implemented in the current milestone; calendar
+and administration workflows follow.
 
 ## Planning
 
@@ -11,7 +12,7 @@ saved listings are implemented in the current milestone; host inventory and admi
 - [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
 
 Follow the 13-task plan, with one integration owner, bounded parallel work, and commits at
-verified task boundaries. Implementation currently covers tasks 1–8. The current milestone is saved listings and inventory management (tasks 8–9).
+verified task boundaries. Implementation currently covers tasks 1–9. The current milestone is saved listings and inventory management (tasks 8–9).
 
 Use short-lived milestone branches, starting with `feat/foundation` for tasks 1–3.
 Parallel work uses `feat/task-<number>-<short-name>` branches/worktrees based on the active
@@ -95,7 +96,7 @@ database ownership matches Compose. `test:stack` verifies request-secret redacti
 nginx and the API, including proxy-generated errors. Set `COMPOSE_PROJECT_NAME` and
 `STACK_BASE_URL` if using a custom Compose project or port.
 
-For the portal and account browser journeys, install Chromium once and use a running, seeded stack:
+For the portal, account, saved-list and host browser journeys, install Chromium once and use a running, seeded stack:
 
 ```sh
 npx playwright install chromium
@@ -104,9 +105,13 @@ npm run test:browser
 
 The journeys run in desktop and 375-pixel Chromium viewports. They cover filters, listing
 navigation, two-month availability, clearing dates, browser history, account registration, password
-changes, sign-in return paths, forced-password sessions, logout, and cross-portal account isolation.
+changes, sign-in return paths, forced-password sessions, logout, cross-portal account isolation,
+private shortlists, and host create/edit/archive/restore.
 Set `STACK_BASE_URL` for a nondefault web port. Browser checks create uniquely named test client
-accounts in the running demo portals and leave the supplied inventory intact. The forced-password
+accounts and host-owned listings in the running demo portals and leave supplied inventory intact.
+Host fixtures use the separate non-superuser `gs_admin` connection via
+`STACK_TEST_ADMIN_DATABASE_URL` (default: the local example on port 54329). This setup runs only
+in the browser test process, never in the web app. Actual browser actions use the normal API. The forced-password
 journey expects unchanged initial host/admin demo credentials, so use a separate demo stack if
 you have changed those credentials for manual testing.
 Reports are written to `playwright-report/`; failures retain traces in `test-results/`.
@@ -114,9 +119,15 @@ Use a separate Compose project and ports when running it alongside another devel
 
 ```sh
 COMPOSE_PROJECT_NAME=greenstate-browser DATABASE_PORT=54330 WEB_PORT=18080 \
-  APP_ORIGIN=http://localhost:18080 docker compose up --build -d --wait
-STACK_BASE_URL=http://localhost:18080 npm run test:browser
+  APP_ORIGIN=http://localhost:18080 AUTH_LOGIN_IP_LIMIT=300 AUTH_REGISTRATION_IP_LIMIT=100 \
+  docker compose up --build -d --wait
+STACK_BASE_URL=http://localhost:18080 \
+  STACK_TEST_ADMIN_DATABASE_URL=postgresql://gs_admin:local-admin-only@127.0.0.1:54330/greenstate \
+  npm run test:browser
 ```
+
+The isolated browser stack uses higher login/registration limits to accommodate repeated fixture
+creation. Production defaults and rejection behavior are tested with real API integration cases.
 
 Public API routes start with `/api/v1/t/:slug`. `/listings` accepts city, guests,
 `minPriceCents`, `maxPriceCents`, paired `from`/`to` dates, page, and pageSize (maximum 50).
@@ -132,6 +143,15 @@ has a private shortlist for its tenant; hosts have no access to another account'
 Archived saves remain as unavailable entries without listing details, and can still be removed.
 Restoring the listing makes a retained save available again. Both tenant and user context are
 required by database row-level security; private browser queries are cancelled on account changes.
+
+Hosts open `/:slug/host/listings` to create/edit inventory and filter active or archived records.
+`/host/listings` supports GET/POST; `/:id` supports GET/PATCH; `/:id/archive` and `/:id/restore`
+use POST. Edits and archive actions require the listing version and return a conflict if stale.
+Descriptions are plain text up to 5,000 characters. Price is always integer EUR cents. Capacity
+cannot be reduced below an active or future noncancelled booking's guest count. Archiving hides
+public details while preserving bookings and saved entries; hosts can edit and restore archives.
+Saved mutations, archive actions and capacity changes use the same listing row lock after the
+shared live-tenant lock. Tests exercise both save/archive orderings under actual contention.
 
 `infra/db/roles.sql` creates separate local migration (`gs_owner`), ordinary (`gs_app`), and
 privileged (`gs_admin`) credentials. The ordinary role cannot bypass forced row-level security,
