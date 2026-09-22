@@ -45,9 +45,10 @@ it('lists tenants with URL filters, paging, account links and back navigation', 
  expect(requests.at(-1)?.url.searchParams.get('search')).toBe('City'); await act(() => router.navigate(-1)); expect(screen.getByLabelText('Tenant status')).toHaveValue('all');
 });
 it('creates a tenant with only editable configuration and keeps slug immutable on edit', async () => {
- const requests = intercept((url, init) => url.pathname === base && init.method === 'POST' ? json(tenant, 201) : undefined); const { router } = mount('/admin/tenants/new'); await screen.findByLabelText('Tenant name');
+ let loadTenant!: (response: Response) => void; const detailResponse = new Promise<Response>(resolve => { loadTenant = resolve; });
+ const requests = intercept((url, init) => url.pathname === base && init.method === 'POST' ? json(tenant, 201) : url.pathname === detail && (!init.method || init.method === 'GET') ? detailResponse : undefined); const { router } = mount('/admin/tenants/new'); await screen.findByLabelText('Tenant name');
  fill('Tenant name', 'GreenState'); fill('Portal slug', 'greenstate'); fill('Business time zone', 'Europe/Berlin'); fill('Brand colour', '#123456'); fill('Contact email', 'help@example.test'); submit('Create tenant');
- await waitFor(() => expect(router.state.location.pathname).toBe(`/admin/tenants/${tenant.id}`)); expect(await screen.findByLabelText('Portal slug')).toHaveAttribute('readonly');
+ await waitFor(() => expect(router.state.location.pathname).toBe(`/admin/tenants/${tenant.id}`)); await screen.findByText('Loading tenant…'); await act(async () => loadTenant(json(tenant))); expect(await screen.findByLabelText('Portal slug')).toHaveAttribute('readonly');
  expect(requests.find(r => r.init.method === 'POST')?.body).toEqual({ name: 'GreenState', slug: 'greenstate', timezone: 'Europe/Berlin', primaryColor: '#123456', contactEmail: 'help@example.test' });
  fill('Tenant name', 'Renamed'); submit('Save configuration'); await waitFor(() => expect(requests.some(r => r.init.method === 'PATCH')).toBe(true)); expect(requests.find(r => r.init.method === 'PATCH')?.body).not.toHaveProperty('slug');
 });

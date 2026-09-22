@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { HostListingsQuery, ListingWrite } from '@greenstate/contracts';
 import { Prisma } from '../generated/prisma/client.js';
+import { Clock } from '../common/time/clock.js';
 import { TenantDb } from '../db/tenant-db.js';
 import { AppError } from '../common/http/errors.js';
 import { todayIn, toDbDate } from '../common/time/dates.js';
@@ -10,7 +11,7 @@ export type HostListingRecord = ListingRecord & { description: string | null; ve
 const stale = () => new AppError(409, 'STALE_VERSION', 'This listing was changed by another host. Reload its current version before trying again.');
 @Injectable()
 export class HostListingsRepository {
-  constructor(@Inject(TenantDb) private readonly db: TenantDb) {}
+  constructor(@Inject(TenantDb) private readonly db: TenantDb, @Inject(Clock) private readonly clock: Clock) {}
   list(tenantId: string, query: HostListingsQuery) {
     const conditions = [Prisma.sql`l.tenant_id = ${tenantId}::uuid`];
     if (query.status === 'active') conditions.push(Prisma.sql`l.archived_at IS NULL`);
@@ -30,12 +31,13 @@ export class HostListingsRepository {
     });
   }
   detail(tenantId: string, id: string) { return this.db.run(tenantId, tx => tx.listing.findFirst({ where: { tenantId, id } })); }
-  create(tenantId: string, fields: ListingWrite, now: Date) {
-    return this.db.write(tenantId, (tx, tenant) => tx.listing.create({ data: { ...fields, tenantId, currency: 'EUR', rating: null, reviewCount: 0, createdAt: toDbDate(todayIn(tenant.timezone, now)) } }));
+  create(tenantId: string, fields: ListingWrite) {
+    return this.db.write(tenantId, (tx, tenant) => tx.listing.create({ data: { ...fields, tenantId, currency: 'EUR', rating: null, reviewCount: 0, createdAt: toDbDate(todayIn(tenant.timezone, this.clock.now())) } }));
   }
-  update(tenantId: string, id: string, version: number, change: { fields: ListingWrite } | { archived: boolean }, now: Date) {
+  update(tenantId: string, id: string, version: number, change: { fields: ListingWrite } | { archived: boolean }) {
     return this.db.write(tenantId, async (tx, tenant) => {
       const listing = await lockListing(tx, tenantId, id);
+      const now = this.clock.now();
       if (listing.version !== version) throw stale();
       if ('fields' in change && change.fields.maxGuests < listing.maxGuests) {
         const protectedStay = await tx.booking.findFirst({ where: {

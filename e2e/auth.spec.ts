@@ -1,5 +1,6 @@
+import { test } from './fixtures.js';
 import { randomUUID } from 'node:crypto';
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 test('register, change password, sign in with a return path and keep portal accounts separate', async ({ page }, testInfo) => {
   const email = `browser-${randomUUID()}@example.test`;
   const password = 'A browser account password 2026!'; const changed = 'A replacement browser password 2026!';

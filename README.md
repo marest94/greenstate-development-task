@@ -2,23 +2,35 @@
 
 Fresh implementation of the GreenState accommodation rental challenge.
 
-Status: foundation, portal, identity, private saved listings and host inventory (tasks 1–9) are
-merged with successful GitHub CI. Calendar, booking history and platform administration are
-implemented in the current milestone; final security and release checks follow.
+Implemented: public tenant portals, accounts and private saved listings, host inventory and
+calendar management, read-only booking history, and platform tenant/account administration.
+The original challenge inputs remain unchanged.
 
 ## Planning
 
 - [Approved design](docs/superpowers/specs/2026-09-22-rental-system-design.md)
 - [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
 
-Follow the 13-task plan, with one integration owner, bounded parallel work, and commits at
-verified task boundaries. Implementation currently covers tasks 1–11. The current milestone is calendar and administration (tasks 10–11).
+The 13-task plan records the approved scope. Git history keeps verified task commits and six
+milestone pull requests, with independent reviews after the database, identity and final stages.
 
 Use short-lived milestone branches, starting with `feat/foundation` for tasks 1–3.
 Parallel work uses `feat/task-<number>-<short-name>` branches/worktrees based on the active
 milestone. Sequential tasks receive their own verified commits without requiring extra branches.
 Review each milestone through a pull request into `main`, preserving those commits; start the
 next milestone from the updated `main`. The implementation plan lists all six milestone branches.
+
+## Architecture
+
+An npm workspace contains a React/Vite browser app, a NestJS API and shared TypeScript/Zod
+contracts. Feature pages load on demand; TanStack Query handles server state and tenant/account
+cache boundaries. nginx serves the browser app and proxies same-origin `/api` requests.
+
+PostgreSQL stores the data; Prisma handles migrations and typed queries. Ordinary requests use
+a restricted role with forced tenant row-level security, with additional owner isolation for
+saved listings. A separate non-superuser role handles platform administration. Transactions,
+listing versions and shared/exclusive tenant locks coordinate edits, credentials and deletion.
+The API is a single modular application; there are no background workers or orchestration framework.
 
 ## Run locally
 
@@ -74,11 +86,16 @@ npm run build
 npm run test:stack  # requires the running Compose stack
 ```
 
-Tests use the same Nest application factory as production. The current suite covers liveness,
-safe request metadata/error responses, the 32 KiB JSON body limit, startup configuration, and
-frontend connection states and tenant context. CI runs clean install, these checks, production
-builds, real PostgreSQL integration tests, and the portal/account browser journeys. Browser reports and
-traces are retained for seven days when a CI check fails.
+Tests use the same Nest application factory as production. Unit/component checks cover date and
+availability rules, validation, authentication, request cancellation, permissions, forms, loading
+and error states. CI runs clean install, lint, typecheck, these tests, production builds, real
+PostgreSQL integration tests, stack checks and all browser journeys. Failed browser reports and
+traces are retained for seven days.
+
+Final local verification passed 52 API unit tests, 181 web component tests, 258 PostgreSQL
+integration tests, two stack checks and 22 browser cases. Browser journeys were also repeated
+against the same seeded database. An isolated clean-volume startup and a second startup
+preserved all application-table contents, including edited inventory and account state.
 
 After starting the local database, run:
 
@@ -91,7 +108,8 @@ afterward; it never resets the development database. It covers tenant/child-tabl
 connection-context cleanup, restricted grants, constraints, startup credential rejection, tenant
 resolution, real shared/exclusive lock contention, deterministic import/retention, public search
 filters/pagination, archived and foreign visibility, calendar/search agreement, tenant/platform
-authentication, credential races, throttling, disabled accounts, and separate account initialization. Test
+authentication, credential races, throttling, saved-list ownership, archive/restore, calendar blocks,
+booking history, administrative lifecycle ordering, platform recovery and restart-safe initialization. Test
 database ownership matches Compose. `test:stack` verifies request-secret redaction through both
 nginx and the API, including proxy-generated errors. Set `COMPOSE_PROJECT_NAME` and
 `STACK_BASE_URL` if using a custom Compose project or port.
@@ -108,6 +126,11 @@ navigation, two-month availability, clearing dates, browser history, account reg
 changes, sign-in return paths, forced-password sessions, logout, cross-portal account isolation,
 private shortlists, host create/edit/archive/restore, calendar blocks and booking history, tenant
 creation/deletion, host provisioning/disable/re-enable, client promotion and assisted password reset.
+Security journeys also cover cross-tab logout/reset/disable, account switching, malformed listing
+URLs, CSRF, role/ownership injection and escaped listing text. Unexpected browser errors fail tests.
+Keyboard checks cover search focus, tenant forms, calendar actions and destructive confirmations.
+Playwright keeps headless tabs focused, so cross-tab tests explicitly deliver the activation event;
+cookies, session refresh, API requests and PostgreSQL remain real.
 Set `STACK_BASE_URL` for a nondefault web port. Browser checks create uniquely named test client
 accounts, tenants, listings and booking fixtures; they leave supplied inventory intact.
 Host and platform-admin fixtures use the separate non-superuser `gs_admin` connection via
@@ -143,7 +166,8 @@ has a private shortlist for its tenant; hosts have no access to another account'
 `listingIds` filter of up to 50 UUIDs. PUT/DELETE `/me/saved-listings/:id` add/remove idempotently.
 Archived saves remain as unavailable entries without listing details, and can still be removed.
 Restoring the listing makes a retained save available again. Both tenant and user context are
-required by database row-level security; private browser queries are cancelled on account changes.
+required by database row-level security; private browser queries are cancelled on account changes. Returning to a tab rechecks its session
+without discarding unchanged editing views; revoked or replaced accounts clear private data.
 
 Hosts open `/:slug/host/listings` to create/edit inventory and filter active or archived records.
 `/host/listings` supports GET/POST; `/:id` supports GET/PATCH; `/:id/archive` and `/:id/restore`
@@ -259,3 +283,16 @@ These are public local examples enabled by the explicit demo-data option. Initia
 Authentication uses Argon2id (19 MiB, two iterations, parallelism one), random 32-byte session tokens stored only as SHA-256 hashes, and fixed seven-day sessions. New passwords accept 15–128 Unicode characters, including spaces. Password changes revoke every previous session in that realm. HTTP-only, SameSite=Lax cookies become Secure when `APP_ORIGIN` uses HTTPS; responses are not stored by HTTP caches.
 
 Mutations require an Origin matching `APP_ORIGIN` and `X-Requested-By: greenstate-web`. Authentication limits are configured in `.env.example`, applied before hashing, and held in bounded memory for this single API instance. Login limits apply both per IP and per tenant/platform account; registration applies per IP across portals; password changes apply per actor and target. A 429 response includes `Retry-After`. `TRUST_PROXY_HOPS` defaults to zero for direct Node development; Compose sets it to one behind nginx, which replaces forwarded IP headers. Multiple API replicas would require a shared limiter.
+
+## Deliberate limits
+
+This is a local challenge application with public example credentials and HTTP defaults. It has
+one API instance and an in-memory authentication limiter. Production hosting, TLS termination,
+shared rate limiting and operational backups are separate deployment work.
+
+Browsing is public; accounts add private saved listings. Booking creation/editing, payments,
+email verification/recovery, MFA, uploads and an audit-log UI are outside the agreed scope.
+Hosts share management access within their tenant. Dates use the tenant's explicit business
+timezone rather than each property's local timezone; imported booking status remains unchanged.
+Tenant deletion is soft and its slug remains reserved. Browser automation covers Chromium at
+desktop and 375px widths; Safari/Firefox and a full assistive-technology audit are not verified.

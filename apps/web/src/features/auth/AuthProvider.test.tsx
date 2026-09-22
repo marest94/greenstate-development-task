@@ -100,3 +100,46 @@ it('ignores a private 401 from before a password transition while accepting its 
   expect(await screen.findByRole('heading', { name: first.email })).toBeVisible();
   expect(client.getQueriesData({ queryKey: ['private'] })).toEqual([]);
 });
+
+it('refreshes the current account on window focus and discards another account’s private cache', async () => {
+  let current = first; vi.stubGlobal('fetch', vi.fn(async () => json(current))); const { client } = mount(); await screen.findByRole('heading', { name: first.email });
+  client.setQueryData(['private', 'tenant', tenantId, first.id, 'saved'], ['First account only']); current = second;
+  fireEvent(window, new Event('focus')); expect(await screen.findByRole('heading', { name: second.email })).toBeVisible(); expect(client.getQueriesData({ queryKey: ['private', 'tenant', tenantId, first.id] })).toEqual([]);
+});
+it('clears revoked sessions on returning to a visible tab', async () => {
+  let revoked = false; vi.stubGlobal('fetch', vi.fn(async () => revoked ? unauthorized() : json(first))); const { client } = mount(); await screen.findByRole('heading', { name: first.email }); client.setQueryData(['private', 'tenant', tenantId, first.id, 'saved'], ['private']); revoked = true;
+  fireEvent(document, new Event('visibilitychange')); expect(await screen.findByRole('heading', { name: 'Signed out' })).toBeVisible(); expect(screen.getByTestId('key')).toHaveTextContent('null'); expect(client.getQueriesData({ queryKey: ['private'] })).toEqual([]);
+});
+it('refreshes a forced-password session on focus and withdraws private access', async () => {
+  let forced = false; vi.stubGlobal('fetch', vi.fn(async () => json({ ...first, mustChangePassword: forced }))); const { client } = mount(); await screen.findByRole('heading', { name: first.email }); client.setQueryData(['private', 'tenant', tenantId, first.id, 'saved'], ['private']); forced = true;
+  fireEvent(window, new Event('focus')); await waitFor(() => expect(screen.getByTestId('key')).toHaveTextContent('null')); expect(client.getQueriesData({ queryKey: ['private'] })).toEqual([]);
+});
+it.each(['Other account', 'Change password', 'Log out'])('does not start a focus lookup while %s is pending', async action => {
+  let release!: (response: Response) => void; const fetcher = vi.fn((url: string) => url.endsWith('/me') ? Promise.resolve(json(first)) : new Promise<Response>(resolve => { release = resolve; })); vi.stubGlobal('fetch', fetcher); mount(); await screen.findByRole('heading', { name: first.email });
+  fireEvent.click(screen.getByRole('button', { name: action })); fireEvent(window, new Event('focus')); fireEvent(document, new Event('visibilitychange'));
+  expect(fetcher.mock.calls.filter(([url]) => url.endsWith('/me'))).toHaveLength(1);
+  await act(async () => { release(action === 'Log out' ? new Response(null, { status: 204 }) : json(action === 'Other account' ? second : first)); });
+  expect(await screen.findByRole('heading', { name: action === 'Log out' ? 'Signed out' : action === 'Other account' ? second.email : first.email })).toBeVisible();
+});
+it('ignores a delayed focus response superseded by an explicit account change', async () => {
+  let resolveFocus!: (response: Response) => void; let lookups = 0; let focusSignal: AbortSignal | null | undefined;
+  vi.stubGlobal('fetch', vi.fn((url: string, init: RequestInit = {}) => url.endsWith('/login') ? Promise.resolve(json(second)) : ++lookups === 1 ? Promise.resolve(json(first)) : new Promise<Response>(resolve => { resolveFocus = resolve; focusSignal = init.signal; })));
+  mount(); await screen.findByRole('heading', { name: first.email }); fireEvent(window, new Event('focus')); await waitFor(() => expect(lookups).toBe(2)); fireEvent.click(screen.getByRole('button', { name: 'Other account' })); await screen.findByRole('heading', { name: second.email }); expect(focusSignal?.aborted).toBe(true);
+  await act(async () => { resolveFocus(unauthorized()); }); expect(screen.getByRole('heading', { name: second.email })).toBeVisible();
+});
+it('withholds private data when a focus lookup fails and can recover on a later focus', async () => {
+  let failing = false; vi.stubGlobal('fetch', vi.fn(async () => { if (failing) throw new Error('network unavailable'); return json(first); })); const { client } = mount(); await screen.findByRole('heading', { name: first.email }); client.setQueryData(['private', 'tenant', tenantId, first.id, 'saved'], ['private']); failing = true;
+  fireEvent(window, new Event('focus')); await waitFor(() => expect(screen.getByTestId('key')).toHaveTextContent('null')); expect(client.getQueriesData({ queryKey: ['private'] })).toEqual([]);
+  failing = false; fireEvent(window, new Event('focus')); await waitFor(() => expect(screen.getByTestId('key')).toHaveTextContent(first.id));
+});
+it('does not request account data for a hidden tab', async () => {
+  const fetcher = vi.fn(async () => json(first)); vi.stubGlobal('fetch', fetcher); mount(); await screen.findByRole('heading', { name: first.email }); const visibility = vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('hidden'); try { fireEvent(document, new Event('visibilitychange')); fireEvent(window, new Event('focus')); expect(fetcher).toHaveBeenCalledTimes(1); } finally { visibility.mockRestore(); }
+});
+it('preserves existing private views when focus confirms the same account', async () => {
+  const fetcher = vi.fn(async () => json(first)); vi.stubGlobal('fetch', fetcher); const { client } = mount(); await screen.findByRole('heading', { name: first.email }); const key = ['private', 'tenant', tenantId, first.id, 'editor']; client.setQueryData(key, { title: 'The loaded listing' });
+  await act(async () => { fireEvent(window, new Event('focus')); }); expect(fetcher).toHaveBeenCalledTimes(2); expect(client.getQueryData(key)).toEqual({ title: 'The loaded listing' });
+});
+it('still handles an in-flight private 401 after focus confirms an unchanged principal', async () => {
+  let release!: (response: Response) => void; vi.stubGlobal('fetch', vi.fn((url: string) => url.endsWith('/me') ? Promise.resolve(json(first)) : new Promise<Response>(resolve => { release = resolve; })));
+  mount(); await screen.findByRole('heading', { name: first.email }); const pending = api.get('/t/greenstate/me/saved-listings').catch(() => {}); await act(async () => { fireEvent(window, new Event('focus')); }); await act(async () => { release(unauthorized()); await pending; }); expect(await screen.findByRole('heading', { name: 'Signed out' })).toBeVisible();
+});

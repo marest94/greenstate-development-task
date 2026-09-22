@@ -6,13 +6,15 @@ import { ErrorScreen } from '../../app/ErrorScreen';
 import { useTenant } from '../../app/TenantProvider';
 import { SaveButton, SavedListingsState } from '../saved/SaveButton';
 import { MonthCalendar } from '../../components/MonthCalendar';
-import { api } from '../../lib/api';
+import { api, ApiProblem } from '../../lib/api';
 import { countryName, currentBusinessDate, formatDate, formatMoney, formatRating, monthRange, shiftMonth } from '../../lib/format';
 
 export function ListingPage() {
   const tenant = useTenant();
   const { id } = useParams();
-  const listing = useQuery({ queryKey: ['listing', tenant.slug, id], queryFn: () => api.get(`/t/${tenant.slug}/listings/${id}`, undefined, ListingViewSchema) });
+  const valid = ListingViewSchema.shape.id.safeParse(id).success;
+  const listing = useQuery({ enabled: valid, queryKey: ['listing', tenant.slug, id], queryFn: () => api.get(`/t/${tenant.slug}/listings/${id}`, undefined, ListingViewSchema) });
+  if (!valid) return <ErrorScreen error={new ApiProblem({ status: 404, code: 'RESOURCE_NOT_FOUND', message: 'The requested listing was not found.', requestId: '' })} backTo={`/${tenant.slug}`} />;
   if (listing.isPending) return <div className="detail-loading" role="status">Loading this stay…</div>;
   if (listing.isError) return <ErrorScreen error={listing.error} onRetry={() => { void listing.refetch(); }} backTo={`/${tenant.slug}`} />;
   return <ListingDetail key={listing.data.id} listing={listing.data} />;

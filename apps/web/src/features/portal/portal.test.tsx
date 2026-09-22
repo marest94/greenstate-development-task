@@ -209,3 +209,30 @@ describe('listing detail availability', () => {
     expect(await screen.findByLabelText('1 October 2026, available')).toBeVisible();
   });
 });
+
+it('preserves keyboard focus through search and clearing dates, including resetting an unsent draft', async () => {
+ const http = intercept(); const router = mount(); await screen.findByRole('link', { name: listing.title });
+ change('Maximum price (€)', '200.00'); const search = screen.getByRole('button', { name: 'Search stays' }); search.focus(); await userEvent.setup().keyboard('{Enter}');
+ await waitFor(() => expect(http.searches().at(-1)!.searchParams.get('maxPriceCents')).toBe('20000'));
+ expect(search).toHaveFocus(); expect(search).toBeInTheDocument();
+ change('City', 'Paris'); await userEvent.setup().click(screen.getByRole('button', { name: 'Clear all' })); expect(screen.getByLabelText('City')).toHaveValue('');
+ change('City', 'Paris'); await userEvent.setup().click(screen.getByRole('button', { name: 'Clear all' })); expect(screen.getByLabelText('City')).toHaveValue('');
+ change('Check-in', '2026-10-01'); change('Checkout', '2026-10-04'); await submit();
+ const date = screen.getByLabelText('Check-in'); date.focus(); change('Check-in', ''); await waitFor(() => expect(new URLSearchParams(router.state.location.search).has('from')).toBe(false)); expect(date).toHaveFocus();
+});
+it.each(['#ffffff', '#f5f4ee'])('keeps a readable wordmark when the tenant chooses %s', async primaryColor => {
+ intercept(url => url.pathname === '/api/v1/t/greenstate' ? json({ ...tenant, primaryColor }) : undefined); mount();
+ const wordmark = await screen.findByRole('link', { name: tenant.name }); expect(wordmark.closest('.portal-shell')).toHaveStyle({ '--tenant-color': '#173d32' });
+});
+it('preserves a readable custom tenant colour', async () => {
+ intercept(url => url.pathname === '/api/v1/t/greenstate' ? json({ ...tenant, primaryColor: '#123456' }) : undefined); mount();
+ const wordmark = await screen.findByRole('link', { name: tenant.name }); expect(wordmark.closest('.portal-shell')).toHaveStyle({ '--tenant-color': '#123456' });
+});
+
+it.each(['not-a-uuid', `..%2F..%2Fcitystays%2Flistings%2F${listing.id}`])('rejects malformed listing id %s before requesting any listing', async id => {
+ const http = intercept(url => url.pathname === `/api/v1/t/citystays/listings/${listing.id}` ? json({ ...listing, title: 'Another tenant stay', description: null, version: 1 }) : undefined);
+ mount(`/greenstate/listings/${id}`); await screen.findByRole('alert');
+ expect(screen.queryByRole('heading', { name: 'Another tenant stay' })).not.toBeInTheDocument();
+ expect(http.requests.filter(url => url.pathname.includes('/listings'))).toHaveLength(0);
+ expect(screen.getByRole('link', { name: 'Back to listings' })).toHaveAttribute('href', '/greenstate');
+});

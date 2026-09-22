@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { Pool } from 'pg';
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { BookingsPageSchema, ListingPageSchema } from '@greenstate/contracts';
-import { provisionHostFixture } from './fixtures.js';
+import { test, provisionHostFixture } from './fixtures.js';
 const shiftDate = (date: string, days: number) => new Date(new Date(`${date}T12:00:00Z`).getTime() + days * 86400000).toISOString().slice(0, 10);
 const readableDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`));
 async function provisionBookingHistory(tenantId: string, listingId: string, today: string) {
@@ -39,15 +39,15 @@ test('host manages calendar blocks and inspects archived booking history without
   expect((await (await page.request.get(publicAvailability)).json()).days).toEqual([{ date: freeDay, available: true }]);
   await page.getByRole('link', { name: 'Calendar', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Listing calendar', exact: true })).toBeVisible();
   await page.getByLabel('Calendar month', { exact: true }).fill(freeDay.slice(0, 7));
-  await page.getByRole('button', { name: `${readableDate(freeDay)}, available`, exact: true }).click();
-  await page.getByLabel('Reason (optional)', { exact: true }).fill('Prepare the courtyard for guests.'); await page.getByRole('button', { name: 'Block day', exact: true }).click();
+  await page.getByRole('button', { name: `${readableDate(freeDay)}, available`, exact: true }).press('Enter');
+  await page.getByLabel('Reason (optional)', { exact: true }).focus(); await page.keyboard.insertText('Prepare the courtyard for guests.'); await page.keyboard.press('Tab'); await expect(page.getByRole('button', { name: 'Block day', exact: true })).toBeFocused(); await page.keyboard.press('Enter');
   await expect(page.getByRole('button', { name: `${readableDate(freeDay)}, blocked`, exact: true })).toBeVisible();
   await expect(page.getByText('Prepare the courtyard for guests.', { exact: true })).toBeVisible();
   expect((await (await page.request.get(publicAvailability)).json()).days).toEqual([{ date: freeDay, available: false }]);
   await expect(page.getByText(new RegExp(`Tenant business date: ${readableDate(today)}`))).toContainText(tenant.timezone);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('host-calendar.png'), fullPage: true });
-  await page.getByRole('button', { name: 'Remove block', exact: true }).click(); await expect(page.getByRole('button', { name: `${readableDate(freeDay)}, available`, exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Remove block', exact: true }).press('Enter'); await expect(page.getByRole('button', { name: `${readableDate(freeDay)}, available`, exact: true })).toBeVisible();
   expect((await (await page.request.get(publicAvailability)).json()).days).toEqual([{ date: freeDay, available: true }]);
   await page.getByRole('link', { name: 'Edit listing', exact: true }).click(); await page.getByRole('button', { name: 'Archive listing', exact: true }).click(); await page.getByRole('button', { name: 'Confirm archive', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Restore listing', exact: true })).toBeVisible();
@@ -68,7 +68,7 @@ test('host manages calendar blocks and inspects archived booking history without
   await page.screenshot({ path: testInfo.outputPath('host-booking-history.png'), fullPage: true });
   await table.getByRole('link', { name: title, exact: true }).click(); await expect(page.getByRole('button', { name: 'Restore listing', exact: true })).toBeVisible();
   await page.getByRole('link', { name: 'Calendar', exact: true }).click(); await page.getByLabel('Calendar month', { exact: true }).fill(stays[0]!.from.slice(0, 7));
-  await page.getByRole('button', { name: `${readableDate(stays[0]!.from)}, booked, past`, exact: true }).click();
+  await page.getByRole('button', { name: `${readableDate(stays[0]!.from)}, booked, past`, exact: true }).press('Enter');
   await expect(page.getByText('4 guests', { exact: true })).toBeVisible(); await expect(page.getByText('Past', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Block day', exact: true })).not.toBeVisible();
   const response = await page.request.get(`/api/v1/t/greenstate/host/bookings?listingId=${listingId}&pageSize=50`); expect(response.status()).toBe(200);
