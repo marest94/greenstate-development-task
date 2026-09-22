@@ -61,6 +61,8 @@ model Booking {
   @@map("bookings")
 }
 model BlockedDay {
+  id String @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  reason String?
   tenantId String @map("tenant_id") @db.Uuid
   listingId String @map("listing_id") @db.Uuid
   listing Listing @relation(fields: [listingId, tenantId], references: [id, tenantId], onDelete: Restrict)
@@ -80,6 +82,7 @@ model SeedRun {
 }
 
 model TenantUser {
+  name String? @db.VarChar(120)
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenantId String @map("tenant_id") @db.Uuid
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Restrict)
