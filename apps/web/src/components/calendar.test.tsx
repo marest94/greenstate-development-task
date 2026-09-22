@@ -67,3 +67,11 @@ it('pagination keeps boundaries disabled and supports keyboard activation', asyn
   await user.keyboard('{Enter}');
   expect(onChange).toHaveBeenCalledWith(2);
 });
+it('permits explicit host inspection of occupied and past dates without changing default public selection rules', async () => {
+  const select = vi.fn();
+  render(<MonthCalendar month="2026-10" today="2026-10-02" days={[{ date: '2026-10-01', available: false }]}
+    onSelect={select} canSelect={date => date === '2026-10-01'} dayLabels={{ '2026-10-01': { status: 'blocked', short: 'Blocked' } }} />);
+  const day = screen.getByRole('button', { name: '1 October 2026, blocked, past' });
+  expect(day).toBeEnabled(); await userEvent.setup().click(day); expect(select).toHaveBeenCalledWith('2026-10-01');
+  expect(screen.getByRole('button', { name: '2 October 2026, loading, today' })).toBeDisabled();
+});

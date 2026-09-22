@@ -9,8 +9,10 @@ type Props = {
   days: Availability['days'] | undefined;
   selection?: DateRangeValue;
   onSelect?: (date: string) => void;
+  canSelect?: (date: string) => boolean;
+  dayLabels?: Record<string, { status: string; short: string }>;
 };
-export function MonthCalendar({ month, today, days, selection, onSelect }: Props) {
+export function MonthCalendar({ month, today, days, selection, onSelect, canSelect, dayLabels }: Props) {
   const heading = useId();
   const start = new Date(`${month}-01T12:00:00Z`);
   const offset = (start.getUTCDay() + 6) % 7;
@@ -26,10 +28,11 @@ export function MonthCalendar({ month, today, days, selection, onSelect }: Props
     const status = available === undefined ? 'loading' : available ? 'available' : 'unavailable';
     const past = date < today;
     const selected = !!selection?.from && (date === selection.from || (!!selection.to && date > selection.from && date < selection.to));
-    const label = `${formatDate(date)}, ${status}${past ? ', past' : date === today ? ', today' : ''}`;
-    const content = <><span>{day}</span><small aria-hidden="true">{available === undefined ? '…' : available ? 'Free' : 'Busy'}</small></>;
+    const custom = dayLabels?.[date];
+    const label = `${formatDate(date)}, ${custom?.status ?? status}${past ? ', past' : date === today ? ', today' : ''}`;
+    const content = <><span>{day}</span><small aria-hidden="true">{custom?.short ?? (available === undefined ? '…' : available ? 'Free' : 'Busy')}</small></>;
     return <td key={date} className={`calendar-day calendar-day--${status}${past ? ' calendar-day--past' : ''}${selected ? ' calendar-day--selected' : ''}`}>
-      {onSelect ? <button type="button" aria-label={label} aria-pressed={selected} disabled={past || available !== true} onClick={() => onSelect(date)}>{content}</button> : <span aria-label={label} aria-current={date === today ? 'date' : undefined}>{content}</span>}
+      {onSelect ? <button type="button" aria-label={label} aria-pressed={selected} disabled={canSelect ? !canSelect(date) : past || available !== true} onClick={() => onSelect(date)}>{content}</button> : <span aria-label={label} aria-current={date === today ? 'date' : undefined}>{content}</span>}
     </td>;
   });
   return <section className="month-calendar">
