@@ -408,7 +408,7 @@ maxPriceCents?: number; from?: IsoDate; to?: IsoDate; page: number; pageSize: nu
 `{ today: IsoDate; days: { date: IsoDate; available: boolean }[] }`.
 All routes have the `/api/v1` prefix.
 
-- [ ] Write real-HTTP fixtures for two tenants, archived listings, capacity/price/city filters,
+- [x] Write real-HTTP fixtures for two tenants, archived listings, capacity/price/city filters,
   combined filters, pagination totals, foreign IDs, and every overlap boundary. Run
   `npm run test:integration -w apps/api -- test/public-listings.test.ts` and observe failures.
   Given a confirmed stay on October 1–4 and no other occupancy on the fixture listing:
@@ -423,10 +423,10 @@ All routes have the `/api/v1` prefix.
     .query({ from: '2026-10-03', to: '2026-10-06' }).expect(200);
   expect(occupied.body.items.map((item: ListingDto) => item.id)).not.toContain(listingA.id);
   ```
-- [ ] Define strict schemas: page >= 1, pageSize 1–50 (default 20), valid UUIDs, bounded strings,
+- [x] Define strict schemas: page >= 1, pageSize 1–50 (default 20), valid UUIDs, bounded strings,
   integer cents, paired dates, `from < to`, maximum span 366 nights. Reject unknown query keys.
   Search with past dates remains a valid historical query; the picker guides new future searches.
-- [ ] Implement one shared search predicate for results and totals, stable title/id ordering,
+- [x] Implement one shared search predicate for results and totals, stable title/id ordering,
   and tenant-scoped city facets. Use a bound `NOT EXISTS` overlap predicate:
 
   ```sql
@@ -443,13 +443,13 @@ All routes have the `/api/v1` prefix.
   )
   ```
 
-- [ ] Map rows explicitly, converting database decimals/dates deliberately. Both archived and
+- [x] Map rows explicitly, converting database decimals/dates deliberately. Both archived and
   foreign public detail IDs answer the same resource-not-found response. Public availability
   exposes availability only, never booking or host details.
-- [ ] Compare SQL search and HTTP calendar results with `isFree` using identical fixtures.
+- [x] Compare SQL search and HTTP calendar results with `isFree` using identical fixtures.
   Add seeded-data smoke assertions calculated from the input CSVs, without borrowing unverified
   golden counts from the old spec.
-- [ ] Run focused/full integration tests, unit tests, lint/typecheck. Inspect indexes and query
+- [x] Run focused/full integration tests, unit tests, lint/typecheck. Inspect indexes and query
   plans for the actual search on seeded data; add only indexes justified by predicates and plans.
   Commit the public API.
 
