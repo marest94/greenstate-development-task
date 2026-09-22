@@ -20,6 +20,7 @@ export function App() {
       <p className="eyebrow">A PLACE TO FEEL AT HOME</p>
       <h1>Your next stay<br />starts here.</h1>
       <p className="intro">Comfortable spaces. New surroundings. Room to make yourself at home.</p>
+      <nav className="welcome-portals" aria-label="Choose a portal"><a href="/greenstate">GreenState Stays</a><a href="/citystays">City Stays</a><a href="/admin">Platform administration</a></nav>
       <p className={`connection connection--${status}`} role={status === 'error' ? 'alert' : 'status'}>
         <span className="status-dot" aria-hidden="true" />
         {status === 'loading' ? 'Connecting to the rental service…' : status === 'ok' ? 'Connected to the rental service' : 'The rental service is currently unavailable'}

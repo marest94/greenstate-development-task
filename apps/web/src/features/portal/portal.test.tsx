@@ -5,6 +5,7 @@ import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ListingDto } from '@greenstate/contracts';
 import { TenantProvider } from '../../app/TenantProvider';
+import { TenantAccountProvider } from '../../app/AccountBoundary';
 import { PortalLayout } from '../../app/PortalLayout';
 import { SearchPage } from './SearchPage';
 import { ListingPage } from './ListingPage';
@@ -22,7 +23,7 @@ const clients: QueryClient[] = [];
 function mount(path = '/greenstate') {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, staleTime: Infinity, gcTime: Infinity } } });
   clients.push(client);
-  const router = createMemoryRouter([{ path: '/:slug', element: <TenantProvider><PortalLayout /></TenantProvider>, children: [
+  const router = createMemoryRouter([{ path: '/:slug', element: <TenantProvider><TenantAccountProvider><PortalLayout /></TenantAccountProvider></TenantProvider>, children: [
     { index: true, element: <SearchPage /> }, { path: 'listings/:id', element: <ListingPage /> },
   ] }], { initialEntries: [path] });
   render(<QueryClientProvider client={client}><RouterProvider router={router} /></QueryClientProvider>);
@@ -35,6 +36,7 @@ function intercept(override?: (url: URL) => Response | Promise<Response> | undef
     requests.push(url);
     const response = override?.(url);
     if (response !== undefined) return response;
+    if (url.pathname === '/api/v1/t/greenstate/auth/me') return failure(401, 'Please sign in.');
     if (url.pathname === '/api/v1/t/greenstate') return json(tenant);
     if (url.pathname === '/api/v1/t/greenstate/listings/facets') return json({ cities: ['Berlin', 'Paris'] });
     if (url.pathname === '/api/v1/t/greenstate/listings') return json(results(url));

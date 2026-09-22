@@ -62,19 +62,21 @@ function ScopedAuthProvider({ scope, children }: { scope: AuthScope; children: R
   }, [apiPath, clearPrivate, refresh, replace]);
   const mutate = useCallback(async (action: 'login' | 'register' | 'password', input: LoginInput | PasswordChangeInput) => {
     if (busy.current) throw new ApiProblem({ status: 409, code: 'REQUEST_PENDING', message: 'Please wait for the current request to finish.', requestId: '' });
+    lookup.current?.abort();
     busy.current = true; setPending(true); const version = generation.current;
     try {
       const next = validateScope(await api.post(`${apiPath}/${action}`, input, PrincipalSchema));
       if (!alive.current || version !== generation.current) throw new DOMException('The account changed.', 'AbortError');
       replace(next); return next;
-    } finally { busy.current = false; if (alive.current) setPending(false); }
+    } finally { busy.current = false; if (alive.current) { setPending(false); setLoading(false); } }
   }, [apiPath, replace, validateScope]);
   const logout = useCallback(async () => {
     if (busy.current) return;
+    lookup.current?.abort();
     busy.current = true; setPending(true); const version = generation.current;
     try { await api.post(`${apiPath}/logout`, {}); if (alive.current && version === generation.current) replace(null); }
     catch (problem) { if (!(problem instanceof ApiProblem && problem.status === 401)) throw problem; }
-    finally { busy.current = false; if (alive.current) setPending(false); }
+    finally { busy.current = false; if (alive.current) { setPending(false); setLoading(false); } }
   }, [apiPath, replace]);
   const value: AuthContext = { scope, principal, isLoading, isPending, error, basePath, apiPath,
     privateKey: principal && !principal.mustChangePassword ? ['private', scope.realm, tenantId, principal.id] : null,

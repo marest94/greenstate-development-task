@@ -12,7 +12,7 @@ const json = (value: unknown) => new Response(JSON.stringify(value));
 function Probe() {
   const auth = useAuth();
   return <><h1>{auth.isLoading ? 'Loading account' : auth.principal?.email ?? 'Signed out'}</h1><p>{auth.error?.message}</p>
-    <button onClick={() => { void auth.logout(); }}>Log out</button><button onClick={() => { void auth.login({ email: second.email, password: 'A second account password' }); }}>Other account</button>
+    <button onClick={() => { void auth.logout(); }}>Log out</button><button onClick={() => { void auth.login({ email: second.email, password: 'A second account password' }).catch(() => {}); }}>Other account</button>
     <span data-testid="key">{JSON.stringify(auth.privateKey)}</span></>;
 }
 function mount() {
@@ -67,4 +67,20 @@ it('does not expose a private key for a forced-password session', async () => {
 it('rejects an account response from another tenant', async () => {
   vi.stubGlobal('fetch', vi.fn(async () => json({ ...first, tenantId: '22222222-2222-4222-8222-222222222222' }))); mount();
   await screen.findByRole('heading', { name: 'Signed out' }); expect(screen.getByText('The account response does not match this portal.')).toBeVisible(); expect(screen.getByTestId('key')).toHaveTextContent('null');
+});
+
+it('lets an explicit login supersede a delayed initial session lookup', async () => {
+  let resolveMe!: (response: Response) => void; let resolveLogin!: (response: Response) => void;
+  vi.stubGlobal('fetch', vi.fn((url: string) => new Promise<Response>(resolve => { if (url.endsWith('/auth/me')) resolveMe = resolve; else resolveLogin = resolve; })));
+  mount(); fireEvent.click(screen.getByRole('button', { name: 'Other account' }));
+  await act(async () => { resolveMe(unauthorized()); });
+  await act(async () => { resolveLogin(json(second)); });
+  expect(await screen.findByRole('heading', { name: second.email })).toBeVisible();
+});
+it('settles initial loading when a submitted login fails after cancelling session lookup', async () => {
+  let resolveMe!: (response: Response) => void;
+  vi.stubGlobal('fetch', vi.fn((url: string) => url.endsWith('/auth/me') ? new Promise<Response>(resolve => { resolveMe = resolve; }) : Promise.resolve(unauthorized())));
+  mount(); fireEvent.click(screen.getByRole('button', { name: 'Other account' }));
+  expect(await screen.findByRole('heading', { name: 'Signed out' })).toBeVisible();
+  await act(async () => { resolveMe(unauthorized()); });
 });

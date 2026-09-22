@@ -20,8 +20,10 @@ async function send<T>(path: string, options: RequestInit, schema?: Schema<T>): 
     if (error instanceof DOMException && error.name === 'AbortError') throw error;
     throw new ApiProblem({ status: 0, code: 'NETWORK_ERROR', message: 'The rental service could not be reached. Please try again.', requestId: '' });
   }
+  options.signal?.throwIfAborted();
   let body: unknown;
   try { body = response.status === 204 ? undefined : await response.json(); } catch { body = null; }
+  options.signal?.throwIfAborted();
   if (!response.ok) {
     const parsed = ApiErrorSchema.safeParse(body); const retry = Number(response.headers.get('Retry-After'));
     const problem = new ApiProblem(parsed.success ? parsed.data : { status: response.status, code: 'SERVICE_UNAVAILABLE', message: 'The rental service is currently unavailable. Please try again.', requestId: response.headers.get('x-request-id') ?? '' }, Number.isFinite(retry) && retry > 0 ? retry : undefined);
