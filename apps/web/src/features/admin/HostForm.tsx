@@ -1,10 +1,12 @@
+import { useEffect } from 'react';
 import { useRef, type FormEvent } from 'react';
 import { HostCreateSchema, TenantAccountSchema } from '@greenstate/contracts';
 import { api } from '../../lib/api';
 import { clearPasswords, FormFeedback, validationProblem } from '../auth/AuthForm';
 import { AdminField, checkIdentity, IdentityConfirmation, tenantsApi, useAdminRequest } from './shared';
-export function HostForm({ tenantId, onSuccess, onCancel, onExisting }: { tenantId: string; onSuccess: () => void; onCancel: () => void; onExisting: (email: string) => void }) {
- const request = useAdminRequest(); const submittedEmail = useRef('');
+export function HostForm({ tenantId, onSuccess, onCancel, onExisting, onBusy }: { tenantId: string; onSuccess: () => void; onCancel: () => void; onBusy?: (busy: boolean) => void; onExisting: (email: string) => void }) {
+ const request = useAdminRequest();
+ useEffect(() => { onBusy?.(request.busy); }, [request.busy, onBusy]); const submittedEmail = useRef('');
  function submit(event: FormEvent<HTMLFormElement>) {
   event.preventDefault(); const element = event.currentTarget; const form = new FormData(element);
   try { checkIdentity(form); } catch (error) { request.feedback.report(error); return; }

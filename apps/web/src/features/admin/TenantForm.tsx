@@ -1,3 +1,4 @@
+import { TenantSetupChecklist } from './TenantSetupChecklist';
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AdminTenantSchema, TenantCreateSchema, TenantUpdateSchema, type AdminTenant } from '@greenstate/contracts';
@@ -14,6 +15,7 @@ function Editor({ initial }: { initial: AdminTenant | null }) {
   void request.run(async signal => { const saved = tenant ? await api.patch(`${tenantsApi}/${tenant.id}`, parsed.data, AdminTenantSchema, signal) : await api.post(tenantsApi, parsed.data, AdminTenantSchema, signal); if (signal.aborted) return; setTenant(saved); invalidate(); setMessage('Tenant configuration saved.'); if (!tenant) navigate(`/admin/tenants/${saved.id}`, { replace: true }); });
  }
  return <section className="host-editor"><Link className="back-link" to="/admin/tenants">Back to tenants</Link><p className="eyebrow">Platform administration</p><h1>{tenant ? `Manage ${tenant.name}` : 'Create tenant'}</h1>{tenant?.deletedAt && <p role="status">This tenant is deleted. Access is disabled; records are retained.</p>}<FormFeedback problem={request.feedback.problem} />{message && <p role="status" className="host-success">{message}</p>}
+ {tenant && <TenantSetupChecklist tenant={tenant} />}
  <form className="host-form" noValidate onSubmit={submit}><fieldset disabled={request.busy || !!tenant?.deletedAt}><legend className="host-sr-only">Tenant configuration</legend><div className="host-form-grid">
  <AdminField label="Tenant name" name="name" defaultValue={tenant?.name ?? ''} maxLength={120} required problem={request.feedback.problem} />
  <AdminField label="Portal slug" name="slug" defaultValue={tenant?.slug ?? ''} readOnly={!!tenant} required hint="Used in the portal URL. It cannot be changed or reused after deletion." problem={request.feedback.problem} />

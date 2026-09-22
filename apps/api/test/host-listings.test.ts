@@ -164,3 +164,12 @@ it('uses the business date after a listing lock wait crosses midnight for capaci
   const result = await response; expect(result.status).toBe(200); expect(result.body.maxGuests).toBe(2);
  } finally { release.resolve(); await response; spy.mockRestore(); now = before; }
 });
+
+it('filters literal title/city/type and sorts prices across the full tenant inventory', async () => {
+  const one = await db.admin.listing.create({ data: { ...listingData(f.a.id), title: '100% inventory-one', city: 'Porto', propertyType: 'studio', pricePerNightCents: 9000 } });
+  const two = await db.admin.listing.create({ data: { ...listingData(f.a.id), title: '100% inventory-two', city: 'Porto', propertyType: 'studio', pricePerNightCents: 11000 } });
+  const result = await get(path()).query({ search: '100%', city: 'porto', propertyType: 'studio', sort: 'price-desc', pageSize: 1 }).expect(200);
+  expect(result.body.total).toBe(2); expect(result.body.items[0].id).toBe(two.id);
+  const next = await get(path()).query({ search: '100%', sort: 'price-desc', pageSize: 1, page: 2 }).expect(200);
+  expect(next.body.items[0].id).toBe(one.id);
+});

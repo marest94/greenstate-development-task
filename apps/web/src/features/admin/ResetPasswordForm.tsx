@@ -1,10 +1,12 @@
+import { useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { AccountResetSchema, type TenantAccount } from '@greenstate/contracts';
 import { api } from '../../lib/api';
 import { clearPasswords, FormFeedback, validationProblem } from '../auth/AuthForm';
 import { AdminField, checkIdentity, IdentityConfirmation, tenantsApi, useAdminRequest } from './shared';
-export function ResetPasswordForm({ account, mode, onSuccess, onCancel }: { account: TenantAccount; mode: 'reset' | 'promote'; onSuccess: () => void; onCancel: () => void }) {
+export function ResetPasswordForm({ account, mode, onSuccess, onCancel, onBusy }: { account: TenantAccount; mode: 'reset' | 'promote'; onSuccess: () => void; onCancel: () => void; onBusy?: (busy: boolean) => void }) {
  const request = useAdminRequest();
+ useEffect(() => { onBusy?.(request.busy); }, [request.busy, onBusy]);
  function submit(event: FormEvent<HTMLFormElement>) {
   event.preventDefault(); const element = event.currentTarget; const form = new FormData(element);
   try { checkIdentity(form); } catch (error) { request.feedback.report(error); return; }

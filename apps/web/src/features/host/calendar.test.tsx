@@ -8,6 +8,7 @@ import { TenantProvider } from '../../app/TenantProvider';
 import { TenantAccountProvider } from '../../app/AccountBoundary';
 import { SignOutButton } from '../auth/AuthForm';
 import { HostLayout } from './HostLayout';
+import { PortfolioCalendarPage } from './PortfolioCalendarPage';
 import { CalendarPage } from './CalendarPage';
 import { BookingsPage } from './BookingsPage';
 const tenant = { id: '22222222-2222-4222-8222-222222222222', slug: 'greenstate', name: 'GreenState', timezone: 'Europe/Berlin', primaryColor: null, contactEmail: null, currency: 'EUR' };
@@ -45,7 +46,7 @@ function mount(path = `/greenstate/host/listings/${listing.id}/calendar?month=20
   const cache = new QueryClient({ defaultOptions: { queries: { retry: false, staleTime: Infinity } } });
   const router = createMemoryRouter([{ path: '/:slug', element: <TenantProvider><TenantAccountProvider><Outlet /></TenantAccountProvider></TenantProvider>, children: [
     { path: 'host', element: <><SignOutButton /><HostLayout /></>, children: [
-      { path: 'listings/:id/calendar', element: <CalendarPage /> }, { path: 'bookings', element: <BookingsPage /> }, { path: 'listings/:id', element: <h1>Edit listing</h1> },
+      { path: 'calendar', element: <PortfolioCalendarPage /> }, { path: 'listings/:id/calendar', element: <CalendarPage /> }, { path: 'bookings', element: <BookingsPage /> }, { path: 'listings/:id', element: <h1>Edit listing</h1> },
     ] }, { path: 'login', element: <h1>Sign in</h1> }, { path: 'password', element: <h1>Change your password</h1> },
   ] }], { initialEntries: [path] });
   render(<QueryClientProvider client={cache}><RouterProvider router={router} /></QueryClientProvider>);
@@ -160,4 +161,44 @@ it('rejects invalid booking filter URLs without fetching private booking data', 
 });
 it.each([['client', { ...host, role: 'client' as const, permissions: ['saved-listings:manage'] as Principal['permissions'] }, 'Access unavailable'], ['restricted host', { ...host, mustChangePassword: true }, 'Change your password']])('withholds host calendar and bookings from a %s', async (_label, principal, heading) => {
   const requests = intercept({ principal }); mount(); expect(await screen.findByRole('heading', { name: heading })).toBeVisible(); expect(requests.some(r => r.url.pathname.includes('/host/'))).toBe(false);
+});
+
+it('selects a portfolio range and sends an exclusive end date while retaining the view', async () => {
+  const requests = intercept({ handle: (url, init) => {
+    if (url.pathname === '/api/v1/t/greenstate/host/calendar') return json({ today: initial.today, from: '2026-10-01', to: '2026-10-15', page: 1, pageSize: 20, total: 1, items: [{ listing, bookings: [], days: ['2026-10-04','2026-10-05','2026-10-06'].map(date => ({ date, status: 'available', bookingIds: [], block: null })) }] });
+    if (init.method === 'POST') return json({ changed: 3 }, 201);
+  } });
+  const { router } = mount('/greenstate/host/calendar?from=2026-10-01'); const user = userEvent.setup();
+  await user.click(await screen.findByRole('button', { name: `${listing.title}, 4 October 2026, available` }));
+  await user.click(screen.getByRole('button', { name: `${listing.title}, 6 October 2026, available` }));
+  expect(screen.getByText('3 nights will be blocked')).toBeVisible();
+  await user.click(screen.getByRole('button', { name: 'Block 3 nights' }));
+  await screen.findByText('3 nights blocked.');
+  expect(requests.find(r => r.url.pathname.endsWith('/block-range'))?.body).toEqual({ from: '2026-10-04', to: '2026-10-07', action: 'block' });
+  expect(router.state.location.search).toContain('from=2026-10-01');
+});
+
+it('recovers invalid portfolio timeline URLs without crashing', async () => {
+  intercept(); mount('/greenstate/host/calendar?from=2026-10-01&days=abc');
+  expect(await screen.findByRole('alert')).toHaveTextContent('Check calendar filters');
+  expect(screen.getByRole('button', { name: 'Reset calendar' })).toBeVisible();
+});
+it('clears portfolio selection and draft on browser navigation', async () => {
+  intercept({ handle: url => url.pathname === '/api/v1/t/greenstate/host/calendar' ? json({ today: initial.today, from: '2026-10-01', to: '2026-10-15', page: 1, pageSize: 20, total: 1, items: [{ listing, bookings: [], days: [{ date: '2026-10-04', status: 'available', bookingIds: [], block: null }] }] }) : undefined });
+  const { router } = mount('/greenstate/host/calendar?from=2026-10-01');
+  await userEvent.click(await screen.findByRole('button', { name: `${listing.title}, 4 October 2026, available` }));
+  fireEvent.change(screen.getByLabelText('Reason (optional)'), { target: { value: 'A draft belonging to October' } });
+  await act(() => router.navigate('/greenstate/host/calendar?from=2026-09-01'));
+  await waitFor(() => expect(screen.queryByLabelText('Reason (optional)')).not.toBeInTheDocument());
+  await act(() => router.navigate(-1));
+  expect(screen.queryByLabelText('Reason (optional)')).not.toBeInTheDocument();
+});
+it('protects booked portfolio nights while allowing removal of a legacy manual block', async () => {
+  intercept({ handle: url => url.pathname === '/api/v1/t/greenstate/host/calendar' ? json({ today: initial.today, from: '2026-10-01', to: '2026-10-15', page: 1, pageSize: 20, total: 1, items: [{ listing, bookings: [first, second], days: [{ ...initial.days[0]!, block: blocked }] }] }) : undefined });
+  mount('/greenstate/host/calendar?from=2026-10-01');
+  await userEvent.click(await screen.findByRole('button', { name: `${listing.title}, 1 October 2026, booked` }));
+  expect(screen.getByText('4 guests · Confirmed · Past')).toBeVisible();
+  expect(screen.getByText('2 guests · Completed · Current')).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Remove 1 blocks' })).toBeEnabled();
+  expect(screen.queryByRole('button', { name: /^Block \d/ })).not.toBeInTheDocument();
 });

@@ -1,3 +1,5 @@
+import { useUnsavedListing, UnsavedListingDialog } from './useUnsavedListing';
+import { ListingLocationPreview } from './ListingLocationPreview';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -26,6 +28,16 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
   const auth = useAuth(); const cache = useQueryClient(); const navigate = useNavigate(); const feedback = useFormProblem();
   const [server, setServer] = useState(initial); const [revision, setRevision] = useState(0); const [busy, setBusy] = useState(false);
   const [confirmArchive, setConfirmArchive] = useState(false); const [message, setMessage] = useState('');
+  const [dirty, setDirty] = useState(false); const guard = useUnsavedListing(dirty);
+  const formRef = useRef<HTMLFormElement>(null); const baseline = useRef('');
+  const [location, setLocation] = useState({ latitude: String(initial?.latitude ?? ''), longitude: String(initial?.longitude ?? ''), city: initial?.city ?? '', country: initial?.country ?? '' });
+  const snapshot = (form: HTMLFormElement) => JSON.stringify(Array.from(form.elements).filter((element): element is HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => element instanceof HTMLInputElement || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement).filter(element => element.name).map(element => [element.name, element.value]));
+  useEffect(() => { if (formRef.current) baseline.current = snapshot(formRef.current); }, [revision]);
+  function edited(form: HTMLFormElement) {
+    setDirty(snapshot(form) !== baseline.current);
+    const fields = new FormData(form); setLocation({ latitude: String(fields.get('latitude') ?? ''), longitude: String(fields.get('longitude') ?? ''), city: String(fields.get('city') ?? ''), country: String(fields.get('country') ?? '') });
+  }
+  function clean(next: HostListingView) { guard.accept(); setDirty(false); setLocation({ latitude: String(next.latitude), longitude: String(next.longitude), city: next.city, country: next.country }); }
   const pending = useRef<AbortController | null>(null);
   useEffect(() => () => { pending.current?.abort(); }, []);
   const begin = () => { if (pending.current) return null; const controller = new AbortController(); pending.current = controller; setBusy(true); feedback.clear(); setMessage(''); return controller; };
@@ -48,7 +60,7 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
     try {
       const next = server ? await api.patch(`${apiPath}/${server.id}`, { ...parsed.data, version: server.version }, HostListingViewSchema, controller.signal) : await api.post(apiPath, parsed.data, HostListingViewSchema, controller.signal);
       if (controller.signal.aborted) return;
-      accept(next); setRevision(value => value + 1); setMessage(server ? 'Listing changes saved.' : 'Listing created.');
+      clean(next); accept(next); setRevision(value => value + 1); setMessage(server ? 'Listing changes saved.' : 'Listing created.');
       if (!server) navigate(`${auth.basePath}/host/listings/${next.id}`, { replace: true });
     } catch (error) { if (!controller.signal.aborted) feedback.report(error); }
     finally { settle(controller); }
@@ -67,7 +79,7 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
     try {
       const next = await api.get(`${apiPath}/${server.id}`, undefined, HostListingViewSchema, controller.signal);
       if (controller.signal.aborted) return;
-      accept(next); setRevision(value => value + 1); setConfirmArchive(false); setMessage('Current listing loaded. Review its fields before saving.');
+      clean(next); accept(next); setRevision(value => value + 1); setConfirmArchive(false); setMessage('Current listing loaded. Review its fields before saving.');
     } catch (error) { if (!controller.signal.aborted) feedback.report(error); }
     finally { settle(controller); }
   }
@@ -82,23 +94,26 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
     <FormFeedback problem={feedback.problem} />
     {feedback.problem?.code === 'STALE_VERSION' && <div className="host-conflict"><p>Your input has been kept. Reloading replaces it with the current saved fields.</p><button className="button-secondary" disabled={busy} onClick={() => { void reload(); }}>Reload current version</button></div>}
     {message && <p className="host-success" role="status">{message}</p>}
-    <form key={revision} className="host-form" noValidate onSubmit={event => { void submit(event); }}>
-      <fieldset disabled={busy}><legend className="host-sr-only">Listing details</legend><div className="host-form-grid">
+    {guard.blocker.state === 'blocked' && <UnsavedListingDialog onStay={() => guard.blocker.reset?.()} onLeave={() => guard.blocker.proceed?.()} />}
+    <form ref={formRef} onChange={event => edited(event.currentTarget)} key={revision} className="host-form" noValidate onSubmit={event => { void submit(event); }}>
+      <fieldset disabled={busy}><legend className="host-sr-only">Listing details</legend><div className="host-form-grid"><h2 className="host-field-wide">Basics</h2>
         <div className="host-field host-field-wide"><label htmlFor="listing-title">Title</label><input {...inputProps('title')} defaultValue={server?.title ?? ''} maxLength={200} required />{errors('title')}</div>
         <div className="host-field host-field-wide"><label htmlFor="listing-description">Description</label><textarea {...inputProps('description')} defaultValue={server?.description ?? ''} rows={4} maxLength={5000} />{errors('description')}</div>
-        <div className="host-field"><label htmlFor="listing-city">City</label><input {...inputProps('city')} defaultValue={server?.city ?? ''} maxLength={80} required />{errors('city')}</div>
+        <div className="host-field"><label htmlFor="listing-propertyType">Property type</label><select {...inputProps('propertyType')} defaultValue={server?.propertyType ?? 'apartment'}>{['apartment', 'studio', 'house', 'loft', 'room'].map(type => <option key={type} value={type}>{type[0]!.toUpperCase() + type.slice(1)}</option>)}</select>{errors('propertyType')}</div>
+        <h2 className="host-field-wide">Capacity</h2><div className="host-field"><label htmlFor="listing-maxGuests">Maximum guests</label><input {...inputProps('maxGuests')} type="number" min={1} max={12} step={1} defaultValue={server?.maxGuests ?? 1} required />{errors('maxGuests')}</div>
+        <div className="host-field"><label htmlFor="listing-bedrooms">Bedrooms</label><input {...inputProps('bedrooms')} type="number" min={0} max={20} step={1} defaultValue={server?.bedrooms ?? 0} required />{errors('bedrooms')}</div>
+        <h2 className="host-field-wide">Pricing</h2><div className="host-field"><label htmlFor="listing-pricePerNightCents">Price per night (€)</label><input {...inputProps('pricePerNightCents')} inputMode="decimal" defaultValue={priceInput(server?.pricePerNightCents)} required maxLength={16} /><p className="host-hint">EUR, with up to two decimal places.</p>{errors('pricePerNightCents')}</div>
+        <h2 className="host-field-wide">Location</h2>        <div className="host-field"><label htmlFor="listing-city">City</label><input {...inputProps('city')} defaultValue={server?.city ?? ''} maxLength={80} required />{errors('city')}</div>
         <div className="host-field"><label htmlFor="listing-country">Country code</label><input {...inputProps('country')} defaultValue={server?.country ?? ''} maxLength={2} placeholder="DE" required /><p className="host-hint">Two uppercase letters, such as DE or PT.</p>{errors('country')}</div>
         <div className="host-field"><label htmlFor="listing-latitude">Latitude</label><input {...inputProps('latitude')} type="number" step="any" min={-90} max={90} defaultValue={server?.latitude ?? ''} required />{errors('latitude')}</div>
         <div className="host-field"><label htmlFor="listing-longitude">Longitude</label><input {...inputProps('longitude')} type="number" step="any" min={-180} max={180} defaultValue={server?.longitude ?? ''} required />{errors('longitude')}</div>
-        <div className="host-field"><label htmlFor="listing-propertyType">Property type</label><select {...inputProps('propertyType')} defaultValue={server?.propertyType ?? 'apartment'}>{['apartment', 'studio', 'house', 'loft', 'room'].map(type => <option key={type} value={type}>{type[0]!.toUpperCase() + type.slice(1)}</option>)}</select>{errors('propertyType')}</div>
-        <div className="host-field"><label htmlFor="listing-maxGuests">Maximum guests</label><input {...inputProps('maxGuests')} type="number" min={1} max={12} step={1} defaultValue={server?.maxGuests ?? 1} required />{errors('maxGuests')}</div>
-        <div className="host-field"><label htmlFor="listing-bedrooms">Bedrooms</label><input {...inputProps('bedrooms')} type="number" min={0} max={20} step={1} defaultValue={server?.bedrooms ?? 0} required />{errors('bedrooms')}</div>
-        <div className="host-field"><label htmlFor="listing-pricePerNightCents">Price per night (€)</label><input {...inputProps('pricePerNightCents')} inputMode="decimal" defaultValue={priceInput(server?.pricePerNightCents)} required maxLength={16} /><p className="host-hint">EUR, with up to two decimal places.</p>{errors('pricePerNightCents')}</div>
+<div className="host-field-wide"><ListingLocationPreview {...location} /></div>
       </div><div className="host-actions"><button className="button-primary" type="submit">{server ? 'Save changes' : 'Create listing'}</button></div></fieldset>
     </form>
+    {dirty && <p className="host-hint">Save or discard your changes before archiving or restoring this listing.</p>}
     {server && <section className="host-archive" aria-labelledby="archive-heading"><h2 id="archive-heading">{server.archivedAt ? 'Restore listing' : 'Archive listing'}</h2>
       <p>{server.archivedAt ? 'Restoring makes this listing available on the public portal again.' : 'Archiving hides this listing from the public portal. You can restore it later.'}</p>
-      {confirmArchive ? <div className="host-confirm" role="group" aria-label="Confirm listing archive"><p>Existing active and future bookings remain unchanged and accessible to hosts. Saved listings remain in each account’s shortlist as unavailable.</p><div className="host-actions"><button className="button-secondary" disabled={busy} onClick={() => { void changeArchive(true); }}>Confirm archive</button><button className="button-secondary" disabled={busy} onClick={() => setConfirmArchive(false)}>Keep active</button></div></div>
+      {confirmArchive ? <div className="host-confirm" role="group" aria-label="Confirm listing archive"><p>Existing active and future bookings remain unchanged and accessible to hosts. Saved listings remain in each account’s shortlist as unavailable.</p><div className="host-actions"><button className="button-secondary" disabled={busy || dirty} onClick={() => { void changeArchive(true); }}>Confirm archive</button><button className="button-secondary" disabled={busy} onClick={() => setConfirmArchive(false)}>Keep active</button></div></div>
         : <button className="button-secondary" disabled={busy} onClick={() => server.archivedAt ? void changeArchive(false) : setConfirmArchive(true)}>{server.archivedAt ? 'Restore listing' : 'Archive listing'}</button>}
     </section>}
   </section>;

@@ -78,3 +78,14 @@ it('enforces CSRF and validates identifiers/unknown fields on administration mut
   await post(`${base}/${randomUUID()}/hosts`).send({ name: 'Host', email: `${randomUUID()}@example.test`, temporaryPassword }).expect(404);
   expect(h.logs.join('\n')).not.toContain(temporaryPassword);
 });
+
+it('reports tenant-wide summary counts without multiplying listings and users', async () => {
+  const expected = { activeListings: 1, archivedListings: 0, accounts: 2, enabledHosts: 1 };
+  const summary = await get(`${base}/${f.a.id}/summary`).expect(200);
+  expect(summary.body.counts).toEqual(expected);
+  const list = await get().query({ search: f.a.slug }).expect(200);
+  expect(list.body.items.find((item: { id: string }) => item.id === f.a.id).counts).toEqual(expected);
+  await h.db.admin.tenantUser.update({ where: { id: f.host.user.id }, data: { disabledAt: new Date() } });
+  expect((await get(`${base}/${f.a.id}/summary`).expect(200)).body.counts.enabledHosts).toBe(0);
+  await request(h.app.getHttpServer()).get(`${base}/${f.a.id}/summary`).set('Cookie', f.host.cookie).expect(401);
+});
