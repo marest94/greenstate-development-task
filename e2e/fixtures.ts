@@ -13,3 +13,12 @@ export async function provisionHostFixture(tenantId: string) {
   } finally { await pool.end(); }
   return { email, password };
 }
+export async function provisionPlatformFixture() {
+  const email = `browser-admin-${randomUUID()}@example.test`;
+  const password = `Temporary browser administrator ${randomUUID()}!`;
+  const passwordHash = await hash(password, { type: argon2id, memoryCost: 19456, timeCost: 2, parallelism: 1 });
+  const pool = new Pool({ connectionString: process.env.STACK_TEST_ADMIN_DATABASE_URL ?? 'postgresql://gs_admin:local-admin-only@127.0.0.1:54329/greenstate', max: 1 });
+  try { await pool.query('INSERT INTO platform_users (email, password_hash, must_change_password) VALUES ($1, $2, true)', [email, passwordHash]); }
+  finally { await pool.end(); }
+  return { email, password };
+}

@@ -2,9 +2,9 @@
 
 Fresh implementation of the GreenState accommodation rental challenge.
 
-Status: foundation, portal and identity tasks 1–7 are merged with successful GitHub CI. Private
-saved listings and host inventory management are implemented in the current milestone; calendar
-and administration workflows follow.
+Status: foundation, portal, identity, private saved listings and host inventory (tasks 1–9) are
+merged with successful GitHub CI. Calendar, booking history and platform administration are
+implemented in the current milestone; final security and release checks follow.
 
 ## Planning
 
@@ -12,7 +12,7 @@ and administration workflows follow.
 - [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
 
 Follow the 13-task plan, with one integration owner, bounded parallel work, and commits at
-verified task boundaries. Implementation currently covers tasks 1–9. The current milestone is saved listings and inventory management (tasks 8–9).
+verified task boundaries. Implementation currently covers tasks 1–11. The current milestone is calendar and administration (tasks 10–11).
 
 Use short-lived milestone branches, starting with `feat/foundation` for tasks 1–3.
 Parallel work uses `feat/task-<number>-<short-name>` branches/worktrees based on the active
@@ -96,7 +96,7 @@ database ownership matches Compose. `test:stack` verifies request-secret redacti
 nginx and the API, including proxy-generated errors. Set `COMPOSE_PROJECT_NAME` and
 `STACK_BASE_URL` if using a custom Compose project or port.
 
-For the portal, account, saved-list and host browser journeys, install Chromium once and use a running, seeded stack:
+For the portal, account, saved-list, host calendar and administration browser journeys, install Chromium once and use a running, seeded stack:
 
 ```sh
 npx playwright install chromium
@@ -106,10 +106,11 @@ npm run test:browser
 The journeys run in desktop and 375-pixel Chromium viewports. They cover filters, listing
 navigation, two-month availability, clearing dates, browser history, account registration, password
 changes, sign-in return paths, forced-password sessions, logout, cross-portal account isolation,
-private shortlists, and host create/edit/archive/restore.
+private shortlists, host create/edit/archive/restore, calendar blocks and booking history, tenant
+creation/deletion, host provisioning/disable/re-enable, client promotion and assisted password reset.
 Set `STACK_BASE_URL` for a nondefault web port. Browser checks create uniquely named test client
-accounts and host-owned listings in the running demo portals and leave supplied inventory intact.
-Host fixtures use the separate non-superuser `gs_admin` connection via
+accounts, tenants, listings and booking fixtures; they leave supplied inventory intact.
+Host and platform-admin fixtures use the separate non-superuser `gs_admin` connection via
 `STACK_TEST_ADMIN_DATABASE_URL` (default: the local example on port 54329). This setup runs only
 in the browser test process, never in the web app. Actual browser actions use the normal API. The forced-password
 journey expects unchanged initial host/admin demo credentials, so use a separate demo stack if
@@ -152,6 +153,45 @@ cannot be reduced below an active or future noncancelled booking's guest count. 
 public details while preserving bookings and saved entries; hosts can edit and restore archives.
 Saved mutations, archive actions and capacity changes use the same listing row lock after the
 shared live-tenant lock. Tests exercise both save/archive orderings under actual contention.
+
+Hosts open a listing’s **Calendar** to inspect historical and upcoming nights, add a block with
+an optional reason, or remove a block. Booked nights take precedence over blocks; checkout is
+exclusive and cancelled bookings occupy no nights. New blocks require an active listing and
+today or a future tenant business date, checked again after acquiring the listing lock. Existing
+blocks and booking history remain accessible after archiving. Booking history supports listing,
+imported-status, half-open date-range and page filters; imported status is displayed separately
+from the stay’s current date-derived period. Booking creation and editing are outside scope.
+
+Platform administrators sign in at `/admin/login` and open **Administration**. They can create
+and configure tenants, provision hosts, search account metadata, disable/re-enable hosts, reset
+client or host passwords, and explicitly promote clients. Every reset/promotion revokes old
+sessions and requires a first-login password change. Promotion retains the account and shortlist
+but replaces its password. Resetting a disabled host keeps it disabled. Administrators verify
+identity and deliver temporary passwords outside the application; there is no email subsystem.
+
+Deleting a tenant hides its portal, revokes its sessions and rejects subsequent writes while
+retaining accounts, listings, bookings, blocks and saved rows. Its slug stays reserved. Deletion
+and timezone changes take an exclusive tenant lock; ordinary writes take a shared live-tenant
+lock. Integration cases exercise both transaction orderings for identity, saved-list, listing,
+calendar and administrative mutations. Seed reruns preserve these lifecycle decisions.
+
+### Recover a platform administrator
+
+From the source checkout, export `RECOVERY_DATABASE_URL` with database-administration credentials
+(the schema-owning `gs_owner` role or a PostgreSQL superuser), then run:
+
+```sh
+npm run admin:recover -- --email admin@example.test
+```
+
+The command prompts for a new password with terminal echo disabled. Use 15–128 characters.
+The chosen password takes effect immediately and all old platform sessions are revoked. It
+recovers an existing account only; runtime `gs_app`/`gs_admin` credentials are insufficient.
+Keep this owner connection outside the runtime API/web configuration. The local development
+owner URL is documented as `MIGRATION_DATABASE_URL` in `.env.example`; explicitly supply it as
+`RECOVERY_DATABASE_URL` when recovering a local account. Password flags are rejected, failures
+are redacted, and no password/hash/token is printed. Controlled tests may provide the password
+via stdin. Do not put the replacement password in shell arguments or history.
 
 `infra/db/roles.sql` creates separate local migration (`gs_owner`), ordinary (`gs_app`), and
 privileged (`gs_admin`) credentials. The ordinary role cannot bypass forced row-level security,

@@ -26,7 +26,7 @@ const put = (id = f.listingA.id, owner = users[0]!) => request(app.getHttpServer
 const remove = (id = f.listingA.id, owner = users[0]!) => request(app.getHttpServer()).delete(path(id)).set(csrf).set('Cookie', owner.cookie);
 beforeAll(async () => {
   db = await createTestDatabase(1); passwordHash = await new Passwords().hash(password);
-  app = await createApp({ database: { ordinaryUrl: db.urls.app, privilegedUrl: db.urls.admin }, config: loadConfig({ APP_ORIGIN: origin }), clock: { now: () => now }, log: () => {} }); await app.init();
+  app = await createApp({ database: { ordinaryUrl: db.urls.app, privilegedUrl: db.urls.admin }, config: loadConfig({ APP_ORIGIN: origin }), clock: { now: () => now }, log: () => {} }); await app.listen(0);
 });
 beforeEach(async () => {
   now = new Date(now.getTime() + 16 * 60 * 1000);

@@ -77,6 +77,7 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
   return <section className="host-editor" aria-labelledby="listing-form-heading">
     <Link className="back-link" to={`${auth.basePath}/host/listings${server?.archivedAt ? '?status=archived' : ''}`}>Back to inventory</Link>
     <div className="host-heading"><div><p className="eyebrow">Host workspace</p><h1 id="listing-form-heading">{server ? 'Edit listing' : 'Create listing'}</h1><p>{server?.archivedAt ? 'Archived listings stay available here for editing and booking history.' : 'Listing details appear on your tenant’s public portal.'}</p></div>{server && <span className="host-badge">{server.archivedAt ? 'Archived' : 'Active'}</span>}</div>
+    {server && <nav className="host-calendar-links" aria-label="Listing navigation"><Link to={`${auth.basePath}/host/listings/${server.id}/calendar`}>Calendar</Link><Link to={`${auth.basePath}/host/bookings?listingId=${server.id}`}>Booking history</Link></nav>}
     {server && !server.archivedAt && <p><Link to={`${auth.basePath}/listings/${server.id}`}>View public listing</Link></p>}
     <FormFeedback problem={feedback.problem} />
     {feedback.problem?.code === 'STALE_VERSION' && <div className="host-conflict"><p>Your input has been kept. Reloading replaces it with the current saved fields.</p><button className="button-secondary" disabled={busy} onClick={() => { void reload(); }}>Reload current version</button></div>}
