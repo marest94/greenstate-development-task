@@ -1,3 +1,5 @@
+import { test as base, expect } from '@playwright/test';
+import { observeBrowserErrors } from './browser-errors.js';
 import { randomUUID } from 'node:crypto';
 import { Pool } from 'pg';
 import { hash, argon2id } from 'argon2';
@@ -22,3 +24,9 @@ export async function provisionPlatformFixture() {
   finally { await pool.end(); }
   return { email, password };
 }
+
+export const test = base.extend<{ browserErrors: string[] }>({
+  browserErrors: [async ({ page }, use) => {
+    const errors: string[] = []; observeBrowserErrors(page, errors); await use(errors); expect(errors).toEqual([]);
+  }, { auto: true }],
+});

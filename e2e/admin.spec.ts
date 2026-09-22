@@ -1,32 +1,24 @@
 import { randomUUID } from 'node:crypto';
-import { test, expect, type Page } from '@playwright/test';
-import { provisionPlatformFixture } from './fixtures.js';
-async function login(page: Page, scope: string, email: string, password: string) {
- await page.goto(`/${scope}/login`); await page.getByLabel('Email', { exact: true }).fill(email); await page.getByLabel('Password', { exact: true }).fill(password); await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-}
-async function changePassword(page: Page, current: string, replacement: string, scope: string) {
- await expect(page).toHaveURL(new RegExp(`/${scope}/password`)); await page.getByLabel('Current password', { exact: true }).fill(current); await page.getByLabel('New password', { exact: true }).fill(replacement); await page.getByRole('button', { name: 'Change password', exact: true }).click(); await expect(page).toHaveURL(new RegExp(`/${scope}/account$`));
-}
-async function administrator(page: Page) {
- const account = await provisionPlatformFixture(); await login(page, 'admin', account.email, account.password); await changePassword(page, account.password, `Changed administrator ${randomUUID()}!`, 'admin'); await page.getByRole('link', { name: 'Administration', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Tenants', exact: true })).toBeVisible();
-}
-async function register(page: Page, email: string, password: string) {
- await page.goto('/greenstate/register'); await page.getByLabel('Email', { exact: true }).fill(email); await page.getByLabel('Password', { exact: true }).fill(password); await page.getByRole('button', { name: 'Create account', exact: true }).click(); await expect(page).toHaveURL(/\/greenstate\/account$/);
-}
+import { expect, type Page } from '@playwright/test';
+import { test } from './fixtures.js';
+import { administrator, changePassword, login, register } from './auth-helpers.js';
+import { observeBrowserErrors } from './browser-errors.js';
 async function searchAccount(page: Page, email: string) {
  await page.getByLabel('Search account email', { exact: true }).fill(email); await page.getByRole('button', { name: 'Apply filters', exact: true }).click(); const row = page.getByRole('row').filter({ hasText: email }); await expect(row).toBeVisible(); return row;
 }
-test('platform admin creates a tenant and host, controls access, and preserves records when deleting the tenant', async ({ page, browser, baseURL }, testInfo) => {
- test.setTimeout(90000); const errors: string[] = []; page.on('pageerror', e => errors.push(e.message)); await administrator(page);
+test('platform admin creates a tenant and host, controls access, and preserves records when deleting the tenant', async ({ page, browser, baseURL, browserErrors }, testInfo) => {
+ test.setTimeout(90000); const errors = browserErrors; await administrator(page);
  const slug = `browser-${randomUUID()}`; const name = `Browser tenant ${randomUUID()}`; const hostEmail = `new-host-${randomUUID()}@example.test`; const temp = `Temporary new host ${randomUUID()}!`; const changed = `Changed new host ${randomUUID()}!`; const title = `A home in ${name}`;
  await page.getByRole('link', { name: 'Create tenant', exact: true }).last().click(); await page.getByLabel('Tenant name', { exact: true }).fill(name); await page.getByLabel('Portal slug', { exact: true }).fill(slug); await page.getByLabel('Business time zone', { exact: true }).fill('Europe/Berlin'); await page.getByLabel('Brand colour', { exact: true }).fill('#145C43'); await page.getByRole('button', { name: 'Create tenant', exact: true }).click();
  await expect(page.getByLabel('Portal slug', { exact: true })).toHaveAttribute('readonly', ''); const tenantId = new URL(page.url()).pathname.split('/').at(-1)!; await page.getByRole('link', { name: 'Manage accounts', exact: true }).click();
  await page.getByRole('button', { name: 'Create host', exact: true }).click(); await page.getByLabel('Host name', { exact: true }).fill('Browser host'); await page.getByLabel('Email address', { exact: true }).fill(hostEmail); await page.getByLabel('Temporary password', { exact: true }).fill(temp); await page.getByLabel(/I verified.*identity/).check(); await page.getByRole('button', { name: 'Create host account', exact: true }).click(); await expect(page.getByText(/Host created\./)).toBeVisible(); await expect(page.getByLabel('Temporary password', { exact: true })).not.toBeVisible();
- const context = await browser.newContext({ baseURL, viewport: page.viewportSize() }); const host = await context.newPage(); host.on('pageerror', e => errors.push(e.message));
+ const context = await browser.newContext({ baseURL, viewport: page.viewportSize() }); const host = await context.newPage(); observeBrowserErrors(host, errors);
  try {
   await login(host, slug, hostEmail, temp); await changePassword(host, temp, changed, slug); await host.getByRole('link', { name: 'Host workspace', exact: true }).click(); await host.getByRole('link', { name: 'Create listing', exact: true }).click();
   for (const [label, value] of Object.entries({ Title: title, Description: 'Created through tenant administration.', City: 'Berlin', 'Country code': 'DE', Latitude: '52.52', Longitude: '13.4', 'Maximum guests': '2', Bedrooms: '1', 'Price per night (€)': '95.00' })) await host.getByLabel(label, { exact: true }).fill(value);
   await host.getByRole('button', { name: 'Create listing', exact: true }).click(); await expect(host.getByRole('heading', { name: 'Edit listing', exact: true })).toBeVisible(); const listingId = new URL(host.url()).pathname.split('/').at(-1)!;
+  const visitorContext = await browser.newContext({ baseURL, viewport: page.viewportSize() }); const visitor = await visitorContext.newPage(); observeBrowserErrors(visitor, browserErrors);
+  try { await visitor.goto(`/${slug}`); await expect(visitor.getByRole('link', { name: title, exact: true })).toBeVisible(); await visitor.goto('/citystays'); await expect(visitor.getByRole('link', { name: title, exact: true })).toHaveCount(0); expect((await visitor.request.get(`/api/v1/t/citystays/listings/${listingId}`)).status()).toBe(404); } finally { await visitorContext.close(); }
   await host.getByRole('link', { name: 'View public listing', exact: true }).click(); await expect(host.getByRole('heading', { name: title, exact: true })).toBeVisible();
   const row = page.getByRole('row').filter({ hasText: hostEmail }); await row.getByRole('button', { name: 'Disable', exact: true }).click(); await expect(page.getByText(/entire tenant account will be disabled/)).toBeVisible(); await page.getByRole('button', { name: 'Confirm disable', exact: true }).click(); await expect(row.getByRole('button', { name: 'Re-enable', exact: true })).toBeVisible();
   expect((await host.request.get(`/api/v1/t/${slug}/auth/me`)).status()).toBe(401); await host.goto(`/${slug}/host/listings`); await expect(host).toHaveURL(new RegExp(`/${slug}/login`));
@@ -39,9 +31,9 @@ test('platform admin creates a tenant and host, controls access, and preserves r
  } finally { await context.close(); }
  expect(errors).toEqual([]);
 });
-test('admin explicitly promotes a client with saved listings and assists another client with a password reset', async ({ page, browser, baseURL }, testInfo) => {
+test('admin explicitly promotes a client with saved listings and assists another client with a password reset', async ({ page, browser, baseURL, browserErrors }, testInfo) => {
  test.setTimeout(90000); await administrator(page); const tenant = await (await page.request.get('/api/v1/t/greenstate')).json(); await page.goto(`/admin/tenants/${tenant.id}/accounts`);
- const context = await browser.newContext({ baseURL, viewport: page.viewportSize() }); const client = await context.newPage(); const email = `promote-client-${randomUUID()}@example.test`; const original = `Original client ${randomUUID()}!`; const temp = `Promotion temporary ${randomUUID()}!`;
+ const context = await browser.newContext({ baseURL, viewport: page.viewportSize() }); const client = await context.newPage(); observeBrowserErrors(client, browserErrors); const email = `promote-client-${randomUUID()}@example.test`; const original = `Original client ${randomUUID()}!`; const temp = `Promotion temporary ${randomUUID()}!`;
  try {
   await register(client, email, original); const listings = await (await client.request.get('/api/v1/t/greenstate/listings?pageSize=1')).json(); const listing = listings.items[0]; await client.goto(`/greenstate/listings/${listing.id}`); await client.getByRole('button', { name: `Save ${listing.title}`, exact: true }).click(); await expect(client.getByRole('button', { name: `Remove ${listing.title} from saved listings`, exact: true })).toBeVisible();
   let row = await searchAccount(page, email); await row.getByRole('button', { name: 'Promote to host', exact: true }).click(); await expect(page.getByText(/Promotion grants host permissions/)).toBeVisible(); await page.getByLabel('Temporary password', { exact: true }).fill(temp); await page.getByLabel(/I verified.*identity/).check(); await page.getByRole('button', { name: 'Confirm promotion', exact: true }).click(); await expect(page.getByText(/Client promoted\./)).toBeVisible(); expect((await client.request.get('/api/v1/t/greenstate/auth/me')).status()).toBe(401);

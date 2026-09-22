@@ -19,6 +19,7 @@ function ScopedAuthProvider({ scope, children }: { scope: AuthScope; children: R
   const apiPath = scope.realm === 'tenant' ? `/t/${scope.slug}/auth` : '/admin/auth';
   const [principal, setPrincipal] = useState<Principal | null>(null); const [isLoading, setLoading] = useState(true);
   const [isPending, setPending] = useState(false); const [error, setError] = useState<Error | null>(null);
+  const currentPrincipal = useRef<Principal | null>(null);
   const alive = useRef(false); const generation = useRef(0); const busy = useRef(false); const lookup = useRef<AbortController | null>(null);
   const clearPrivate = useCallback(() => {
     const matches = (key: QueryKey | undefined) => key?.[0] === 'private' && key[1] === scope.realm && key[2] === tenantId;
@@ -28,13 +29,19 @@ function ScopedAuthProvider({ scope, children }: { scope: AuthScope; children: R
     for (const mutation of client.getMutationCache().getAll()) if (matches(mutation.options.mutationKey)) client.getMutationCache().remove(mutation);
   }, [client, scope.realm, tenantId]);
   const replace = useCallback((next: Principal | null) => {
-    generation.current++; clearPrivate(); setPrincipal(next); setLoading(false); setError(null);
+    // A routine focus check must not discard an unchanged account’s editing views or
+    // suppress a concurrent private401. Explicit mutations already advance the generation.
+    if (!next || JSON.stringify(next) !== JSON.stringify(currentPrincipal.current)) {
+      generation.current++; clearPrivate(); currentPrincipal.current = next; setPrincipal(next);
+    }
+    setLoading(false); setError(null);
   }, [clearPrivate]);
   const validateScope = useCallback((next: Principal) => {
     if (next.realm !== scope.realm || next.tenantId !== tenantId) throw new ApiProblem({ status: 200, code: 'INVALID_RESPONSE', message: 'The account response does not match this portal.', requestId: '' });
     return next;
   }, [scope.realm, tenantId]);
   const refresh = useCallback(async () => {
+    if (busy.current) return;
     lookup.current?.abort(); const controller = new AbortController(); lookup.current = controller;
     const version = generation.current;
     try {
@@ -43,9 +50,9 @@ function ScopedAuthProvider({ scope, children }: { scope: AuthScope; children: R
     } catch (problem) {
       if (!alive.current || version !== generation.current || controller.signal.aborted) return;
       if (problem instanceof ApiProblem && problem.status === 401) replace(null);
-      else { setLoading(false); setError(problem instanceof Error ? problem : new Error('The account could not be loaded.')); }
+      else { clearPrivate(); setLoading(false); setError(problem instanceof Error ? problem : new Error('The account could not be loaded.')); }
     }
-  }, [apiPath, replace, validateScope]);
+  }, [apiPath, clearPrivate, replace, validateScope]);
   useEffect(() => {
     alive.current = true;
     const unsubscribe = subscribeAuthenticationProblems(path => {
@@ -57,8 +64,11 @@ function ScopedAuthProvider({ scope, children }: { scope: AuthScope; children: R
         if (problem.status === 401) replace(null); else { clearPrivate(); void refresh(); }
       };
     });
+    const onFocus = () => { if (document.visibilityState === 'visible') void refresh(); };
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', onFocus);
     void refresh();
-    return () => { alive.current = false; generation.current++; lookup.current?.abort(); unsubscribe(); clearPrivate(); };
+    return () => { window.removeEventListener('focus', onFocus); document.removeEventListener('visibilitychange', onFocus); alive.current = false; generation.current++; lookup.current?.abort(); unsubscribe(); clearPrivate(); };
   }, [apiPath, clearPrivate, refresh, replace]);
   const mutate = useCallback(async (action: 'login' | 'register' | 'password', input: LoginInput | PasswordChangeInput) => {
     if (busy.current) throw new ApiProblem({ status: 409, code: 'REQUEST_PENDING', message: 'Please wait for the current request to finish.', requestId: '' });
@@ -79,7 +89,7 @@ function ScopedAuthProvider({ scope, children }: { scope: AuthScope; children: R
     finally { busy.current = false; if (alive.current) { setPending(false); setLoading(false); } }
   }, [apiPath, clearPrivate, replace]);
   const value: AuthContext = { scope, principal, isLoading, isPending, error, basePath, apiPath,
-    privateKey: principal && !principal.mustChangePassword && !isPending ? ['private', scope.realm, tenantId, principal.id] : null,
+    privateKey: principal && !principal.mustChangePassword && !isPending && !error ? ['private', scope.realm, tenantId, principal.id] : null,
     login: input => mutate('login', input), register: input => mutate('register', input), changePassword: input => mutate('password', input), logout, refresh };
   return <Auth.Provider value={value}>{children}</Auth.Provider>;
 }

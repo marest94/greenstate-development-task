@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test } from './fixtures.js';
+import { expect } from '@playwright/test';
 import { ListingPageSchema } from '@greenstate/contracts';
 const plusDays = (date: string, count: number) => new Date(Date.parse(`${date}T00:00:00Z`) + count * 86_400_000).toISOString().slice(0, 10);
 const monthLabel = (date: string) => new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));

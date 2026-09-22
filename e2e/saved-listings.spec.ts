@@ -1,5 +1,6 @@
+import { test } from './fixtures.js';
 import { randomUUID } from 'node:crypto';
-import { test, expect, type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 const password = 'A saved-list browser password 2026!';
 async function register(page: Page, email: string) {
   await page.goto('/greenstate/register'); await page.getByLabel('Email', { exact: true }).fill(email); await page.getByLabel('Password', { exact: true }).fill(password);

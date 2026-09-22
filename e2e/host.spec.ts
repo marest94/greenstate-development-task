@@ -1,7 +1,8 @@
+import { observeBrowserErrors } from './browser-errors.js';
 import { randomUUID } from 'node:crypto';
-import { test, expect } from '@playwright/test';
-import { provisionHostFixture } from './fixtures.js';
-test('first-login host creates, edits, archives, rediscovers and restores inventory with a client shortlist', async ({ page, browser, baseURL }, testInfo) => {
+import { expect } from '@playwright/test';
+import { test, provisionHostFixture } from './fixtures.js';
+test('first-login host creates, edits, archives, rediscovers and restores inventory with a client shortlist', async ({ page, browser, baseURL, browserErrors }, testInfo) => {
   const tenant = await (await page.request.get('/api/v1/t/greenstate')).json();
   const host = await provisionHostFixture(tenant.id); const title = `000 Browser home ${randomUUID()}`; const revised = `${title} updated`;
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
@@ -19,7 +20,7 @@ test('first-login host creates, edits, archives, rediscovers and restores invent
   await page.getByLabel('Title', { exact: true }).fill(revised); await page.getByRole('button', { name: 'Save changes', exact: true }).click();
   await expect(page.getByText('Listing changes saved.', { exact: true })).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath('host-listing.png'), fullPage: true });
-  const clientContext = await browser.newContext({ baseURL }); const client = await clientContext.newPage();
+  const clientContext = await browser.newContext({ baseURL }); const client = await clientContext.newPage(); observeBrowserErrors(client, browserErrors);
   try {
     await client.goto('/greenstate/register'); await client.getByLabel('Email', { exact: true }).fill(`host-shortlist-${randomUUID()}@example.test`); await client.getByLabel('Password', { exact: true }).fill('A client shortlist password 2026!');
     await client.getByRole('button', { name: 'Create account', exact: true }).click(); await expect(client).toHaveURL(/\/greenstate\/account$/);
