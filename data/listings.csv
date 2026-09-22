@@ -1,0 +1,1001 @@
+id,title,city,country,latitude,longitude,property_type,max_guests,bedrooms,price_per_night_cents,currency,rating,review_count,created_at
+128699a9-d81d-4217-b143-21d21169ed25,Rooftop apartment near the main square,Lisbon,PT,38.750054,-9.20119,apartment,3,2,12000,EUR,4.2,64,2025-08-22
+2163dff7-ae04-4f79-8e16-55f932d07f04,Minimal studio near the park,Vienna,AT,48.199466,16.440929,studio,3,0,14500,EUR,4.7,113,2024-10-31
+02143690-0e71-4694-8e59-e017bbef53d4,Minimal apartment near the museum,Amsterdam,NL,52.350699,4.912497,apartment,5,2,22500,EUR,4.0,23,2026-04-21
+b873136b-2ec9-4edb-b4de-c0c03f930998,Garden studio near the cathedral,Berlin,DE,52.550827,13.474027,studio,3,0,12500,EUR,4.2,56,2025-08-02
+621fa899-66ee-4346-b774-848fa50b3686,Spacious apartment near the river,Zagreb,HR,45.795403,16.022098,apartment,5,2,8000,EUR,3.9,117,2024-10-08
+f16fb221-cd60-4620-942b-6472127546d5,Historic apartment near the harbour,Zagreb,HR,45.799674,15.950691,apartment,5,2,8500,EUR,4.5,167,2023-12-11
+3f18df96-c7ca-4606-82df-d0ee6fe67967,Cosy apartment near the harbour,Barcelona,ES,41.368652,2.096998,apartment,3,1,14000,EUR,5.0,122,2024-09-08
+a4815b49-03f6-4143-9ffe-9cfd84ca26a5,Quiet loft near the university,Lisbon,PT,38.681913,-9.085998,loft,3,1,8500,EUR,4.5,147,2023-08-22
+f37e9d57-9000-4181-b202-dc3b6330c627,Quiet apartment near the river,Belgrade,RS,44.839992,20.444078,apartment,3,2,7000,EUR,4.7,105,2024-12-19
+02590860-b4b5-4082-b685-a4b24360a380,Modern apartment near the university,Barcelona,ES,41.425446,2.216903,apartment,3,2,15000,EUR,4.8,6,2026-08-04
+78b9de6d-1142-49c7-bc48-712244934fac,Spacious loft near the university,Ljubljana,SI,46.071115,14.568439,loft,4,2,7000,EUR,3.9,128,2024-07-31
+dd9fcc70-4444-4c87-9ed9-b1f53f2abc4d,Rooftop apartment near the museum,Belgrade,RS,44.772692,20.385474,apartment,1,1,6000,EUR,4.6,105,2024-12-15
+ecc26941-834e-4de2-b5b9-9fdbe3cb81b3,Historic room near the museum,Prague,CZ,50.123363,14.380112,room,2,1,4500,EUR,4.9,67,2025-07-31
+cfc8fe69-da23-4156-84c4-ebf2145eeef1,Riverside loft near the market,Berlin,DE,52.489518,13.442248,loft,4,2,10500,EUR,4.9,133,2024-07-03
+480dd6d5-29c3-4063-85c7-b61ffc0bbe51,Bright house near the river,Zagreb,HR,45.857733,15.932547,house,7,3,8000,EUR,4.3,105,2024-12-15
+f575d0af-4779-4d5b-a658-f74d6af4b1ee,Charming apartment near the museum,Amsterdam,NL,52.363856,4.960319,apartment,3,1,16500,EUR,4.0,52,2025-10-30
+0b749f83-aee1-4a62-9eed-7f0610c1c8e6,Garden house near old town,Budapest,HU,47.516943,18.968451,house,4,2,13500,EUR,5.0,65,2025-08-16
+b388f32b-5468-422a-8c5f-8b11313c5284,Modern room near old town,Amsterdam,NL,52.399367,4.912913,room,1,1,8000,EUR,4.2,105,2024-12-19
+cffe1663-a25c-4748-9906-0605c058f06f,Charming house near old town,Zagreb,HR,45.813065,15.937382,house,8,4,14500,EUR,4.6,59,2025-09-21
+8460ae19-3b43-4acd-9645-b08e3c6c58ab,Riverside loft near the park,Budapest,HU,47.533012,19.045502,loft,5,2,7500,EUR,,0,2025-11-28
+9431100b-eb33-43c7-9db6-d96b0686ac8c,Bright apartment near the market,Prague,CZ,50.124379,14.479458,apartment,5,2,12500,EUR,4.5,133,2024-07-05
+c9edb9fd-6e42-4e34-88be-eb9d1d39f139,Minimal house near the harbour,Berlin,DE,52.483188,13.445009,house,8,4,19000,EUR,4.1,84,2025-04-21
+3ff0e90d-2228-4b4c-84d8-2cf4bc5d4f50,Sunny house near the university,Zagreb,HR,45.760065,15.952172,house,8,3,9500,EUR,5.0,107,2024-12-04
+3a175dc2-05be-4e08-b630-31d77fc162dd,Bright apartment near the market,Barcelona,ES,41.381198,2.147945,apartment,1,1,11000,EUR,3.2,147,2024-04-07
+92af8e7d-dcd9-4747-89f7-675017b5e28e,Bright studio near the cathedral,Prague,CZ,50.066349,14.502473,studio,3,0,10500,EUR,3.9,97,2025-02-05
+d8bfadc0-ddab-41a1-8994-376dd505ca39,Bright apartment near the market,Zagreb,HR,45.845601,15.918138,apartment,5,3,10000,EUR,3.6,8,2026-07-20
+dba8afdd-e5ff-4ee8-8d15-fffebd4ff7d6,Warm studio near old town,Novi Sad,RS,45.221294,19.900297,studio,3,0,5000,EUR,4.3,191,2023-07-19
+a6e4dd2e-bf98-4a5d-9051-b0cdc5fab149,Sunny room near the river,Belgrade,RS,44.739207,20.430274,room,1,1,2500,EUR,4.8,125,2024-08-17
+16b3987a-83d8-4b00-a499-ff30eff7c4af,Cosy loft near the river,Barcelona,ES,41.397511,2.13719,loft,6,3,18500,EUR,4.1,75,2025-06-13
+c4e71acc-c99a-4d54-b1d6-c64ebfc8a9d4,Airy apartment near the main square,Budapest,HU,47.467701,19.093795,apartment,5,2,10500,EUR,5.0,23,2026-04-24
+8f9faab2-ccbb-4446-b196-73b06d504495,Riverside studio near the market,Prague,CZ,50.050831,14.400405,studio,2,0,12500,EUR,4.1,49,2025-11-16
+e5865075-0b75-4460-9e03-36198aeeb2ac,Quiet apartment near the main square,Budapest,HU,47.460951,19.097831,apartment,6,3,8000,EUR,4.2,40,2026-01-11
+bb574bbd-6b28-4ef8-a88d-7de285298205,Cosy studio near the museum,Barcelona,ES,41.383762,2.139352,studio,3,0,22000,EUR,5.0,143,2024-05-05
+5c74cdd5-4ead-4ce9-8682-a5564e846f57,Charming loft near the cathedral,Barcelona,ES,41.429262,2.160328,loft,5,3,15000,EUR,3.7,31,2026-03-06
+083e2a4a-c1d7-4235-8485-ba4f9d6eb066,Spacious apartment near the museum,Vienna,AT,48.173765,16.443126,apartment,6,3,15500,EUR,4.1,13,2026-06-22
+eb253728-644e-4216-ab20-88a2844c34fd,Sunny apartment near the cathedral,Prague,CZ,50.095025,14.375277,apartment,4,2,7500,EUR,4.1,105,2023-11-08
+57af67ff-066e-41ca-b049-158c254c55bf,Charming house near the cathedral,Zagreb,HR,45.790356,15.949266,house,6,2,13500,EUR,4.4,111,2024-03-14
+7f97f6c4-ea56-4b3c-afa8-141f9a45525b,Warm apartment near the station,Belgrade,RS,44.737827,20.414574,apartment,6,3,8000,EUR,4.7,91,2024-02-19
+02bbf55b-c700-4c75-aea9-da9786df53f8,Warm apartment near old town,Zagreb,HR,45.761386,16.032045,apartment,1,1,6500,EUR,4.6,101,2023-10-20
+eefe74ab-7924-4925-ba92-cc3287df49cf,Cosy house near the harbour,Prague,CZ,50.098622,14.443689,house,7,3,13000,EUR,3.9,19,2026-05-19
+5b884f18-15af-404c-8556-c027667cb53d,Riverside studio near the cathedral,Berlin,DE,52.509695,13.384177,studio,2,0,12500,EUR,3.9,52,2025-10-30
+5f8d5f93-f057-47fd-8048-b095f5314ac5,Historic apartment near the harbour,Prague,CZ,50.089823,14.429857,apartment,7,3,7500,EUR,4.3,65,2024-07-22
+71e8c7e8-8ade-41ec-b3ca-91e357c2b045,Spacious apartment near the market,Vienna,AT,48.258876,16.406183,apartment,7,3,11000,EUR,3.9,179,2023-09-28
+540196f5-7b65-49ef-9e85-dcacece862f4,Quiet house near the station,Barcelona,ES,41.409975,2.120705,house,11,5,27000,EUR,4.0,95,2025-02-17
+93312dfa-4c36-4780-a81f-9740fc36f5a8,Cosy house near the river,Barcelona,ES,41.375233,2.231654,house,8,3,16000,EUR,3.9,26,2026-04-04
+c3995a42-9647-48f1-a787-3f162180ebeb,Sunny apartment near the cathedral,Budapest,HU,47.539534,18.99992,apartment,2,1,6500,EUR,,0,2024-05-04
+2d77fc49-4513-4a63-89d5-080bd717401c,Rooftop loft near the university,Berlin,DE,52.561136,13.375711,loft,2,1,16000,EUR,5.0,136,2024-06-12
+34aa0417-3a25-4646-a13a-7baeb9af2af0,Garden studio near the main square,Novi Sad,RS,45.277772,19.908086,studio,2,0,6500,EUR,,0,2025-10-19
+bdf766e9-bf52-43d1-b501-bb16adfd10ce,Historic apartment near the harbour,Prague,CZ,50.094182,14.493164,apartment,3,1,7000,EUR,4.4,101,2025-01-03
+03a2d863-e675-49db-a97a-9eb28b85b4d1,Cosy apartment near the market,Ljubljana,SI,46.058486,14.539057,apartment,4,2,6500,EUR,3.6,63,2025-08-29
+32e9bddc-0946-4062-90ad-586f6dd99823,Airy loft near the river,Zagreb,HR,45.820691,16.036077,loft,7,3,7000,EUR,3.6,11,2026-07-03
+adabfc79-b678-4fe9-b528-d88b56f30d65,Rooftop apartment near the cathedral,Budapest,HU,47.541124,19.040901,apartment,4,2,9500,EUR,3.7,118,2024-10-03
+1b1c0381-e49c-4ef0-aa00-eac2309413ef,Spacious studio near the park,Lisbon,PT,38.743177,-9.213083,studio,3,0,13000,EUR,4.7,159,2024-01-29
+0e724d33-4f3c-4a6c-b5a4-d24d67e81afa,Riverside apartment near the cathedral,Prague,CZ,50.090359,14.365398,apartment,4,2,10000,EUR,4.9,127,2024-08-10
+eb0a8f78-395d-4072-96be-f8d9077b4f0e,Airy loft near the park,Budapest,HU,47.508803,18.97995,loft,2,1,7000,EUR,,0,2025-07-07
+443ce904-7b4c-41ea-a764-665078878f8f,Sunny loft near the park,Budapest,HU,47.492534,19.06555,loft,5,3,9000,EUR,3.7,172,2023-11-13
+ed5e3212-a97e-4315-86a7-be92d2809da8,Historic room near old town,Budapest,HU,47.456608,18.965472,room,1,1,3500,EUR,4.4,190,2023-07-25
+3c0a458f-501d-4a28-a41e-b4846f5ea076,Sunny studio near the museum,Belgrade,RS,44.767869,20.389471,studio,3,0,6500,EUR,4.2,85,2025-04-16
+0dfad089-3832-4f59-af99-8c2f5aa9f33b,Riverside apartment near the market,Amsterdam,NL,52.365961,4.969201,apartment,4,2,17500,EUR,4.2,147,2024-04-12
+6b7c06d2-da73-423e-868d-0999fabf249b,Sunny studio near the park,Belgrade,RS,44.831058,20.397852,studio,3,0,6000,EUR,3.7,49,2025-03-12
+923c19dd-cf2d-40f9-9e6d-ea52565cd736,Quiet room near the museum,Vienna,AT,48.25346,16.31674,room,1,1,6500,EUR,,0,2024-05-12
+4c577959-6743-431f-9be1-bea9b100a6b6,Garden house near the station,Belgrade,RS,44.767364,20.387536,house,4,2,8000,EUR,4.0,5,2026-08-12
+74cfa93b-3a36-4582-8dc2-8ad45ad6e782,Spacious room near the market,Ljubljana,SI,46.025777,14.463458,room,2,1,4500,EUR,4.2,11,2024-02-06
+ba04b4e6-306a-4b95-8ff1-c717063ccf4f,Spacious apartment near the cathedral,Belgrade,RS,44.792354,20.423922,apartment,3,2,5000,EUR,4.2,178,2023-10-08
+322b610a-6d26-41ad-996a-f0a2327c616d,Historic house near the museum,Barcelona,ES,41.359975,2.096788,house,7,3,17500,EUR,3.9,152,2024-03-08
+3b7fa01c-2039-4370-b2ef-bc599bf98f34,Garden apartment near the market,Vienna,AT,48.202764,16.421989,apartment,1,1,9000,EUR,4.7,89,2024-04-02
+7c1b13c0-ea64-4edc-bbd2-8161eff8a5e8,Cosy apartment near the museum,Belgrade,RS,44.739792,20.413358,apartment,6,3,3500,EUR,3.6,33,2025-11-13
+f6bbff1b-b58b-4c98-8702-6171fa843feb,Riverside studio near the cathedral,Vienna,AT,48.186402,16.397873,studio,2,0,18000,EUR,3.9,9,2026-07-14
+b076ac34-93b5-4d78-afeb-97691d893434,Minimal apartment near the park,Lisbon,PT,38.694191,-9.164211,apartment,7,3,9500,EUR,4.1,74,2023-08-16
+7180e27c-9fdd-46ea-80e0-818e42cce927,Sunny apartment near the harbour,Ljubljana,SI,46.067139,14.458796,apartment,3,1,8500,EUR,4.0,166,2023-12-20
+1fa60659-0760-48f9-8a10-cac64221f0a3,Spacious studio near the market,Belgrade,RS,44.739828,20.429429,studio,3,0,5500,EUR,3.7,40,2024-07-15
+cb0438fe-d949-4437-bad1-9cbd0f611c83,Cosy apartment near the museum,Budapest,HU,47.520234,19.032539,apartment,3,2,7000,EUR,4.0,18,2026-05-21
+ac18e54d-e2b6-44b1-8197-d7f1c97eb393,Airy loft near the cathedral,Lisbon,PT,38.726902,-9.065575,loft,5,3,13000,EUR,4.3,48,2025-11-24
+76816d50-5507-410f-86d4-589dcbb65bba,Rooftop loft near the harbour,Vienna,AT,48.1569,16.381307,loft,1,1,11000,EUR,4.9,73,2025-06-30
+04682450-1d28-45ca-a093-e28f2a705ce0,Rooftop apartment near the market,Budapest,HU,47.536429,19.080939,apartment,1,1,8000,EUR,4.7,15,2026-06-13
+68fd00ac-a8db-457d-8bb7-5afcad604bbf,Minimal apartment near the university,Belgrade,RS,44.735184,20.401097,apartment,1,1,3500,EUR,4.0,165,2023-12-25
+5c8e5209-bc7a-4970-a81f-548b481dc1b4,Sunny loft near the museum,Vienna,AT,48.259515,16.376581,loft,5,3,12500,EUR,3.8,20,2026-05-10
+01abed65-dce5-45ae-8765-67d84185f9d6,Airy studio near old town,Belgrade,RS,44.77083,20.380393,studio,2,0,7000,EUR,5.0,82,2025-05-04
+e114e0e4-1607-4e0a-a447-cb98b8c4def9,Rooftop house near the market,Belgrade,RS,44.78737,20.496013,house,4,2,9500,EUR,4.4,41,2026-01-04
+9f08b337-c56e-433e-a412-f904c28a2652,Rooftop house near the park,Prague,CZ,50.052,14.376825,house,6,3,11000,EUR,4.7,139,2024-05-30
+550fa639-ae63-477e-a1e8-cd392407c339,Central apartment near the main square,Ljubljana,SI,46.019919,14.495282,apartment,4,2,9000,EUR,4.6,63,2025-08-25
+d76ce97e-27a0-45e6-a3ed-943b191ce174,Warm apartment near the station,Zagreb,HR,45.861006,16.008181,apartment,2,1,11000,EUR,4.7,26,2026-04-06
+7dd33244-6181-4dc1-9cd2-5482fde41f26,Spacious apartment near the park,Belgrade,RS,44.761288,20.378146,apartment,1,1,4000,EUR,4.4,8,2026-07-20
+256e64f1-73f1-4739-ac16-301e871ec831,Riverside apartment near the harbour,Amsterdam,NL,52.408983,4.924587,apartment,3,1,15000,EUR,4.6,141,2024-05-16
+e8047f25-1e4e-4d66-8535-4043e5af191b,Riverside studio near the river,Vienna,AT,48.234408,16.304743,studio,3,0,12500,EUR,4.1,19,2024-02-21
+6aff3ad9-2271-48d9-aded-0a0143c7d24f,Airy apartment near the main square,Lisbon,PT,38.671571,-9.161771,apartment,3,2,16000,EUR,,0,2024-06-25
+a9e6703a-36d0-4d8f-aa85-9582e61f6106,Riverside apartment near the park,Amsterdam,NL,52.375555,4.892848,apartment,6,3,20500,EUR,4.4,17,2024-03-26
+4aa084f6-aab6-441f-8375-df119db21015,Sunny loft near the park,Ljubljana,SI,46.06866,14.505607,loft,3,1,8000,EUR,3.6,5,2026-08-09
+ea2f29c9-db0e-4727-93e5-071561457a2f,Bright studio near the park,Belgrade,RS,44.783334,20.482403,studio,2,0,4000,EUR,3.8,14,2026-06-14
+9440a61a-1285-4673-ab73-a32e13a281bd,Rooftop studio near the cathedral,Belgrade,RS,44.754624,20.491867,studio,3,0,5000,EUR,,0,2024-01-17
+1450a221-fa3c-421b-b2c5-923b9c9d8b70,Quiet house near the market,Belgrade,RS,44.739405,20.496441,house,10,5,9500,EUR,4.6,49,2025-11-19
+7be014e9-823b-4a13-be70-47d45606d679,Warm studio near the cathedral,Vienna,AT,48.238072,16.433375,studio,3,0,18000,EUR,4.1,149,2024-03-26
+c7f0001b-59e5-44bf-ba6f-a5bbde2c6a41,Modern apartment near the station,Novi Sad,RS,45.216557,19.895661,apartment,6,3,5500,EUR,4.6,96,2023-11-10
+8854a655-f992-4dfa-8f87-0a64f3b2f630,Spacious apartment near the harbour,Budapest,HU,47.448744,19.027128,apartment,5,2,5000,EUR,4.2,145,2024-04-24
+9d53bf3a-64e9-42e1-bee5-1c869607f5bf,Bright apartment near old town,Amsterdam,NL,52.381984,4.833169,apartment,4,2,13000,EUR,4.6,133,2024-07-01
+5af445b5-6526-427b-a75a-41849c5621e2,Riverside room near the museum,Zagreb,HR,45.81286,16.008636,room,2,1,4000,EUR,,0,2024-08-28
+a298a9f3-e0b4-4a50-bd21-69425b769465,Riverside apartment near the cathedral,Zagreb,HR,45.77788,16.02154,apartment,2,1,6000,EUR,4.6,174,2023-10-29
+b43ac1b6-6d40-4161-b997-92d63dc7479b,Modern room near the river,Prague,CZ,50.120367,14.442868,room,2,1,4500,EUR,,0,2025-04-04
+5e489f8f-3525-482b-b801-1a296d431a81,Warm apartment near the park,Budapest,HU,47.490099,19.03191,apartment,6,3,6500,EUR,5.0,45,2025-12-10
+1c9fd054-77b1-4604-afe4-e3d40dc88a32,Charming apartment near the cathedral,Vienna,AT,48.158216,16.440386,apartment,5,2,19000,EUR,4.1,11,2026-06-19
+1f699c4e-ba72-415a-b01d-267eb6e99330,Warm apartment near the main square,Ljubljana,SI,46.071678,14.447733,apartment,4,2,5000,EUR,,0,2024-08-07
+a8a3c5d6-efcd-426b-8c12-18c681d859c2,Riverside room near the cathedral,Novi Sad,RS,45.242092,19.853053,room,1,1,3000,EUR,4.0,76,2025-06-10
+e80238fa-6463-49c0-950b-c9b0fd6491b9,Warm house near the museum,Belgrade,RS,44.775145,20.459364,house,7,3,9500,EUR,4.0,25,2026-04-13
+5bd0af80-02da-4fe0-8ef8-2f61fec4794f,Charming studio near the main square,Zagreb,HR,45.859862,15.931952,studio,3,0,7000,EUR,4.1,25,2026-04-12
+f9f79f30-c0bd-4f7e-a4a1-c62d04625dcb,Riverside loft near the university,Barcelona,ES,41.417366,2.127287,loft,6,3,9000,EUR,4.0,20,2025-05-30
+75f04b03-80f9-423f-947d-d864b2c360e8,Airy room near the university,Prague,CZ,50.051538,14.381373,room,2,1,4000,EUR,4.3,5,2025-08-02
+fbd4299b-e1e1-4b9b-a497-7c2eb4c9833e,Minimal loft near the river,Prague,CZ,50.116195,14.511809,loft,2,1,7500,EUR,4.3,3,2026-05-10
+e874dd72-127f-4b4a-a53b-046e8ca4a454,Sunny studio near old town,Lisbon,PT,38.737608,-9.142273,studio,2,0,13000,EUR,4.4,22,2024-06-02
+e78d0f9b-5eed-4782-8ade-fd395eef9d1c,Cosy loft near the cathedral,Zagreb,HR,45.779914,15.939978,loft,4,2,7000,EUR,3.8,12,2026-05-03
+3f7f8b49-0849-451d-b8ec-38ae21c0ecd0,Bright house near the market,Prague,CZ,50.065624,14.411612,house,8,3,9500,EUR,4.7,165,2023-12-26
+0c99d327-6df9-4693-841f-f1ce2cb5380f,Modern apartment near the station,Prague,CZ,50.123457,14.496671,apartment,7,3,7500,EUR,4.6,120,2024-09-21
+5544b6ed-f1b6-4f7b-8b1b-ef95028d05b2,Modern loft near the main square,Novi Sad,RS,45.22203,19.829043,loft,2,1,4500,EUR,4.5,11,2026-07-02
+51ae7833-3cec-4219-8b68-ab756332c4fe,Riverside loft near the station,Belgrade,RS,44.752796,20.4181,loft,4,2,4500,EUR,4.3,6,2026-08-03
+91f2651a-a374-4066-a1d8-ccb9bf5a5267,Central apartment near the market,Belgrade,RS,44.826306,20.383919,apartment,5,2,5500,EUR,5.0,68,2025-07-28
+b95c600b-9a35-4cd8-802d-0ca507983348,Rooftop apartment near the park,Belgrade,RS,44.73877,20.458107,apartment,2,1,8500,EUR,4.1,12,2025-03-15
+ea6b9161-32b2-4e07-a976-1a623f266b50,Modern studio near the harbour,Budapest,HU,47.445806,18.994399,studio,3,0,8500,EUR,4.5,174,2023-10-29
+4fed2a08-ee0c-46f1-9888-05f8d7074be8,Sunny loft near the river,Berlin,DE,52.541465,13.385432,loft,2,1,7000,EUR,5.0,76,2025-06-08
+3aa8e1dc-cec4-4fe3-a26f-b9117081f0d7,Minimal apartment near the market,Belgrade,RS,44.836447,20.481478,apartment,5,2,7500,EUR,4.1,80,2025-05-17
+c2d44368-245a-42a7-bb0e-d3285e62d01f,Warm apartment near the cathedral,Lisbon,PT,38.741772,-9.150552,apartment,5,2,10500,EUR,4.9,113,2024-11-02
+fbf783f3-755f-4638-8bc8-312e5fa910b8,Modern house near the museum,Barcelona,ES,41.349903,2.209208,house,7,3,25000,EUR,5.0,139,2024-05-27
+72d9b4d2-2b53-4516-8229-5c6d166569ce,Central studio near old town,Barcelona,ES,41.428595,2.124969,studio,2,0,15500,EUR,,0,2024-08-25
+babc4fd6-75f5-4891-9f68-05160724b758,Spacious apartment near old town,Vienna,AT,48.176487,16.368797,apartment,5,3,10500,EUR,4.4,88,2025-03-28
+6bdcb7c5-bb8b-430f-8357-5680ba3d640d,Riverside apartment near old town,Barcelona,ES,41.337714,2.185972,apartment,1,1,14000,EUR,5.0,43,2025-12-27
+c048d53e-965c-4f7f-bf60-ab7588d600fa,Riverside studio near the park,Belgrade,RS,44.801579,20.419278,studio,2,0,9000,EUR,4.8,104,2024-12-24
+2ebd519a-7652-4158-b9aa-d6c189722989,Cosy apartment near the main square,Ljubljana,SI,46.044312,14.535927,apartment,1,1,9000,EUR,5.0,48,2025-11-26
+18a997f8-9386-4522-9a86-648a4edf3f83,Rooftop apartment near the main square,Lisbon,PT,38.773384,-9.18807,apartment,2,1,14000,EUR,4.5,21,2025-10-10
+3bd79cd0-2959-407f-b46a-6269b0658b85,Historic loft near old town,Vienna,AT,48.191722,16.341104,loft,6,3,13000,EUR,3.9,40,2026-01-13
+69506184-58fc-448d-80d4-b27ca4e2be21,Cosy apartment near the station,Prague,CZ,50.053406,14.43044,apartment,7,3,8500,EUR,4.2,91,2025-02-08
+d89c3b72-9003-4c5e-8ec9-3d068e3ee03c,Modern room near the market,Vienna,AT,48.257072,16.337665,room,1,1,4500,EUR,4.0,120,2024-09-17
+5af6650e-0a6f-4f42-af1d-f7e4d04edfa3,Historic apartment near old town,Budapest,HU,47.449907,18.978078,apartment,5,2,4000,EUR,5.0,114,2024-10-25
+eeb04b77-9f61-433b-ab3d-15d13d883e1f,Modern apartment near the harbour,Zagreb,HR,45.775203,16.005966,apartment,4,2,6000,EUR,4.3,100,2025-01-19
+6ad664ba-ec8c-4acd-a0be-c5a75c3aef7b,Bright apartment near old town,Ljubljana,SI,46.036653,14.580223,apartment,5,3,10000,EUR,4.1,132,2024-07-10
+1100aed1-51ce-4a37-bbd6-8ebb32b4618a,Spacious apartment near the university,Zurich,CH,47.424832,8.476916,apartment,3,2,18000,EUR,4.3,34,2026-02-19
+160769ec-c37c-420d-8707-ab4d8fcb5ed2,Minimal apartment near the museum,Berlin,DE,52.514688,13.409392,apartment,5,2,16000,EUR,3.8,182,2023-09-14
+12473933-e292-45b1-adbb-a6966e234c86,Warm apartment near the park,Budapest,HU,47.443418,19.024964,apartment,4,2,5000,EUR,3.6,111,2023-12-17
+5ce995be-07eb-41be-9b5c-d3f67ef9e686,Cosy room near the station,Zagreb,HR,45.794808,15.955047,room,1,1,4500,EUR,4.2,6,2026-08-06
+571455e5-62da-4be4-98d9-b6af65b56f23,Charming studio near the station,Berlin,DE,52.506108,13.477829,studio,3,0,9500,EUR,5.0,105,2024-12-15
+3636adb0-501e-40da-9b8f-5652c45c9f7b,Airy house near the harbour,Zagreb,HR,45.833877,16.054034,house,6,3,9500,EUR,4.7,81,2025-05-10
+d990ddbf-37bb-4b1f-954f-46a3f3f83bf2,Garden house near the river,Berlin,DE,52.466033,13.425252,house,8,4,13000,EUR,4.8,80,2025-05-15
+9341b77e-a869-41f3-966d-094ac5e3426b,Modern studio near the park,Barcelona,ES,41.400002,2.230105,studio,3,0,10500,EUR,3.7,13,2026-06-24
+f78dae60-3381-46db-b506-04439142efb0,Riverside apartment near the university,Amsterdam,NL,52.327266,4.863649,apartment,5,3,15000,EUR,4.6,144,2024-04-28
+bb891ad7-47cf-48be-8ec8-ec8ede3c0bae,Quiet apartment near the cathedral,Vienna,AT,48.183323,16.394359,apartment,5,3,11500,EUR,4.2,112,2024-11-07
+2a29a012-0d0c-47bb-8c18-339c54973417,Spacious apartment near the cathedral,Berlin,DE,52.484509,13.382977,apartment,3,1,14000,EUR,3.5,130,2024-02-27
+d8d8e4ae-2055-482b-b5d4-ccd7af5a76c0,Quiet loft near the university,Belgrade,RS,44.797329,20.394395,loft,7,3,4000,EUR,4.7,110,2024-11-16
+47d17c0c-9ceb-4df3-9818-81a59c62a512,Cosy house near old town,Amsterdam,NL,52.328189,4.882418,house,9,4,28000,EUR,4.0,20,2026-05-10
+3dca5757-bcf1-46f2-91e0-c28ee546ceef,Rooftop apartment near the cathedral,Vienna,AT,48.248314,16.40021,apartment,7,3,10000,EUR,4.3,50,2025-11-12
+0665b56a-1ce1-45da-b224-80ae497ca11a,Charming apartment near the market,Ljubljana,SI,46.053308,14.472369,apartment,3,1,8000,EUR,5.0,152,2024-03-11
+bb050e26-bca9-4de9-8c6b-e930bb4dd548,Riverside studio near the cathedral,Budapest,HU,47.473013,19.00848,studio,2,0,7000,EUR,,0,2026-05-20
+a67fec54-70c9-42b7-896f-5d6972e8cc52,Warm apartment near the station,Ljubljana,SI,46.022602,14.451882,apartment,4,2,6000,EUR,4.2,112,2024-11-06
+2054c273-283b-4eed-a802-f87f385e43a2,Charming apartment near the park,Barcelona,ES,41.386614,2.169877,apartment,3,1,17000,EUR,5.0,136,2024-06-12
+7dea81c8-7b37-4c1d-b93e-f1760f9dd1fc,Minimal studio near the harbour,Berlin,DE,52.483523,13.419873,studio,2,0,10500,EUR,4.5,7,2026-04-14
+6fa6a1c8-7835-44f6-b451-5361f8c452d6,Bright apartment near the station,Berlin,DE,52.511232,13.452075,apartment,3,1,10000,EUR,,0,2024-06-26
+61c7eb6b-856a-41a8-8e87-293a6c7dc463,Bright studio near the cathedral,Budapest,HU,47.504022,19.041174,studio,3,0,8500,EUR,4.4,165,2023-12-24
+cce229b8-24f6-42ea-b6a5-31a9610a0846,Charming house near old town,Ljubljana,SI,46.022371,14.522979,house,7,3,13000,EUR,5.0,169,2023-11-28
+bbe0082c-56d9-484d-aabd-7ee00a6928ea,Sunny apartment near old town,Prague,CZ,50.06855,14.45732,apartment,7,3,5500,EUR,4.2,63,2025-08-28
+64c2fb1a-9c77-4942-9bf2-14d6746fe5d6,Charming studio near old town,Belgrade,RS,44.837257,20.440257,studio,2,0,3500,EUR,,0,2023-12-02
+cd74748b-e349-4d82-872c-463350125d01,Riverside apartment near old town,Budapest,HU,47.454552,19.008205,apartment,4,2,10500,EUR,4.5,45,2025-12-10
+05d1365f-5f93-413e-87d6-de27a4aea7b4,Modern house near the cathedral,Zagreb,HR,45.773994,15.972659,house,10,4,7000,EUR,4.6,140,2024-05-20
+571a8306-fcf4-4f21-9797-ce790ae88da4,Airy apartment near the harbour,Zurich,CH,47.421061,8.589827,apartment,4,2,22500,EUR,4.2,75,2025-06-15
+5d0dc7f4-9905-4ffb-ac79-078dee3c84ed,Warm apartment near the park,Zagreb,HR,45.791546,15.949798,apartment,5,3,6000,EUR,4.6,106,2024-12-14
+84f8a695-e450-4c59-9629-59537fcb2e6f,Minimal apartment near the university,Belgrade,RS,44.772572,20.435348,apartment,3,2,7000,EUR,4.4,131,2024-07-14
+f3c8760e-7131-4738-ad29-78cd17e2c4bf,Minimal apartment near the station,Berlin,DE,52.468599,13.386187,apartment,4,2,14500,EUR,3.5,141,2024-05-16
+f7c5497f-fc31-4c7b-af60-b3c5ca728d08,Historic apartment near the river,Vienna,AT,48.258643,16.353375,apartment,1,1,16000,EUR,4.5,132,2024-07-11
+0ba8d2aa-0b36-4e31-a3f6-0cda550d7849,Quiet house near the park,Belgrade,RS,44.740134,20.37503,house,7,3,9000,EUR,4.4,90,2025-03-20
+1b49f96f-92d0-4e97-91b2-61fdede8baea,Rooftop apartment near old town,Vienna,AT,48.195618,16.341731,apartment,7,3,14000,EUR,3.9,55,2025-05-19
+f34c2985-3d98-4f7a-9a34-bc8623792da9,Riverside apartment near the main square,Barcelona,ES,41.378568,2.119032,apartment,5,2,13500,EUR,4.4,122,2024-09-09
+b64dee12-feab-4cf2-a8da-2429f6ff0664,Spacious house near the university,Belgrade,RS,44.804855,20.519131,house,7,3,8000,EUR,4.8,103,2023-10-12
+93a83800-a57e-452a-baa1-1651660555f7,Modern apartment near the main square,Novi Sad,RS,45.293143,19.830932,apartment,5,3,4000,EUR,4.0,15,2025-01-25
+7c9ba858-cbee-4cbf-ae43-68257f57520d,Airy studio near the harbour,Belgrade,RS,44.807618,20.384583,studio,2,0,7500,EUR,4.2,116,2024-10-10
+9006cbf4-13e1-4707-82bf-a53167ae6713,Riverside apartment near the park,Novi Sad,RS,45.262659,19.776286,apartment,2,1,4000,EUR,4.6,106,2024-12-13
+55b3c9a5-11b9-44e1-a641-c00434b68a91,Sunny loft near the market,Vienna,AT,48.203575,16.301406,loft,3,2,12000,EUR,4.1,80,2025-05-18
+5a24fd3c-9871-4907-baef-67c9a8924b29,Charming loft near the river,Lisbon,PT,38.744936,-9.166002,loft,4,2,10000,EUR,,0,2024-08-14
+d0c72975-1331-46c1-96d1-b41df8ea2e61,Sunny apartment near the river,Prague,CZ,50.054172,14.479836,apartment,6,3,10000,EUR,4.8,182,2023-09-12
+567ae32c-7a8b-499b-b822-ca80655aa4e4,Riverside room near the station,Belgrade,RS,44.804301,20.499123,room,1,1,2000,EUR,5.0,129,2024-07-26
+d0b0a47b-cf45-4bf9-8927-2d29ce88c5f5,Riverside apartment near the station,Lisbon,PT,38.745526,-9.090385,apartment,3,1,8500,EUR,4.4,180,2023-09-23
+aea38537-cc94-4c48-a545-eeddf75212dc,Spacious apartment near the main square,Belgrade,RS,44.837255,20.50071,apartment,5,3,5500,EUR,4.3,122,2024-04-20
+ae52801a-2fbc-4ef2-b888-32556241c49d,Riverside apartment near the harbour,Belgrade,RS,44.765366,20.480917,apartment,5,3,6500,EUR,4.3,83,2025-04-27
+df49f3e7-8ebc-457e-93d2-d465f0d23576,Garden house near the museum,Novi Sad,RS,45.295882,19.834902,house,7,3,7000,EUR,4.6,86,2025-04-08
+94131447-ae88-467d-95dc-8b7f24d85ce7,Riverside apartment near the harbour,Vienna,AT,48.236679,16.425794,apartment,4,2,20000,EUR,4.5,57,2025-09-30
+28ff7705-1784-4eeb-aef2-c3c3f1d0c03a,Cosy loft near the cathedral,Belgrade,RS,44.834227,20.517681,loft,3,1,5500,EUR,4.5,102,2023-12-06
+a6b0dc87-0861-42d3-bafc-c642480ff1aa,Sunny apartment near the main square,Barcelona,ES,41.440934,2.191424,apartment,5,2,18500,EUR,3.6,112,2024-11-07
+0a116ced-875c-4586-af2a-ccb8b11ae823,Cosy house near the river,Lisbon,PT,38.732067,-9.147564,house,11,5,17000,EUR,4.8,34,2026-02-17
+55845ecb-8c95-43dc-b98b-38474ddd21b5,Bright house near the river,Prague,CZ,50.055298,14.370238,house,8,3,14500,EUR,4.4,46,2025-12-07
+78b57470-7bb5-479f-b0bd-3b49c81be7df,Cosy apartment near the main square,Prague,CZ,50.111093,14.461007,apartment,3,1,8000,EUR,4.7,7,2026-07-31
+18f6f6b3-bd78-41e9-8701-71ed1228aee1,Riverside studio near the museum,Budapest,HU,47.445597,19.092586,studio,2,0,10000,EUR,4.2,58,2025-09-27
+cdd29062-3ebb-48a1-bc55-52e354cbe5e6,Warm studio near the park,Belgrade,RS,44.79497,20.40938,studio,3,0,4000,EUR,4.4,109,2024-11-23
+8ba35e6f-6035-4890-ac23-b1af3bb04534,Rooftop house near the university,Belgrade,RS,44.830342,20.401403,house,9,4,13500,EUR,3.9,97,2025-02-06
+35e93486-921e-4401-9351-45fdab511990,Cosy apartment near the cathedral,Ljubljana,SI,46.005777,14.467078,apartment,5,2,8500,EUR,4.9,79,2025-05-25
+4a96a22a-b75c-4ef0-9cdc-b244086ab163,Charming loft near the main square,Zagreb,HR,45.853744,16.029166,loft,1,1,9000,EUR,,0,2025-07-04
+63f7d412-f580-4122-98b9-cda14cef3517,Cosy apartment near the station,Amsterdam,NL,52.399126,4.925136,apartment,7,3,20000,EUR,4.1,146,2024-04-18
+fea7e2da-87c9-4d62-be4f-d4444d72caa1,Warm room near the museum,Berlin,DE,52.551489,13.451336,room,1,1,6000,EUR,4.8,162,2024-01-10
+e80275d5-0c52-41bf-bff6-1109b295adfc,Historic apartment near the station,Zagreb,HR,45.80608,16.051908,apartment,3,2,6000,EUR,4.3,9,2026-07-18
+71a8386e-0565-4bd7-bcdb-208e20bb6bb7,Charming studio near the market,Vienna,AT,48.201381,16.384775,studio,3,0,14000,EUR,4.4,116,2024-07-11
+8b7302d1-3b9f-4545-b6c5-a5abcdd9726d,Rooftop house near the station,Belgrade,RS,44.737258,20.455187,house,7,3,9000,EUR,4.4,122,2024-09-09
+413f30e6-fda8-4143-9cac-6ad11a6cbd4a,Rooftop studio near the station,Vienna,AT,48.243369,16.424218,studio,2,0,13500,EUR,4.3,133,2024-07-01
+923a25ff-93da-408b-bb0b-8f072d321f4d,Cosy apartment near the cathedral,Berlin,DE,52.493803,13.453036,apartment,1,1,14000,EUR,4.5,40,2026-01-12
+c81ccc5f-7679-4a0b-a119-419e32281308,Modern apartment near the river,Amsterdam,NL,52.392937,4.955854,apartment,3,2,16500,EUR,5.0,127,2024-08-06
+09361b3a-e6ce-4b75-a24b-382cd89cdbc9,Bright apartment near the university,Vienna,AT,48.245345,16.389541,apartment,1,1,12500,EUR,4.8,76,2025-06-09
+490cd499-a829-4dd1-937f-cc65deae350e,Garden room near the station,Budapest,HU,47.460781,19.047423,room,1,1,3000,EUR,4.6,189,2023-08-01
+f746a5af-6978-4767-bda8-db0721633ac7,Bright house near the cathedral,Zagreb,HR,45.829308,16.007338,house,11,5,17000,EUR,4.6,28,2026-03-24
+748171ae-582b-49e3-936f-ec5d94a4f3cb,Spacious house near the university,Zagreb,HR,45.826542,15.974942,house,10,4,11000,EUR,,0,2026-02-15
+0c0f2010-30a7-4cf2-9053-e928bbcdaf85,Warm apartment near the cathedral,Barcelona,ES,41.33857,2.147959,apartment,3,2,18000,EUR,4.9,117,2024-10-05
+4d1e4b31-4da5-4c31-ae3f-a881f2e0488e,Cosy apartment near the market,Zagreb,HR,45.843872,16.021657,apartment,4,2,8500,EUR,3.7,32,2026-03-01
+3124257f-60b6-4cab-a84f-e5d9300a1128,Bright room near the university,Belgrade,RS,44.809457,20.51716,room,1,1,2000,EUR,4.2,175,2023-10-27
+52c2f18d-cf06-4909-a537-1d5f8940341d,Central studio near old town,Lisbon,PT,38.733177,-9.144254,studio,3,0,7000,EUR,,0,2025-02-13
+d0fad258-1478-4ac0-8b3b-6ecb4b12fa04,Central apartment near the river,Vienna,AT,48.248009,16.364966,apartment,3,1,9500,EUR,3.9,184,2023-09-02
+fcc8e8a3-6434-4cfc-8348-449eb4a7b97d,Cosy apartment near the cathedral,Berlin,DE,52.515672,13.403142,apartment,6,3,17500,EUR,4.2,74,2025-06-24
+bce98852-1842-4654-9c32-ae37967d78b1,Quiet apartment near old town,Lisbon,PT,38.704487,-9.202868,apartment,6,3,8000,EUR,,0,2024-12-20
+53ab5bec-93cb-40df-882f-4afa7a37bea5,Warm loft near the harbour,Berlin,DE,52.467092,13.448551,loft,1,1,11000,EUR,4.4,151,2024-03-16
+d687569f-3720-4acd-81d5-cb0252621c91,Charming studio near the cathedral,Belgrade,RS,44.794194,20.389314,studio,3,0,6000,EUR,5.0,168,2023-12-07
+bf87b600-0a15-4a10-9433-91155e75aa9f,Spacious apartment near the market,Belgrade,RS,44.810558,20.521905,apartment,4,2,6000,EUR,4.0,28,2026-03-24
+29c65dc4-ed31-404d-81d9-79b547c781e7,Cosy studio near the park,Prague,CZ,50.050126,14.487921,studio,3,0,10500,EUR,4.8,37,2026-01-30
+00b9ee53-a898-4632-a316-d74d124e4e4c,Garden apartment near old town,Budapest,HU,47.507747,19.032107,apartment,1,1,6500,EUR,4.6,157,2024-02-08
+02a79caf-2ec4-4938-995b-1d96caa76b3f,Garden studio near the river,Budapest,HU,47.451478,19.003746,studio,3,0,5500,EUR,3.8,82,2025-05-05
+8a0e3955-5d55-4fac-a291-8a57ecf8475e,Central studio near the main square,Zagreb,HR,45.856326,15.987977,studio,3,0,10000,EUR,4.4,45,2024-06-09
+ef9741dc-c6a5-4780-a9fb-36ed4a55f4a3,Central house near the station,Zagreb,HR,45.813952,15.964897,house,8,3,10500,EUR,4.9,122,2024-09-05
+270737d5-7bca-40ef-8352-62661d26b5c7,Airy apartment near the river,Amsterdam,NL,52.333306,4.838151,apartment,3,2,22000,EUR,,0,2024-04-28
+5118607f-e3fa-49da-a345-833cc1d3d6ef,Riverside house near old town,Belgrade,RS,44.784287,20.44162,house,6,2,11000,EUR,4.1,20,2026-01-10
+378e98f4-aa83-42be-9826-a8d0cde56d7b,Spacious house near the market,Prague,CZ,50.046521,14.401408,house,8,3,11000,EUR,4.4,23,2026-04-21
+e242556b-488e-407b-8b62-567dca4f3de3,Charming apartment near the river,Berlin,DE,52.507316,13.463215,apartment,1,1,15500,EUR,4.5,116,2024-10-12
+8e74740e-5511-4045-9775-6e235a7235fe,Minimal apartment near the harbour,Belgrade,RS,44.799145,20.507315,apartment,3,2,4500,EUR,4.3,158,2024-02-04
+824c3e63-5faf-4794-8375-84b4f3bbd616,Modern apartment near the market,Prague,CZ,50.108854,14.446506,apartment,3,1,9500,EUR,4.6,11,2024-06-13
+75577a00-3c69-4391-9bf2-223818317996,Central room near the main square,Amsterdam,NL,52.324099,4.871339,room,2,1,10000,EUR,4.6,177,2023-10-15
+4a0e4bf4-afe2-4b04-b2ee-7fc072a24d12,Charming house near the cathedral,Budapest,HU,47.454711,19.107428,house,12,5,10500,EUR,4.3,127,2024-08-05
+f54b03d7-3768-42fd-ad73-50e860cb5c44,Bright studio near the harbour,Budapest,HU,47.507055,19.076961,studio,3,0,5500,EUR,4.8,113,2024-10-30
+c96bc381-0141-409c-930f-106c87862a3e,Modern apartment near the main square,Belgrade,RS,44.787138,20.41491,apartment,3,2,7000,EUR,4.3,94,2025-02-19
+9ad28a08-d3d7-43a4-9bec-e689ed0dc867,Spacious studio near the university,Berlin,DE,52.546814,13.338449,studio,2,0,10000,EUR,4.8,116,2024-10-11
+80e0f91d-c869-4c4e-80c0-77f7d337b094,Airy loft near the cathedral,Barcelona,ES,41.411943,2.189551,loft,2,1,20000,EUR,4.0,56,2025-10-08
+6f896876-f7bd-4935-94a0-d796c526c59d,Riverside apartment near the university,Vienna,AT,48.163925,16.374689,apartment,5,3,15500,EUR,,0,2023-08-21
+5df14491-ff68-422c-aa8a-fd321fd567ad,Central apartment near the station,Prague,CZ,50.111806,14.466988,apartment,4,2,9500,EUR,3.9,25,2026-04-14
+4dd21d0c-0231-4db8-b04e-29b459d1d121,Central apartment near the park,Zagreb,HR,45.780979,15.968047,apartment,4,2,10000,EUR,4.9,65,2023-09-19
+541045af-65cb-43a2-b9cc-b35f9f7a2593,Riverside apartment near the station,Barcelona,ES,41.423556,2.144761,apartment,6,3,11000,EUR,,0,2025-03-27
+8ffa7089-5401-4e87-ba8c-817b5f96a79c,Riverside apartment near the cathedral,Berlin,DE,52.543156,13.479113,apartment,6,3,7000,EUR,4.5,137,2024-06-09
+aac8bf60-750b-417d-8ea6-9195a6a3eb1d,Airy apartment near the cathedral,Ljubljana,SI,46.010173,14.465579,apartment,2,1,8000,EUR,4.1,5,2026-08-09
+e2122e40-5f0a-41c4-b43d-974766514a3b,Central apartment near the park,Novi Sad,RS,45.275242,19.846798,apartment,1,1,6500,EUR,4.4,136,2023-08-24
+3bed60cf-cb2a-4838-89e3-032714e53f3f,Riverside apartment near the cathedral,Berlin,DE,52.471541,13.467347,apartment,7,3,13500,EUR,4.6,165,2023-12-25
+96fccf43-db87-4ce0-8744-dfaee5cf884d,Charming apartment near the cathedral,Berlin,DE,52.540614,13.357362,apartment,4,2,8500,EUR,4.4,85,2024-01-09
+ac06d86e-c54f-4809-b008-15ab05ebc9cb,Warm apartment near the market,Zagreb,HR,45.769415,16.026598,apartment,5,2,9000,EUR,3.7,33,2024-12-23
+f21932f5-6019-4833-86c3-48a54c81f968,Minimal house near the main square,Belgrade,RS,44.806192,20.378884,house,4,2,8000,EUR,,0,2023-11-03
+49350e54-68a0-48c9-9229-743b223a366f,Central studio near the main square,Amsterdam,NL,52.410806,4.968312,studio,3,0,16000,EUR,3.8,164,2023-12-27
+df7e4b0e-230e-4ae9-9883-6942327249e6,Historic studio near the cathedral,Prague,CZ,50.111091,14.451364,studio,3,0,9000,EUR,4.5,189,2023-08-04
+10b4fb64-45e5-4733-883b-9ba182760a4b,Riverside studio near the station,Belgrade,RS,44.817522,20.468262,studio,3,0,4000,EUR,4.0,48,2025-11-22
+119ad18b-735d-4581-a4b1-d8cd93b3b5a2,Charming house near the market,Zagreb,HR,45.791875,15.993112,house,6,3,14500,EUR,4.6,13,2026-06-22
+6f5690a9-936a-4a43-a051-0f7ecaba5718,Garden apartment near the museum,Belgrade,RS,44.773913,20.39529,apartment,1,1,6000,EUR,4.0,63,2023-09-22
+54c0935f-912d-469e-8696-8dc972ce8c46,Airy house near the cathedral,Belgrade,RS,44.812724,20.483919,house,9,4,10500,EUR,4.5,116,2024-10-12
+58c69bb6-a922-446a-91a8-ac452596a28d,Central house near the park,Zagreb,HR,45.774608,15.981109,house,6,2,14500,EUR,4.3,178,2023-10-06
+67568b63-eaba-428c-9ccd-ebb82c169855,Historic house near the university,Ljubljana,SI,46.088925,14.554598,house,6,2,9500,EUR,4.7,44,2025-12-16
+5b8fe7c7-aa9b-4722-9717-6aea2d92f220,Historic room near the station,Prague,CZ,50.106481,14.431969,room,1,1,5000,EUR,3.8,133,2024-07-05
+4fdc58fa-0bbd-4951-b106-f4a62c4fa41d,Warm studio near the main square,Vienna,AT,48.223849,16.406892,studio,2,0,14500,EUR,4.8,138,2024-06-03
+e45f9e17-a48a-4a80-9e09-91a06cc72d0a,Charming apartment near the cathedral,Berlin,DE,52.545538,13.398051,apartment,5,3,14500,EUR,5.0,118,2024-10-03
+f2d21940-45cc-4312-8e67-c7c8239041fe,Spacious room near the station,Berlin,DE,52.465022,13.463994,room,2,1,5000,EUR,4.9,62,2025-09-04
+4cb7d981-668f-4357-9cc8-00f4dcbd76dc,Sunny apartment near the harbour,Belgrade,RS,44.771221,20.411208,apartment,2,1,5000,EUR,4.1,27,2026-04-02
+11dbf9b2-de8d-422d-abd1-7c7f570a5829,Central loft near the harbour,Berlin,DE,52.506867,13.404217,loft,1,1,7500,EUR,4.4,91,2025-03-13
+9029216c-97ca-444c-9bd7-84d4a9014c28,Garden house near the museum,Belgrade,RS,44.800296,20.494207,house,8,4,13000,EUR,4.0,12,2026-06-26
+f58e88cf-d3c4-43b2-a3d0-a63b37d80e97,Central apartment near old town,Zagreb,HR,45.774952,15.944262,apartment,2,1,7000,EUR,4.4,153,2024-03-06
+f86a971b-cddf-4652-b14d-3e25904346d1,Riverside loft near old town,Prague,CZ,50.042117,14.424251,loft,1,1,13000,EUR,4.1,17,2025-05-24
+dcba6dbb-a38f-4024-8bbf-ff3e68112041,Airy house near the main square,Budapest,HU,47.505714,19.038157,house,4,2,13000,EUR,3.8,25,2026-04-09
+9ac74e26-a801-4b81-9ac1-6263e660fccf,Bright loft near the main square,Belgrade,RS,44.753472,20.384844,loft,4,2,7500,EUR,4.3,103,2024-12-27
+6d3c3322-021c-4830-b058-ba3adeefe478,Sunny studio near the cathedral,Berlin,DE,52.470682,13.453474,studio,3,0,8000,EUR,5.0,44,2025-12-20
+d90f740e-7db9-479a-84b6-cc14eeb03e12,Charming studio near the museum,Barcelona,ES,41.352942,2.23837,studio,3,0,12000,EUR,4.8,18,2026-05-23
+688a40f3-e7fb-4ae2-8ebf-42e0e529baa9,Modern house near old town,Belgrade,RS,44.839249,20.391505,house,6,3,9500,EUR,5.0,84,2025-04-21
+bcaf5526-1230-4c82-8a29-fb5b742c770c,Quiet loft near the market,Zurich,CH,47.35701,8.554217,loft,5,2,17500,EUR,3.8,39,2026-01-17
+64cbbe7c-1dcb-4f2f-8215-ec3fa2d01e17,Charming loft near the market,Lisbon,PT,38.66857,-9.169023,loft,5,3,13500,EUR,4.6,67,2024-09-30
+b9d3f493-ad52-40c5-8fab-f5e338e8694f,Airy studio near the harbour,Ljubljana,SI,46.002309,14.554746,studio,2,0,9000,EUR,4.3,63,2023-07-28
+5cb837c9-4e0f-44ec-a78b-251f25466c65,Bright studio near old town,Prague,CZ,50.083006,14.489599,studio,3,0,13500,EUR,4.4,106,2024-12-13
+7fdefbf0-bebe-45c4-b427-e727f0529953,Riverside apartment near the station,Zagreb,HR,45.776714,15.958574,apartment,3,1,8500,EUR,,0,2025-08-24
+c54320d2-2084-4d43-aee8-86eb2073dc46,Charming house near the main square,Barcelona,ES,41.357806,2.144654,house,11,5,19000,EUR,4.4,179,2023-09-30
+da93b9e8-db22-4429-89d8-f22ba157c3c4,Spacious apartment near the river,Ljubljana,SI,46.056542,14.480505,apartment,7,3,8500,EUR,4.4,103,2025-01-01
+8ffce8c0-80fe-41fe-843e-9783b268fe2f,Garden apartment near the cathedral,Zagreb,HR,45.780714,15.951376,apartment,5,3,9500,EUR,4.1,31,2025-05-05
+07b0d890-a480-413b-b7ff-034e4da57dca,Sunny apartment near the river,Amsterdam,NL,52.385739,4.88371,apartment,5,3,18000,EUR,,0,2024-04-07
+3c79cb7f-705d-4b2d-b3ac-4b836281e563,Rooftop apartment near the harbour,Novi Sad,RS,45.244725,19.854311,apartment,7,3,5000,EUR,4.2,68,2025-07-29
+ef837c22-c39f-439e-998c-44b185ed748d,Cosy studio near the cathedral,Belgrade,RS,44.803013,20.426997,studio,3,0,6000,EUR,3.6,37,2025-12-12
+5dc7a82d-14b3-41cd-a642-f935c527399e,Historic house near the cathedral,Berlin,DE,52.520515,13.374953,house,12,5,9500,EUR,4.2,8,2024-02-11
+29e9566b-0f3f-4c6f-ab52-2b28558338ea,Minimal room near old town,Amsterdam,NL,52.419172,4.867925,room,1,1,8500,EUR,4.9,189,2023-08-01
+25a85985-2b2f-4925-9bf9-15be73338620,Sunny studio near the university,Budapest,HU,47.476453,19.068707,studio,2,0,7000,EUR,4.4,175,2023-10-23
+43008ce9-7d88-46a9-970c-9afa9f03889b,Riverside apartment near the river,Amsterdam,NL,52.347333,4.850012,apartment,1,1,18000,EUR,4.1,22,2023-08-14
+4f4242bf-3d4a-407b-bf9e-89acd707bf06,Spacious studio near the university,Zagreb,HR,45.83782,15.958653,studio,3,0,8000,EUR,4.1,95,2025-02-13
+b14cf16d-41fe-4f0d-9429-f81f9755eb99,Warm house near the museum,Belgrade,RS,44.772647,20.516474,house,4,2,8000,EUR,3.4,165,2023-12-23
+ba77eaa7-8c7d-4537-9142-1c50063332e1,Airy house near the market,Zurich,CH,47.3554,8.550135,house,12,5,33000,EUR,4.4,171,2023-11-16
+29a591f3-1319-4372-b305-2e2c24beb9f2,Bright apartment near the cathedral,Budapest,HU,47.446353,19.098316,apartment,5,3,10000,EUR,4.4,1,2024-05-19
+73c3f9b6-72e2-4b22-92b5-f4a4652a3353,Minimal room near the university,Vienna,AT,48.173847,16.320009,room,1,1,5000,EUR,4.0,35,2026-02-08
+b0cd51a1-4249-4d92-bb35-7ccdd9ae272c,Cosy apartment near the main square,Berlin,DE,52.544998,13.332055,apartment,7,3,9000,EUR,4.6,5,2025-12-25
+11d39ff7-d9fd-444c-98cd-6ddaf6cda5a4,Bright apartment near the market,Berlin,DE,52.559193,13.434697,apartment,2,1,10000,EUR,3.9,142,2024-05-10
+5f7a0dcd-4f3d-449a-894a-8a19eb00452d,Garden apartment near the university,Vienna,AT,48.244549,16.378713,apartment,4,2,10500,EUR,4.6,24,2026-04-15
+c97b192e-2538-4563-9324-e455db4aa21d,Airy house near the museum,Novi Sad,RS,45.271319,19.760706,house,6,3,9000,EUR,4.7,144,2024-04-28
+81c368b7-8a8e-4ce6-b71a-8d43b40eb812,Airy house near the university,Ljubljana,SI,46.095851,14.503782,house,9,4,15000,EUR,4.7,16,2026-06-05
+6da41c05-95dd-45bc-a7c9-6c8609f29e54,Historic room near the market,Amsterdam,NL,52.366866,4.960562,room,1,1,9500,EUR,4.4,45,2025-12-14
+bf0ac016-0ce7-4ed1-99c9-896133fb4a77,Airy studio near the harbour,Novi Sad,RS,45.281772,19.859197,studio,2,0,3500,EUR,4.5,107,2024-12-08
+02d9ba77-7c99-4c79-9d23-8157a7a5f151,Warm apartment near the main square,Budapest,HU,47.455228,19.057509,apartment,1,1,6000,EUR,,0,2025-12-03
+054aaaf4-350f-48f7-a0f6-17a86b53cca9,Bright studio near old town,Berlin,DE,52.482439,13.421882,studio,2,0,7000,EUR,3.9,93,2025-02-26
+10088d2c-8937-464a-8d08-677835451307,Historic apartment near old town,Vienna,AT,48.216299,16.385787,apartment,3,1,12000,EUR,4.8,71,2025-07-08
+ad48589e-467e-443f-b15f-056a458071cb,Riverside house near old town,Belgrade,RS,44.805931,20.438356,house,6,3,9000,EUR,,0,2024-09-28
+91fbe359-78cd-4abe-894d-bec277b99bef,Airy room near the harbour,Belgrade,RS,44.760816,20.489284,room,1,1,2500,EUR,3.9,99,2025-01-22
+b49910ab-5a14-4c19-937d-5fb58355a85d,Minimal loft near the main square,Zurich,CH,47.347954,8.596259,loft,5,3,17500,EUR,3.3,16,2026-06-04
+e2a3b863-2da3-4681-a922-372c16f1ff19,Modern apartment near the market,Budapest,HU,47.448794,19.059125,apartment,6,3,10000,EUR,,0,2026-07-06
+300609b1-44b2-4710-aa43-e833cde243f6,Central loft near the river,Budapest,HU,47.538787,19.075319,loft,1,1,8500,EUR,4.7,166,2023-12-20
+4667c45a-8138-4b84-8c46-84b78506675b,Sunny apartment near the university,Belgrade,RS,44.805214,20.508164,apartment,5,2,4000,EUR,4.7,63,2025-08-28
+f20a3105-ec86-4eae-a33e-9b130d891322,Minimal room near the museum,Barcelona,ES,41.421528,2.120844,room,1,1,6000,EUR,3.9,139,2024-05-27
+f3def7ea-9a0e-4936-9cc4-ec4fb4ff22f0,Historic apartment near old town,Lisbon,PT,38.682518,-9.125904,apartment,3,2,11000,EUR,3.9,126,2024-08-11
+778778f8-4a9e-48c3-822e-99b6e8661e54,Sunny apartment near old town,Belgrade,RS,44.833675,20.418745,apartment,2,1,8500,EUR,4.3,81,2025-05-11
+73af90c3-c9f0-4a1e-926a-dcd93344802c,Airy apartment near the station,Budapest,HU,47.513887,19.037902,apartment,3,1,5500,EUR,5.0,165,2023-12-26
+4d482a0d-8c40-40d4-b1ae-5336ada72251,Bright apartment near the park,Barcelona,ES,41.358603,2.143141,apartment,6,3,17000,EUR,4.5,181,2023-09-20
+24ee440c-fcf9-4a70-b1d2-69e93cf04f60,Cosy loft near the river,Budapest,HU,47.499337,19.094258,loft,1,1,5500,EUR,3.6,125,2024-08-22
+28a7f5d1-3084-47f4-9209-8f2fa360c7fa,Warm apartment near the university,Novi Sad,RS,45.308663,19.808641,apartment,2,1,2500,EUR,3.3,18,2026-05-25
+f986e626-fb2e-47f9-9f80-b8d57bbfa958,Sunny studio near the station,Barcelona,ES,41.390914,2.136472,studio,3,0,8000,EUR,4.2,112,2024-11-04
+05ac31fa-9a1c-4e28-b43c-9cd73633dff9,Garden apartment near the river,Belgrade,RS,44.76394,20.473057,apartment,2,1,5500,EUR,4.0,12,2026-07-01
+31626198-5e01-4d82-91bf-b73501dc8e20,Charming studio near the harbour,Belgrade,RS,44.739774,20.430548,studio,2,0,5500,EUR,4.8,58,2025-09-23
+67905b8e-97c8-4043-9ee3-3b9066ab4935,Warm studio near the main square,Zurich,CH,47.39986,8.56064,studio,2,0,26500,EUR,4.9,85,2025-04-14
+5b7783a8-e730-45b3-9749-4d5eb116660e,Bright room near the museum,Barcelona,ES,41.333208,2.197726,room,2,1,6500,EUR,4.2,151,2024-03-14
+aea9635c-6b8c-4302-9cd3-86f24f1c83ae,Airy studio near old town,Zagreb,HR,45.785473,15.939277,studio,2,0,8500,EUR,4.8,43,2025-12-25
+0abcef67-a9e8-49e7-8d97-d5f35dc477f3,Charming house near the cathedral,Belgrade,RS,44.786677,20.395749,house,9,4,8000,EUR,3.8,137,2024-01-23
+13444a8e-41ca-4ecb-8e69-442924eb1c82,Garden room near the museum,Belgrade,RS,44.766171,20.397587,room,2,1,2000,EUR,4.6,73,2025-06-28
+741fc030-3abc-40e5-b0ce-fe33a970d50d,Riverside apartment near the river,Vienna,AT,48.160952,16.361306,apartment,6,3,14000,EUR,3.8,59,2025-09-17
+869199fe-b69c-4d03-9aeb-e8a3b2caab8f,Airy apartment near the cathedral,Prague,CZ,50.0353,14.365964,apartment,7,3,7500,EUR,3.9,169,2023-11-28
+037d1969-6f2f-4ce9-94e3-14463f041523,Modern apartment near the market,Zagreb,HR,45.801993,16.029848,apartment,6,3,7000,EUR,,0,2024-08-03
+fe579841-c709-4f8c-a9e6-fe1c4542566b,Garden apartment near the cathedral,Zurich,CH,47.39644,8.495266,apartment,2,1,18000,EUR,4.9,109,2024-11-24
+b3302289-10c6-4293-9d9f-2aa06110a383,Airy apartment near the university,Vienna,AT,48.171324,16.420776,apartment,5,2,10500,EUR,4.4,113,2024-10-28
+07b28992-c455-44d5-bbab-fc8d3a0ccf30,Rooftop apartment near the university,Belgrade,RS,44.787808,20.476427,apartment,2,1,6500,EUR,5.0,12,2026-06-27
+5a3cd71a-fc5d-4e28-833b-308c61202863,Spacious house near the cathedral,Amsterdam,NL,52.412009,4.906876,house,12,5,33500,EUR,4.4,132,2024-07-07
+6d18053c-3716-41ee-b870-07b10c78f2be,Garden house near the harbour,Lisbon,PT,38.766834,-9.160719,house,5,2,12000,EUR,5.0,129,2024-07-27
+fc43a865-fe5b-45a5-8007-d90e3be45a60,Modern studio near the university,Belgrade,RS,44.735493,20.479153,studio,3,0,8000,EUR,,0,2024-04-10
+7c3b995f-4548-4619-b821-dea4a76fabf6,Bright studio near the market,Budapest,HU,47.461086,19.068347,studio,2,0,6500,EUR,4.0,162,2024-01-13
+87928fa1-0b5f-4519-9328-3d6fe0afb338,Modern studio near the station,Berlin,DE,52.511124,13.449881,studio,2,0,13500,EUR,3.8,62,2025-09-02
+013a6920-b1e0-4365-8455-d334e3fec2e3,Historic house near the station,Lisbon,PT,38.719838,-9.169152,house,8,4,9500,EUR,3.7,84,2025-04-25
+ef80a9c2-ecc0-491b-affa-22ee2cadf662,Bright apartment near the park,Zagreb,HR,45.771686,16.034636,apartment,3,1,7500,EUR,3.9,2,2024-08-12
+77923311-a9c1-4ec5-84ec-bad3df38c962,Central apartment near the station,Prague,CZ,50.096559,14.506486,apartment,2,1,10500,EUR,3.8,9,2024-12-12
+863ae570-1c66-4712-a886-4ed181c23d62,Riverside apartment near the museum,Novi Sad,RS,45.227327,19.826157,apartment,6,3,4500,EUR,5.0,86,2025-04-13
+b3bef1d6-42b4-4be3-bc36-9e5cb189cfd8,Spacious apartment near the harbour,Zagreb,HR,45.783622,16.021251,apartment,6,3,5500,EUR,3.4,75,2024-05-25
+dc2c5433-3932-4da7-95f0-a62bc3a096eb,Spacious loft near the main square,Budapest,HU,47.483129,18.999291,loft,3,1,6500,EUR,,0,2024-05-18
+84007613-ed20-4d86-b533-e873bfc2c693,Spacious apartment near the cathedral,Zurich,CH,47.323468,8.486399,apartment,6,3,25000,EUR,3.7,27,2026-03-30
+3e201ea0-6333-48b9-ac30-6f7ca1a352d0,Garden apartment near the market,Barcelona,ES,41.407415,2.233766,apartment,3,1,14500,EUR,3.4,59,2025-09-17
+2412a2f4-b5d9-420b-9e3b-475a820f4a20,Rooftop room near the museum,Ljubljana,SI,46.082299,14.530966,room,1,1,3500,EUR,4.4,185,2023-08-27
+06030adb-14c7-423c-a4e8-700dad9a35a8,Minimal room near the river,Berlin,DE,52.514293,13.404126,room,1,1,7500,EUR,4.0,125,2024-08-20
+596a202a-a424-4134-b391-1c9c72cb7289,Bright apartment near the harbour,Vienna,AT,48.243534,16.375996,apartment,7,3,11000,EUR,4.2,13,2024-06-16
+4051da54-27e8-4f7c-b099-95947516de9e,Warm studio near the cathedral,Barcelona,ES,41.339732,2.185515,studio,3,0,12500,EUR,4.7,6,2026-08-02
+5f2eb274-5083-4543-90f1-c586fd524fdb,Charming studio near the university,Prague,CZ,50.095301,14.387424,studio,3,0,8500,EUR,3.5,9,2026-07-18
+efd43d21-2a8f-488f-996e-3c36d29b86fe,Riverside apartment near the university,Belgrade,RS,44.761524,20.504115,apartment,1,1,5500,EUR,,0,2024-02-01
+f52c38f0-9238-45bf-bce7-ed3f5d95f659,Bright house near the park,Amsterdam,NL,52.367145,4.874828,house,6,2,26500,EUR,3.8,6,2026-08-01
+eb41de6a-e499-4131-b7a4-b60585334a14,Warm apartment near old town,Budapest,HU,47.445702,19.112968,apartment,1,1,9000,EUR,4.4,42,2025-04-16
+476f5c86-ecd5-4b7c-84ab-c48c38322f25,Sunny apartment near the station,Belgrade,RS,44.836658,20.446192,apartment,7,3,5000,EUR,4.5,118,2024-10-01
+c8296453-38ba-4b9a-b2bc-d98b608db3c2,Spacious studio near the main square,Budapest,HU,47.530356,19.047975,studio,3,0,8500,EUR,4.4,41,2026-01-08
+462e85e6-acaa-4ffa-903c-2502203413d8,Spacious studio near the museum,Zagreb,HR,45.812187,15.960685,studio,3,0,6000,EUR,3.7,39,2026-01-18
+6bc1ebff-be78-4ccd-b009-e54f8147504f,Central apartment near the harbour,Barcelona,ES,41.403462,2.100241,apartment,6,3,16500,EUR,4.2,102,2025-01-07
+1f66353d-3cc4-4cf0-ac18-3567eb2f5a03,Riverside room near the cathedral,Vienna,AT,48.162543,16.442417,room,1,1,5000,EUR,4.2,115,2024-10-20
+166d835f-0d5f-4512-9967-f3eff30bcc64,Cosy loft near the market,Belgrade,RS,44.773984,20.41915,loft,3,2,5500,EUR,3.5,29,2025-06-07
+2b33a714-f688-4d18-a422-dffe3d39aa4d,Cosy house near the station,Ljubljana,SI,46.106186,14.514983,house,9,4,14500,EUR,4.7,135,2024-06-18
+90ed0075-afbd-4b56-9571-a1e423470ed3,Modern apartment near the harbour,Lisbon,PT,38.742337,-9.153452,apartment,2,1,7500,EUR,5.0,159,2024-01-30
+81aab27b-c747-475f-a458-e1a0d49cad71,Airy apartment near the station,Budapest,HU,47.541857,19.050888,apartment,1,1,11500,EUR,4.3,82,2025-05-05
+cf9999a8-e220-4a6f-9c22-0a04b0397041,Cosy apartment near the harbour,Lisbon,PT,38.717637,-9.160689,apartment,3,1,13000,EUR,4.5,115,2024-10-20
+6b22dae3-7783-44cb-8749-f954c4374dff,Historic room near the market,Budapest,HU,47.502987,18.976076,room,1,1,4000,EUR,3.6,59,2023-11-30
+c6b2fb53-a540-41b5-90d1-8f1690797892,Warm apartment near the station,Barcelona,ES,41.409505,2.143328,apartment,2,1,20000,EUR,5.0,77,2025-06-01
+9f0732e4-f42c-4f81-8042-563fd3fd4e4a,Bright apartment near the park,Lisbon,PT,38.683804,-9.154947,apartment,1,1,8500,EUR,5.0,41,2026-01-06
+69237f3b-8dda-490c-a8b6-d056ab52530c,Garden house near the museum,Prague,CZ,50.056544,14.424338,house,6,3,10500,EUR,4.4,142,2024-05-08
+ce97cef3-c6e6-4486-997d-c5311b33dbd9,Quiet apartment near the park,Barcelona,ES,41.438098,2.125751,apartment,2,1,19000,EUR,3.8,66,2025-08-06
+20e555db-db92-484d-826d-07fe158254ad,Warm apartment near the university,Prague,CZ,50.085004,14.36423,apartment,3,2,5500,EUR,4.5,113,2024-11-02
+4b7c191b-0139-467c-b20e-9835c80cad3f,Spacious apartment near the main square,Prague,CZ,50.072585,14.407321,apartment,5,3,8500,EUR,4.1,14,2026-06-16
+fcf5cc8e-627a-495e-a721-28a4c1f880bf,Minimal apartment near the river,Vienna,AT,48.190196,16.358577,apartment,3,1,10500,EUR,4.0,64,2025-08-18
+3c164238-5368-4211-a5a3-1af556fc2291,Spacious studio near the station,Vienna,AT,48.236591,16.351226,studio,2,0,18000,EUR,4.6,54,2025-06-14
+d7351353-c089-4610-9e13-6d3cf5eba7b6,Historic apartment near the river,Barcelona,ES,41.39788,2.20511,apartment,1,1,9500,EUR,4.3,31,2026-03-06
+4d6bb144-7442-4732-bc1b-ca11e6b29e0e,Warm loft near the park,Ljubljana,SI,46.074614,14.483001,loft,1,1,10000,EUR,3.3,49,2025-11-20
+02ca9fab-1d50-41c0-8147-f86df52627a5,Quiet apartment near the market,Belgrade,RS,44.753907,20.466597,apartment,4,2,4500,EUR,5.0,177,2023-10-10
+241f84e0-28ff-4264-83b0-f7b3cc1ebcb8,Spacious loft near the cathedral,Vienna,AT,48.191089,16.367896,loft,6,3,15500,EUR,4.0,28,2026-03-23
+bf426fc9-5054-45b7-bedc-1035ae2bfdc6,Airy house near the station,Novi Sad,RS,45.25514,19.811403,house,6,2,11000,EUR,4.2,121,2024-09-14
+42cb2fd5-52d8-43b5-bc7e-94c80f033913,Sunny apartment near the market,Barcelona,ES,41.340496,2.154706,apartment,6,3,12000,EUR,3.9,51,2025-11-06
+7c41a8fe-2da2-4b97-b192-accf6621bb89,Modern apartment near old town,Zagreb,HR,45.797763,16.026268,apartment,5,3,6000,EUR,3.8,21,2026-05-07
+2b3aa3b7-a658-400d-a828-0491679c0ec5,Minimal studio near the museum,Belgrade,RS,44.768491,20.496283,studio,2,0,4500,EUR,4.4,58,2025-09-24
+9ad92089-a184-4805-8379-c41d48eb5d9c,Central apartment near the museum,Budapest,HU,47.49591,19.028824,apartment,4,2,7500,EUR,3.9,47,2025-11-28
+1cc806c4-4dd0-4524-bff5-342e325cc8ff,Warm apartment near the museum,Budapest,HU,47.475556,19.077359,apartment,2,1,10500,EUR,4.5,145,2024-04-23
+66d43cf0-8f8b-4310-bdc3-ba6d6fa177d3,Spacious apartment near the cathedral,Novi Sad,RS,45.242023,19.879522,apartment,3,2,5500,EUR,4.9,27,2026-03-30
+85d50eb5-518f-43d4-9b29-ce941e4f766a,Spacious loft near the main square,Belgrade,RS,44.815814,20.441612,loft,1,1,6000,EUR,4.8,191,2023-07-22
+13e781d3-82a2-45e8-be62-fad655103a15,Minimal studio near the museum,Berlin,DE,52.573576,13.377753,studio,3,0,9500,EUR,4.4,84,2025-04-22
+efd4865c-38a6-40db-a4c9-cbd7eda4402e,Charming house near the market,Lisbon,PT,38.742576,-9.099711,house,8,4,23000,EUR,4.2,88,2025-01-18
+7d5991dd-ba5f-4814-9137-ac53da4ee9de,Charming apartment near the museum,Budapest,HU,47.545754,19.097128,apartment,7,3,10000,EUR,4.1,126,2024-08-11
+6472ab6e-52cd-49be-8426-8c788f075368,Garden apartment near the station,Zagreb,HR,45.765559,15.991247,apartment,5,2,7500,EUR,4.0,172,2023-11-11
+163207ca-39d3-48ec-a738-d6b114b0323c,Warm studio near old town,Berlin,DE,52.557983,13.42195,studio,2,0,11500,EUR,,0,2024-03-02
+f4359ddd-812d-461b-a11b-ccd84f8d1f69,Bright studio near the cathedral,Lisbon,PT,38.730658,-9.117657,studio,2,0,9500,EUR,4.5,154,2023-11-17
+891270c7-36cc-441c-a49c-7ad400bb05ae,Central apartment near the river,Belgrade,RS,44.752777,20.433377,apartment,7,3,5000,EUR,4.1,165,2023-12-23
+4c8a7d1b-4ed2-4bbb-9b8e-7fd1c4361ae7,Rooftop apartment near old town,Barcelona,ES,41.403473,2.132255,apartment,4,2,19500,EUR,4.4,141,2024-05-15
+45911882-fe53-451b-bdfe-707b825352d2,Airy apartment near the market,Zagreb,HR,45.821315,15.965452,apartment,5,3,6500,EUR,4.4,86,2025-04-12
+72dc8fc0-591e-4fce-87f3-0c6671c9b579,Warm loft near the harbour,Berlin,DE,52.47199,13.459077,loft,5,2,11000,EUR,5.0,173,2023-11-04
+e4121297-dafb-4faa-bd27-465ffb40eb84,Riverside studio near the river,Budapest,HU,47.450727,19.008289,studio,3,0,9500,EUR,4.0,85,2025-01-12
+335a8c03-7799-4fae-9e95-fce766c6dbfa,Airy apartment near the cathedral,Belgrade,RS,44.821994,20.41537,apartment,3,1,8000,EUR,4.1,101,2025-01-08
+886e19ec-2b2b-4656-a399-c9ac239f9334,Charming room near the museum,Novi Sad,RS,45.229612,19.84372,room,2,1,2000,EUR,,0,2025-02-20
+bbdc632d-3289-4078-8a9e-9ade56e6afa7,Charming apartment near the main square,Zagreb,HR,45.761538,15.95258,apartment,6,3,10000,EUR,4.8,78,2024-08-06
+3e1b3975-aa79-405d-ba91-c69644bb68ac,Cosy apartment near old town,Novi Sad,RS,45.241991,19.858919,apartment,2,1,5500,EUR,4.8,8,2024-08-17
+cabae007-f6cf-4cca-9680-21740316ecdd,Airy apartment near the station,Belgrade,RS,44.78256,20.466426,apartment,3,2,4000,EUR,4.3,98,2025-01-28
+ac6cf164-f3b4-46b2-a3a4-b81b54b3ba8d,Minimal house near the station,Budapest,HU,47.538195,18.970765,house,6,2,13500,EUR,3.9,26,2026-04-06
+202e5cd7-4468-444e-a670-34b50963b6a7,Central studio near the cathedral,Lisbon,PT,38.738021,-9.181624,studio,2,0,14500,EUR,4.8,82,2025-04-25
+5c30dc32-5d9e-435b-9996-85f35e703279,Bright house near the cathedral,Zurich,CH,47.377202,8.571452,house,10,5,29000,EUR,3.9,27,2026-04-02
+a7b8e0e2-7dc0-4eed-a5bc-48e98c407fd2,Central studio near old town,Barcelona,ES,41.376191,2.235524,studio,3,0,13000,EUR,4.6,62,2025-09-01
+be864ed3-4032-4da6-af31-c70a83bc6a3d,Sunny apartment near the university,Barcelona,ES,41.386439,2.224089,apartment,4,2,18500,EUR,4.1,128,2023-12-24
+aace7a06-dda7-48b1-877c-e228b7a3a802,Charming loft near the river,Budapest,HU,47.473912,18.985631,loft,2,1,7500,EUR,4.1,117,2024-10-05
+2174d41c-7473-4442-a139-859f62dc03c7,Charming apartment near old town,Novi Sad,RS,45.223127,19.88543,apartment,5,3,5000,EUR,4.1,115,2024-03-09
+9ec41831-0128-42a6-9535-f5820d7379e8,Historic house near the park,Ljubljana,SI,46.104011,14.561329,house,9,4,15000,EUR,3.6,155,2024-02-21
+1faa5270-5649-440b-9936-db026b1d5f35,Rooftop apartment near the market,Berlin,DE,52.533532,13.449849,apartment,2,1,16500,EUR,4.9,70,2025-07-13
+6b27fd95-48d7-4d18-8544-018d8fd63ff7,Central room near the station,Vienna,AT,48.241872,16.329802,room,2,1,6000,EUR,4.1,157,2024-02-09
+04051105-1b8e-432b-a725-94906eaf80a9,Spacious apartment near the cathedral,Lisbon,PT,38.67141,-9.079337,apartment,2,1,11500,EUR,4.5,88,2025-03-31
+fd92ebd0-9293-472a-95bf-694f803c5817,Riverside loft near the main square,Prague,CZ,50.028358,14.441536,loft,6,3,6000,EUR,4.2,95,2025-02-13
+44253d37-5a1d-48e7-9340-47f0a341a0a7,Central loft near the museum,Vienna,AT,48.171628,16.358732,loft,4,2,13000,EUR,3.8,36,2023-09-05
+1dd7e410-b106-4f5d-bba5-ff3e961e4fff,Bright house near the station,Belgrade,RS,44.796368,20.418635,house,11,5,7000,EUR,4.9,180,2023-09-23
+ace02726-48cb-4257-bdde-c5b8de42f1b9,Spacious house near the market,Budapest,HU,47.521574,19.075645,house,10,5,11000,EUR,5.0,140,2024-05-23
+13ab054a-51b9-4222-ad89-e4a9cd128364,Charming apartment near the university,Prague,CZ,50.09016,14.435317,apartment,2,1,8500,EUR,4.5,79,2025-05-22
+980af7b1-15f3-47ac-add7-040bf92cafee,Minimal studio near the museum,Zurich,CH,47.368774,8.611109,studio,3,0,29500,EUR,3.5,82,2024-10-13
+081ba43a-f9c6-4d6f-bfe8-aca4bf856f3a,Airy apartment near the park,Berlin,DE,52.521261,13.408161,apartment,5,3,8000,EUR,4.1,33,2026-02-23
+83f7e8d2-23f4-4797-b118-0a3a3944627f,Central apartment near the museum,Prague,CZ,50.06007,14.471549,apartment,6,3,6500,EUR,4.0,78,2025-05-31
+67ee6f21-a32d-451d-8872-16d5fc8893f4,Bright apartment near the market,Belgrade,RS,44.824174,20.473093,apartment,1,1,6500,EUR,4.0,23,2026-04-23
+c3160eb6-6624-4f39-91c9-93189025c6b7,Riverside house near the market,Berlin,DE,52.536426,13.378355,house,5,2,23000,EUR,4.9,9,2026-07-17
+939f122e-417b-43a3-b18e-cb7ff7277d9d,Rooftop house near the university,Ljubljana,SI,46.059744,14.511448,house,11,5,17000,EUR,,0,2023-09-08
+108d93ba-532f-4991-b8c1-91d9eb68f052,Garden studio near the market,Belgrade,RS,44.774157,20.519578,studio,3,0,7500,EUR,4.2,88,2025-03-28
+91a38f53-397f-4164-9747-3965440811fa,Spacious studio near the cathedral,Vienna,AT,48.247605,16.334675,studio,3,0,18500,EUR,5.0,167,2023-12-14
+fe34d7f4-44ee-4530-a208-8edd1996ef32,Spacious loft near old town,Budapest,HU,47.537503,19.093434,loft,3,2,9500,EUR,3.9,44,2025-12-20
+3e076e3a-28d0-40c6-8160-11d6774f945f,Modern apartment near the river,Vienna,AT,48.224811,16.426292,apartment,3,1,10500,EUR,4.6,168,2023-12-08
+f75a19a4-7e74-4f4e-a0ff-5a6fe6c86d07,Bright apartment near the university,Novi Sad,RS,45.312019,19.863682,apartment,2,1,4000,EUR,4.2,20,2026-05-12
+022e9fb2-abf7-4b63-a2a2-6e02b3908c9a,Cosy house near the river,Vienna,AT,48.167467,16.366074,house,8,3,20000,EUR,3.7,77,2025-06-02
+82949bf2-b0e8-4f2f-8b4c-8d6adf7f6d62,Airy loft near the market,Belgrade,RS,44.787467,20.384597,loft,3,1,5000,EUR,,0,2026-04-09
+086e1bd1-9678-457b-82d7-2f58a3eaa38f,Central apartment near the market,Vienna,AT,48.193709,16.316521,apartment,4,2,14000,EUR,4.7,78,2025-05-26
+fd583918-9297-4253-baa3-bedbde06bac1,Modern apartment near the park,Budapest,HU,47.541778,19.020554,apartment,3,2,7500,EUR,,0,2024-08-30
+0a41cac5-5565-4fcc-a152-648135ed104a,Sunny apartment near the park,Budapest,HU,47.514653,18.97155,apartment,6,3,11500,EUR,,0,2024-04-07
+05f9f735-8964-4cc2-afe2-07d4f9b0f3a6,Minimal apartment near old town,Prague,CZ,50.11514,14.487248,apartment,5,3,8000,EUR,4.5,57,2025-10-03
+ef343ca2-fde1-4b57-b177-53c44b31ad8b,Garden apartment near the museum,Prague,CZ,50.123134,14.366235,apartment,3,1,10000,EUR,4.5,130,2024-07-18
+d1435d57-3cec-48fd-8fde-c0f17cf55cf4,Garden house near the park,Berlin,DE,52.48921,13.417967,house,6,3,17500,EUR,4.4,122,2024-02-17
+a9b2a3d5-8cd9-4ddf-971c-807871be670f,Sunny studio near the museum,Berlin,DE,52.494823,13.459337,studio,3,0,16500,EUR,4.8,85,2023-12-12
+83d29bfb-4b6c-43c2-97bd-f02bb02e4cd9,Airy house near the park,Belgrade,RS,44.806959,20.430454,house,5,2,12000,EUR,4.0,23,2024-09-21
+e0e8770a-3df8-4259-b935-adb8dc030236,Central studio near the park,Ljubljana,SI,46.092965,14.57335,studio,2,0,7500,EUR,4.9,149,2024-03-26
+497acbbb-c21e-4849-8b16-08231e6d991b,Riverside apartment near the harbour,Prague,CZ,50.04518,14.437683,apartment,5,3,6500,EUR,4.6,124,2023-08-30
+d8934686-65c2-4534-95da-cf6ee874ac3c,Riverside studio near the station,Belgrade,RS,44.762159,20.42808,studio,3,0,4000,EUR,4.5,51,2024-01-17
+d192265d-f71e-4342-805d-ab0889f2f256,Spacious apartment near the main square,Belgrade,RS,44.794474,20.404162,apartment,1,1,6000,EUR,5.0,59,2023-07-19
+fe0838af-33b4-4f4f-8622-319f8d53fd14,Cosy loft near the cathedral,Zagreb,HR,45.777636,15.917931,loft,7,3,7000,EUR,4.0,84,2025-04-20
+0f16366a-d19b-48f6-bcdc-28730e2946ec,Modern studio near the harbour,Barcelona,ES,41.338564,2.098412,studio,3,0,13500,EUR,4.1,11,2026-07-02
+35c0fe37-e0d3-47ed-9e98-85662f351d0c,Riverside loft near the main square,Amsterdam,NL,52.34255,4.859258,loft,5,2,16500,EUR,3.2,40,2026-01-13
+aff0cbe2-fb64-42e4-a288-f1a7ee14d540,Charming apartment near the market,Zagreb,HR,45.799665,16.036659,apartment,5,3,10000,EUR,3.9,179,2023-10-02
+2733e1de-799b-4028-9fc8-0fb7cee313ba,Modern room near the market,Vienna,AT,48.239858,16.313453,room,2,1,5500,EUR,4.3,33,2025-04-26
+13f51069-f453-4180-9af6-a38eeff06f69,Quiet apartment near the river,Zagreb,HR,45.854551,15.984238,apartment,1,1,7000,EUR,4.5,12,2026-06-30
+fcd4e307-b6f9-427a-8a11-b5916eb13e9b,Spacious house near the park,Berlin,DE,52.543508,13.444442,house,5,2,20000,EUR,4.0,108,2024-12-01
+6dbe38e3-e450-494e-9cf9-2569be8d17d1,Bright apartment near the park,Berlin,DE,52.483404,13.454028,apartment,4,2,9000,EUR,3.7,43,2025-12-26
+21f43f57-4bad-44f2-8d8c-57a4f3ea29ea,Minimal apartment near the station,Zurich,CH,47.420291,8.493205,apartment,2,1,14000,EUR,4.5,48,2025-02-15
+34332dd5-e7ba-405a-9a08-3fa4ba1a64bb,Spacious studio near the main square,Ljubljana,SI,46.078144,14.452506,studio,3,0,9500,EUR,5.0,144,2024-04-07
+03e9a360-6e4a-4806-8725-14a8326767af,Sunny house near the station,Lisbon,PT,38.744357,-9.199308,house,9,4,18500,EUR,3.9,62,2025-09-02
+5a802250-6776-4b51-9572-8dca714da5ad,Airy studio near the market,Budapest,HU,47.505963,19.091914,studio,2,0,6500,EUR,4.8,65,2025-08-12
+6750e965-6b60-4270-9b9d-232cd2053c4b,Bright room near the museum,Berlin,DE,52.526222,13.446819,room,2,1,6000,EUR,4.5,97,2024-07-22
+f0bc0acc-f1ed-407e-a90d-d86566156565,Warm apartment near the market,Budapest,HU,47.456274,19.076609,apartment,4,2,6000,EUR,4.2,143,2024-05-02
+0bf510a0-f06f-4607-994d-4c17ae73f902,Riverside apartment near the museum,Budapest,HU,47.454865,19.046641,apartment,5,2,7000,EUR,4.3,141,2024-05-17
+5857bd12-2dcc-4d29-a006-7dc11a4b0b54,Sunny apartment near the main square,Budapest,HU,47.5483,19.096675,apartment,7,3,7000,EUR,4.4,39,2023-12-01
+7b330e7c-e55b-4e2a-b760-b4ea14a88a8d,Modern studio near the river,Zagreb,HR,45.772975,16.03644,studio,2,0,6500,EUR,3.6,28,2026-03-24
+7b93e62c-06a7-45f9-b54e-a46d96ebcbde,Modern loft near the park,Belgrade,RS,44.743964,20.449833,loft,7,3,6500,EUR,4.0,102,2025-01-06
+5e1fead0-6951-4878-a758-0ef40a17c2ee,Riverside apartment near the main square,Barcelona,ES,41.368048,2.213114,apartment,3,1,14500,EUR,5.0,39,2026-01-15
+7637e17f-cbaf-441a-ae9a-168c04870bd6,Cosy apartment near the museum,Zagreb,HR,45.828657,15.928193,apartment,3,2,9500,EUR,4.3,136,2024-06-12
+5e3e8aaf-044c-40ad-a5c9-126c98e3193b,Historic apartment near the university,Vienna,AT,48.156671,16.393985,apartment,4,2,15500,EUR,4.3,164,2023-09-20
+2f95c003-e2a5-4e16-b944-d379c97f6fe9,Spacious apartment near the harbour,Zurich,CH,47.374489,8.552177,apartment,4,2,27500,EUR,4.4,49,2025-11-20
+109c3817-08fb-48a2-b08d-d0d6714cb3b5,Cosy studio near the park,Berlin,DE,52.562511,13.42049,studio,3,0,10500,EUR,4.4,14,2025-05-09
+f087ce0a-b151-4e3d-9724-375ee964e5a8,Historic apartment near the harbour,Belgrade,RS,44.762151,20.437858,apartment,2,1,6500,EUR,4.7,110,2024-11-20
+797e293b-440c-40e5-b94b-f33759cab327,Sunny studio near old town,Zurich,CH,47.339571,8.467555,studio,2,0,14500,EUR,4.5,174,2023-10-29
+94435116-4b8b-4b18-8ce2-5efab46510a4,Historic studio near the station,Vienna,AT,48.233171,16.387571,studio,3,0,14000,EUR,4.4,134,2024-06-29
+8efded25-34dc-4313-8547-2bb6e29ea38a,Spacious apartment near the university,Prague,CZ,50.124582,14.507012,apartment,5,2,10500,EUR,4.2,161,2024-01-17
+f1619692-e6a8-4024-a586-c95dd913b2c2,Warm studio near old town,Vienna,AT,48.212125,16.412662,studio,2,0,14500,EUR,4.0,35,2026-02-12
+31732728-fb46-4d47-884a-c60ddf78a873,Sunny room near the main square,Novi Sad,RS,45.263596,19.799936,room,1,1,3000,EUR,4.5,177,2023-10-12
+9cc63696-ec82-44e1-830b-383cd54b659d,Charming apartment near the park,Prague,CZ,50.085926,14.424837,apartment,7,3,9500,EUR,4.3,119,2024-09-26
+d038c3d0-ae68-4139-ad43-50ef4ade2dbe,Rooftop loft near old town,Vienna,AT,48.202155,16.439266,loft,6,3,11000,EUR,4.6,93,2025-02-25
+b7a94e2c-ed6c-4b29-a459-7e258c4ad158,Rooftop room near the cathedral,Barcelona,ES,41.395225,2.217861,room,2,1,5500,EUR,4.2,56,2025-10-10
+4c821d1d-1c81-4e42-b6c6-ba374c771726,Warm apartment near the river,Berlin,DE,52.51403,13.439795,apartment,5,3,10500,EUR,3.6,172,2023-11-12
+7b7ff7f7-5547-4455-b729-bb71d3360b86,Central house near the main square,Novi Sad,RS,45.216495,19.829003,house,9,4,6500,EUR,4.4,24,2026-04-16
+b8afdd8c-cf1e-4018-8add-0486ab54edeb,Warm apartment near the harbour,Zagreb,HR,45.857738,15.986661,apartment,1,1,6000,EUR,4.0,33,2026-02-21
+a8ca08b6-d9c1-4861-9677-958d72bf5f44,Bright apartment near the station,Berlin,DE,52.466112,13.408409,apartment,3,2,9500,EUR,4.4,184,2023-09-03
+7cb482aa-5a26-4a7f-b228-932949d0739a,Rooftop house near the market,Prague,CZ,50.031318,14.405328,house,9,4,13000,EUR,3.9,151,2024-03-16
+31189102-7df5-494a-86fb-0bd354e0d275,Charming apartment near the university,Prague,CZ,50.100699,14.489944,apartment,7,3,8500,EUR,4.0,54,2025-10-18
+0d977d0e-9d64-4888-9a5d-9397b1b52d3f,Riverside apartment near the harbour,Vienna,AT,48.251778,16.304617,apartment,6,3,12500,EUR,4.9,133,2024-06-30
+39780f41-ca39-4755-a4a6-679b79c229db,Garden room near old town,Amsterdam,NL,52.342912,4.939041,room,2,1,6500,EUR,4.5,134,2024-06-25
+5e6d98af-6491-4a71-937c-a415fe062ef0,Garden studio near the park,Zagreb,HR,45.838284,15.977199,studio,3,0,9000,EUR,4.3,119,2024-09-22
+da851985-bdaa-4882-9765-866899a475ca,Sunny apartment near the museum,Zagreb,HR,45.803947,16.03453,apartment,1,1,9000,EUR,5.0,28,2025-09-07
+49a4b097-ced7-43de-8a49-95790928b4bf,Minimal apartment near the cathedral,Novi Sad,RS,45.218241,19.884776,apartment,6,3,4000,EUR,4.1,81,2025-05-11
+8d7047e1-b5e8-4e7d-9756-f7abcba0b67a,Central house near old town,Zagreb,HR,45.817401,15.947022,house,10,4,9500,EUR,4.8,106,2024-05-19
+5f330dc7-c7f2-47c0-be5d-7c2a78c20f56,Central apartment near the station,Vienna,AT,48.239583,16.377844,apartment,4,2,13000,EUR,4.0,8,2026-07-24
+3cdf0d85-86e8-429e-8a0c-cc5ddaa2b011,Garden apartment near the main square,Amsterdam,NL,52.401912,4.909485,apartment,3,2,23500,EUR,4.8,67,2025-08-03
+b1d8b930-b608-4df0-9278-817f5177cb52,Sunny apartment near the harbour,Vienna,AT,48.229063,16.401857,apartment,5,2,11000,EUR,4.4,19,2024-01-09
+b545e26f-0cb8-4694-9972-afccfe7978e9,Quiet room near the university,Lisbon,PT,38.675019,-9.186177,room,1,1,5000,EUR,4.4,78,2025-05-31
+e4c78d5d-acfb-460c-af02-a1b596dbc91d,Riverside apartment near the cathedral,Vienna,AT,48.252713,16.321692,apartment,1,1,18000,EUR,4.5,14,2024-03-05
+111af8f3-855c-410a-a04e-0a88a7e8ab93,Historic studio near old town,Budapest,HU,47.536246,18.975109,studio,2,0,7000,EUR,4.0,123,2024-06-11
+76907e2c-d1f2-47b1-9b80-41caf942c51a,Riverside apartment near the museum,Berlin,DE,52.498394,13.385302,apartment,4,2,8000,EUR,5.0,65,2025-08-15
+6ac6f0b6-10d3-4358-88e4-7f9685eef71a,Quiet studio near the university,Belgrade,RS,44.754431,20.427787,studio,2,0,7000,EUR,3.7,115,2024-10-18
+4d3695b6-bb3f-46f0-9dcf-2c9b6d10572b,Airy house near the university,Belgrade,RS,44.835148,20.457744,house,6,2,8000,EUR,4.7,92,2025-03-07
+6c639254-5d6b-4487-95b8-786a9203b81d,Sunny studio near the market,Budapest,HU,47.455952,19.004151,studio,2,0,4500,EUR,4.0,54,2024-10-01
+855e2ec3-b516-4ae4-bc0d-3785d7fc33b4,Airy apartment near the station,Prague,CZ,50.112196,14.508263,apartment,1,1,7500,EUR,3.6,125,2024-08-03
+70d3baea-764b-4456-b163-edfddbb69d5d,Quiet apartment near old town,Barcelona,ES,41.356518,2.103746,apartment,5,3,15000,EUR,,0,2023-08-02
+04e18df7-8a63-4ed6-87ad-1f4c8359bcef,Central loft near the main square,Lisbon,PT,38.743571,-9.187138,loft,4,2,7500,EUR,3.9,141,2024-05-15
+c11c7a3b-acd5-4fc7-9cdf-e6f6ffa1b52c,Quiet loft near the market,Prague,CZ,50.104471,14.444817,loft,1,1,13000,EUR,4.2,70,2025-07-15
+47fd5f38-ac82-4c6a-943c-e8d7697c5700,Bright apartment near the cathedral,Prague,CZ,50.111505,14.373713,apartment,6,3,7000,EUR,4.1,64,2025-08-21
+362fb2e1-2386-4590-a40d-eaa5ffdfd6fd,Minimal apartment near the main square,Barcelona,ES,41.405796,2.18892,apartment,2,1,14000,EUR,3.7,62,2025-09-03
+c48b88b7-66dd-44ca-bd5c-96d523476bb1,Minimal room near the market,Barcelona,ES,41.358591,2.214322,room,2,1,7500,EUR,,0,2025-09-24
+88835724-1b9c-47f4-b269-73c6825d24b0,Central room near the river,Barcelona,ES,41.413415,2.201839,room,2,1,7000,EUR,3.6,93,2025-03-02
+26d28c58-07c7-458a-9d84-5c2f0b48662b,Riverside apartment near the main square,Barcelona,ES,41.408021,2.174886,apartment,3,2,13500,EUR,3.9,97,2025-02-01
+771fbd5e-ae32-4b58-9466-c5796d0a03db,Charming studio near old town,Barcelona,ES,41.390226,2.144206,studio,3,0,9500,EUR,4.8,154,2024-03-01
+d3f5043e-65d1-47c6-a21f-9b3c5e8be878,Historic apartment near old town,Belgrade,RS,44.802625,20.47552,apartment,4,2,5500,EUR,4.3,119,2024-09-23
+a6f8effe-0403-42af-896a-96ffbd6cbb37,Riverside studio near old town,Vienna,AT,48.193051,16.315333,studio,3,0,19000,EUR,3.6,185,2023-08-28
+f7fac269-669c-4068-a9ea-3639ef8f4e4a,Historic loft near the university,Zagreb,HR,45.826862,15.921619,loft,1,1,6000,EUR,4.5,142,2024-05-09
+03fa75c2-f9f0-4dbc-8e2a-10c86d77db36,Rooftop apartment near the cathedral,Berlin,DE,52.466901,13.347649,apartment,3,2,10500,EUR,4.4,148,2024-04-05
+cda1549b-2cfb-4209-a16f-3cb95ba24760,Historic studio near the university,Belgrade,RS,44.813061,20.465837,studio,3,0,5000,EUR,4.7,37,2026-01-27
+57df6bd2-846e-4832-9763-3151df02e778,Minimal apartment near the station,Prague,CZ,50.107793,14.454608,apartment,5,2,8500,EUR,,0,2024-04-08
+0e7a225e-ab13-4658-baad-25ad02bd38de,Sunny apartment near the station,Berlin,DE,52.557059,13.346354,apartment,3,1,9000,EUR,4.5,168,2023-12-03
+1f3e9fe5-b1f5-4ef7-93e5-542bb233c867,Modern apartment near the university,Belgrade,RS,44.827758,20.403045,apartment,4,2,6500,EUR,3.8,105,2023-11-14
+2ccb0bf9-7636-47c7-a76e-c4f1f6f95ee9,Riverside loft near the university,Barcelona,ES,41.399561,2.240904,loft,1,1,13000,EUR,4.5,23,2023-09-21
+1db2b55f-ce80-4cf3-b627-f0089aee26eb,Central studio near the station,Novi Sad,RS,45.297663,19.869109,studio,3,0,6500,EUR,4.5,82,2025-05-04
+5649a598-942a-4cd0-9d7d-6abd7088112a,Historic apartment near the university,Lisbon,PT,38.733261,-9.16246,apartment,3,1,9500,EUR,,0,2024-01-17
+abd4959f-e13d-402b-b99f-735e1817ed2b,Cosy loft near the river,Barcelona,ES,41.356055,2.202839,loft,6,3,18500,EUR,4.3,87,2025-04-07
+b39d7749-3d9c-48ea-a786-44516d928410,Airy room near the university,Belgrade,RS,44.752052,20.390194,room,1,1,3000,EUR,4.7,97,2025-02-02
+f27a226c-4712-4aae-835a-ecf23ab22e7a,Charming house near the station,Lisbon,PT,38.702983,-9.19521,house,11,5,17000,EUR,3.7,41,2026-01-05
+e128a9f2-23d7-46f4-b661-cc7847caad14,Warm loft near the harbour,Belgrade,RS,44.840191,20.461995,loft,1,1,8000,EUR,,0,2026-07-31
+7b6f31d7-fde1-4460-a1bf-aee1524ad5ce,Quiet room near the harbour,Amsterdam,NL,52.370454,4.946655,room,2,1,7000,EUR,4.1,56,2025-10-08
+1f22e009-0b31-4bda-ac62-de683b245c24,Bright house near the market,Prague,CZ,50.033779,14.430657,house,8,3,10500,EUR,4.6,1,2024-03-26
+6a9d4a8d-c52e-499c-a876-0f820de1c68d,Historic loft near the park,Barcelona,ES,41.338977,2.126293,loft,3,1,15500,EUR,4.0,87,2024-02-01
+723f9779-4a6e-44fc-b3c9-5b600de6ef73,Modern apartment near the park,Lisbon,PT,38.763479,-9.143239,apartment,5,2,10000,EUR,4.4,11,2025-06-05
+6c930f85-ed04-4317-a377-410fe67234d9,Riverside apartment near the museum,Ljubljana,SI,46.094709,14.552498,apartment,3,1,6500,EUR,4.8,47,2023-12-15
+7799e4f7-5603-424b-9959-8c53c2be321e,Rooftop apartment near the harbour,Budapest,HU,47.517492,19.022526,apartment,1,1,8500,EUR,4.5,191,2023-07-20
+caa029b0-9158-47dc-9e56-7f1dbf6d987a,Garden studio near the market,Zurich,CH,47.367072,8.562538,studio,2,0,16000,EUR,,0,2025-10-12
+36511003-284c-419b-a9e9-5ef4acfa2006,Riverside apartment near the university,Budapest,HU,47.483808,18.991226,apartment,1,1,8500,EUR,4.5,41,2026-01-07
+b8e964ad-a3e1-4ca7-b9bb-7d5c2247d2c7,Charming apartment near the river,Lisbon,PT,38.723192,-9.122912,apartment,1,1,9500,EUR,3.9,37,2026-02-01
+b3c34652-0fc3-4643-af33-aeaf94797967,Bright apartment near the river,Amsterdam,NL,52.375765,4.973735,apartment,2,1,20500,EUR,3.7,136,2024-06-13
+0d359b25-f755-4842-9764-0f8dfc9c19bd,Warm house near the museum,Belgrade,RS,44.75452,20.388038,house,11,5,7000,EUR,4.5,109,2024-11-21
+c49619d1-148e-4fbf-ba39-6481bfcf2351,Charming apartment near the station,Barcelona,ES,41.346729,2.143917,apartment,5,2,19500,EUR,4.8,155,2024-02-24
+c5ad640d-6787-4d69-9c99-f7601f97dd94,Quiet apartment near the harbour,Berlin,DE,52.54085,13.388418,apartment,6,3,15000,EUR,4.1,29,2026-03-18
+208bf0f3-2aa3-47f9-86fa-0e8308b04753,Bright house near the harbour,Zagreb,HR,45.866147,15.956827,house,6,2,9500,EUR,3.7,90,2025-03-16
+c42c3a81-78df-4f78-8ef9-d30dd1b859f4,Spacious house near the main square,Belgrade,RS,44.81239,20.508999,house,6,2,11000,EUR,3.9,53,2024-12-09
+abb4567b-87b2-4b12-be5f-23bf014dfb0b,Garden apartment near the harbour,Berlin,DE,52.475611,13.443766,apartment,3,1,9000,EUR,3.7,14,2026-06-17
+82e33755-3280-4d1e-b471-3db1046a2803,Garden apartment near the river,Berlin,DE,52.570048,13.452375,apartment,6,3,14500,EUR,3.2,48,2025-11-22
+ef521cb4-8591-4bb0-96db-e303cf019636,Garden apartment near the market,Lisbon,PT,38.71169,-9.179333,apartment,7,3,12500,EUR,,0,2025-02-17
+3007a090-0232-4f8c-a2e3-3f33769c4efa,Bright room near the park,Amsterdam,NL,52.337739,4.92372,room,2,1,5000,EUR,,0,2025-11-09
+41120aea-1969-4769-99df-c992615e1edc,Warm studio near the station,Budapest,HU,47.464066,19.068308,studio,2,0,7500,EUR,4.4,7,2026-07-31
+42b2b97a-8fe1-4996-bb44-d8612f0a15bb,Quiet loft near the museum,Amsterdam,NL,52.39169,4.866117,loft,2,1,17000,EUR,3.6,19,2026-05-18
+addc1efe-a23b-4b7d-9534-208730e20d5d,Spacious room near the station,Prague,CZ,50.090145,14.464367,room,2,1,4500,EUR,4.7,47,2025-07-14
+efbdc9bf-5991-4ac4-b3c4-e2df22c83114,Rooftop studio near the university,Belgrade,RS,44.793832,20.405211,studio,3,0,4500,EUR,3.8,6,2024-02-17
+4518040e-cad1-4d00-b6f2-a982ac72019c,Airy studio near the cathedral,Vienna,AT,48.212473,16.389089,studio,2,0,9500,EUR,4.1,84,2025-04-24
+6f18260a-039e-4873-bf12-3e9d4b91c471,Bright house near the main square,Budapest,HU,47.468514,18.990262,house,6,2,18500,EUR,4.3,153,2024-03-06
+2eb2370b-c237-47f3-ab66-1e90348a12c6,Sunny loft near the park,Belgrade,RS,44.779083,20.432769,loft,5,3,5500,EUR,5.0,183,2023-09-06
+7a6b189c-34be-4d3e-adf9-d4673eb08eea,Garden apartment near the station,Belgrade,RS,44.77805,20.497183,apartment,2,1,4500,EUR,4.4,168,2023-12-03
+b6294428-8dce-4e5b-aea6-e7a5d15ed83d,Spacious loft near the river,Vienna,AT,48.191309,16.435994,loft,5,3,8000,EUR,3.9,138,2024-06-03
+6ead888a-dbe1-4617-ada7-58328fcbd79c,Quiet loft near the river,Belgrade,RS,44.77702,20.43591,loft,2,1,5000,EUR,4.5,95,2024-06-28
+952366f9-aed3-4c94-885a-a14bfddedd4a,Bright room near the university,Belgrade,RS,44.752877,20.469414,room,2,1,4000,EUR,5.0,172,2023-11-09
+c8b179d9-a9a1-475c-b6fe-a91a34e6eb8f,Sunny apartment near the station,Lisbon,PT,38.726748,-9.091259,apartment,4,2,8000,EUR,,0,2024-01-29
+179cd67e-1e36-4ae2-8f9b-c2406a2d6b1b,Spacious apartment near the river,Zagreb,HR,45.798992,16.001715,apartment,4,2,6500,EUR,4.8,118,2024-10-03
+64150413-646f-4955-997a-9174b34181d9,Cosy loft near the cathedral,Belgrade,RS,44.760726,20.397582,loft,5,3,5500,EUR,4.5,149,2024-03-26
+be581a8c-67e5-455e-9989-5fcba8429e56,Modern apartment near the park,Zagreb,HR,45.843054,15.961498,apartment,1,1,7500,EUR,4.5,84,2025-04-25
+b69f9087-ed19-47bf-bab8-394a6be53b9b,Minimal studio near the cathedral,Zagreb,HR,45.760315,15.961773,studio,3,0,8000,EUR,4.0,26,2023-10-02
+3e620028-03e4-4d7b-8468-d1a568946d7a,Garden apartment near the river,Zagreb,HR,45.843123,15.967466,apartment,1,1,4500,EUR,4.2,102,2025-01-02
+fc51f0ec-6fe8-4bbc-906a-e85385859b81,Garden apartment near the market,Berlin,DE,52.465004,13.375245,apartment,3,1,10000,EUR,3.6,177,2023-10-14
+a9038bfa-b175-427b-b0b8-9ce99cf43277,Warm apartment near the main square,Prague,CZ,50.055297,14.433438,apartment,5,2,8000,EUR,5.0,107,2024-12-05
+d31cc132-b193-47a0-ac5c-4243a60f898c,Cosy apartment near the cathedral,Zagreb,HR,45.840793,15.931645,apartment,4,2,6500,EUR,,0,2023-07-31
+97f54ea9-1d8b-4f9f-888b-f3e222246ddd,Airy apartment near the market,Ljubljana,SI,46.055758,14.439595,apartment,7,3,7000,EUR,3.8,150,2024-03-21
+21961278-c90b-4f9c-b499-dc2c68ec677b,Warm studio near the river,Belgrade,RS,44.799331,20.422567,studio,2,0,6500,EUR,4.9,142,2024-05-10
+1f47a406-b5ea-4a91-a797-3bbe9e86778c,Riverside studio near the cathedral,Barcelona,ES,41.348722,2.16773,studio,2,0,8000,EUR,4.4,40,2026-01-11
+fca64e27-8134-4ff7-a0a8-449986fa0c4e,Airy apartment near the market,Prague,CZ,50.066018,14.473261,apartment,3,2,11000,EUR,5.0,71,2025-07-12
+b1949523-cd12-4045-8bc3-854b695139ef,Garden loft near the station,Berlin,DE,52.572431,13.479509,loft,2,1,13000,EUR,4.3,89,2025-03-23
+87fe1e70-69fb-48b2-a81c-e04cbc838368,Central apartment near the museum,Berlin,DE,52.544651,13.375225,apartment,1,1,11000,EUR,4.3,71,2025-07-09
+aec05dc1-012b-433f-9595-b1bc520f1853,Modern house near the market,Amsterdam,NL,52.408492,4.969363,house,10,5,33500,EUR,,0,2026-02-19
+65733acd-e5d3-4c24-8373-c46029c52c7c,Garden loft near the university,Lisbon,PT,38.709436,-9.143229,loft,2,1,16000,EUR,4.8,23,2024-04-08
+0872f81f-c592-4d33-b45b-7e1c54fb121f,Airy studio near old town,Berlin,DE,52.509471,13.376712,studio,2,0,14000,EUR,4.5,5,2026-08-07
+00fdc8f1-5bd8-48bf-afd9-2c88b3c8b7e1,Central apartment near the market,Barcelona,ES,41.382931,2.161472,apartment,5,2,9000,EUR,4.1,135,2024-03-07
+ac308ed1-ea7f-4988-827c-5ab278a9fbbe,Rooftop apartment near the river,Zagreb,HR,45.78625,15.956378,apartment,6,3,7500,EUR,3.7,56,2025-10-10
+5192890d-7e63-4986-baed-a78fbd9a8bb4,Central loft near the river,Vienna,AT,48.248921,16.36029,loft,2,1,16000,EUR,5.0,191,2023-07-19
+934d316d-7d87-4e89-acd8-4d6c643faf64,Historic apartment near the station,Zurich,CH,47.421259,8.569185,apartment,6,3,13500,EUR,4.0,179,2023-09-28
+ad81c95c-428d-4509-be32-b8bc664027f7,Central studio near the market,Belgrade,RS,44.783133,20.395442,studio,3,0,7500,EUR,4.2,109,2024-11-22
+c72d0217-430b-4e93-96ff-f250cbb60202,Modern house near the cathedral,Belgrade,RS,44.764097,20.472351,house,9,4,7000,EUR,4.2,146,2024-04-14
+ede54fb2-e204-4040-ad2b-63abf8e93b71,Bright house near old town,Berlin,DE,52.542362,13.342354,house,6,2,13500,EUR,,0,2025-06-25
+52a3230b-f0b8-4c67-b549-8a33eff2fcff,Rooftop house near the museum,Belgrade,RS,44.771186,20.416981,house,8,4,9500,EUR,4.2,102,2025-01-04
+0903d65d-804a-4e7d-80c8-865c942db71c,Cosy loft near the river,Zagreb,HR,45.860249,16.042558,loft,5,3,6000,EUR,4.3,132,2024-07-06
+5d8942f5-069f-446b-aa64-b2f44984cdda,Historic studio near the museum,Prague,CZ,50.11355,14.473291,studio,3,0,13000,EUR,4.2,95,2025-02-16
+2efc44de-a774-4d88-bdc5-0957c3817925,Sunny apartment near old town,Budapest,HU,47.482998,19.100513,apartment,3,1,7500,EUR,,0,2023-10-08
+9734b63d-a5f4-461e-b76b-063a638c96eb,Modern studio near the river,Barcelona,ES,41.371245,2.184002,studio,2,0,18500,EUR,4.3,153,2023-12-17
+c347b68c-b80f-475c-9dba-6fe2d232832d,Spacious loft near old town,Amsterdam,NL,52.316205,4.973641,loft,3,1,15000,EUR,3.9,27,2024-08-14
+bb6dd4de-1e42-4cc7-a7e9-56c3d1cdae87,Rooftop apartment near the cathedral,Budapest,HU,47.469767,18.970062,apartment,7,3,6000,EUR,,0,2024-02-20
+ef189d65-4d36-4b72-ab79-b94d0d31c07d,Minimal apartment near the university,Zagreb,HR,45.805492,15.956767,apartment,2,1,7500,EUR,3.5,60,2025-09-13
+89be7911-a40b-48be-855b-0662971ead45,Sunny apartment near the station,Vienna,AT,48.210376,16.301031,apartment,5,3,10500,EUR,,0,2024-10-25
+00de50ce-f6e2-418e-bba1-3cc92d2b2bcf,Warm apartment near the university,Zagreb,HR,45.826084,15.933296,apartment,4,2,9000,EUR,4.8,46,2025-12-07
+ba5a9b36-db6b-4939-9513-f565d5b43ba8,Charming loft near the cathedral,Zagreb,HR,45.797026,15.975204,loft,6,3,10000,EUR,4.5,48,2025-08-23
+50758e4a-eb71-4e52-a88e-c9305d16323b,Charming apartment near the university,Belgrade,RS,44.744244,20.450289,apartment,2,1,7500,EUR,3.6,94,2024-08-10
+eaa0920a-6e3c-4b30-944e-2e955b4ee65a,Charming room near old town,Berlin,DE,52.524539,13.461598,room,2,1,4500,EUR,4.6,81,2025-05-11
+f90a23f3-9929-4c28-b713-b59efd1dd6f5,Cosy apartment near the harbour,Zagreb,HR,45.809808,16.051331,apartment,3,2,7500,EUR,3.8,65,2025-08-13
+a1bb948d-21d8-433a-88a8-21710c8f6e2b,Modern apartment near the university,Barcelona,ES,41.400352,2.21505,apartment,3,1,19500,EUR,4.1,115,2024-10-18
+fac277c5-8f22-4a30-9bf0-f3abbc6ad834,Spacious apartment near the main square,Zagreb,HR,45.772232,15.997376,apartment,5,2,10000,EUR,4.7,126,2024-08-13
+0df512fc-7b3f-46cb-ab8a-dbe762a2f94e,Rooftop apartment near the museum,Zagreb,HR,45.818296,16.053853,apartment,5,3,7500,EUR,4.1,9,2023-11-22
+22d93e22-0889-47e7-8e40-8091f717fe15,Airy studio near the market,Vienna,AT,48.24674,16.409041,studio,2,0,14000,EUR,3.8,123,2024-08-30
+98113b07-1e8f-47e6-8064-b63c34bb94c2,Airy apartment near the university,Barcelona,ES,41.346063,2.10374,apartment,2,1,13000,EUR,4.7,11,2026-07-05
+8023ff16-b512-4312-b2c2-f631429f912b,Cosy apartment near old town,Lisbon,PT,38.74164,-9.186755,apartment,2,1,11000,EUR,5.0,138,2024-06-05
+2ac4864b-daad-4954-a126-760c28c241e0,Spacious apartment near the university,Berlin,DE,52.476657,13.414493,apartment,4,2,13500,EUR,4.0,116,2024-05-10
+99b43820-d0b0-4028-93cf-6c11a367d485,Rooftop loft near the main square,Barcelona,ES,41.340917,2.238089,loft,3,2,19000,EUR,,0,2025-03-30
+8381f754-d7a1-4069-af86-084fa46ac43f,Garden apartment near the cathedral,Prague,CZ,50.047308,14.471742,apartment,7,3,8500,EUR,,0,2025-06-22
+bd8fabf6-3100-4e16-8d60-1b9c2fab39e9,Modern studio near the museum,Barcelona,ES,41.393957,2.240183,studio,2,0,17500,EUR,4.2,71,2025-07-10
+5101d24d-613e-42f9-b04b-023c8c803b56,Charming studio near the market,Belgrade,RS,44.785717,20.517616,studio,3,0,9000,EUR,4.3,9,2026-07-16
+5028ba77-48e5-439e-8e50-807f60e20561,Central apartment near the river,Zurich,CH,47.348694,8.583678,apartment,3,2,25500,EUR,4.4,16,2026-06-03
+271cab6f-63bd-454f-a861-71dceb1c05b3,Central studio near the river,Barcelona,ES,41.335231,2.229905,studio,3,0,15500,EUR,4.8,67,2025-08-02
+60dbbeea-8079-4c7f-82e6-7defeb0de5a3,Historic loft near the main square,Vienna,AT,48.251557,16.434523,loft,4,2,9000,EUR,3.9,163,2024-01-04
+d771885c-b1c0-46ea-a1c2-04a06c68c749,Riverside apartment near the station,Ljubljana,SI,46.051946,14.471951,apartment,4,2,6500,EUR,4.7,37,2024-05-14
+99f90305-c656-4d23-a5f9-fffaf564c1e3,Riverside studio near the harbour,Zagreb,HR,45.771093,15.917595,studio,3,0,10000,EUR,4.4,47,2024-04-20
+98db13c4-6b52-49e9-82ab-83bd7a293433,Riverside house near the market,Budapest,HU,47.48923,18.996761,house,7,3,11000,EUR,4.4,37,2026-01-29
+ddf6c179-f672-48c6-ae71-169596978c85,Garden loft near the river,Vienna,AT,48.166136,16.43501,loft,5,3,18000,EUR,4.6,87,2024-11-04
+fc92c769-09da-4e7f-9fa7-3cd9830e234d,Modern loft near the river,Belgrade,RS,44.741235,20.512503,loft,1,1,7000,EUR,4.4,42,2025-12-28
+64d8bb48-f1b3-4a0d-957f-98febe096d72,Spacious loft near the river,Belgrade,RS,44.801859,20.394761,loft,3,2,6500,EUR,3.9,92,2025-03-06
+164d991a-c5c2-49d6-879b-f7f93f8b788b,Warm apartment near the park,Lisbon,PT,38.694452,-9.066172,apartment,2,1,9500,EUR,,0,2024-10-10
+9f1dc838-3cce-440f-a4e2-35f4f8fbd6d5,Minimal room near old town,Amsterdam,NL,52.397243,4.967469,room,2,1,4500,EUR,4.4,28,2026-03-27
+bad21138-b930-460e-9795-ed9e6ced400d,Historic apartment near the station,Belgrade,RS,44.755009,20.38203,apartment,4,2,5500,EUR,,0,2026-03-23
+b3822188-afac-4dfd-a4bf-73c0cda0453f,Central apartment near the park,Novi Sad,RS,45.268489,19.889243,apartment,2,1,2500,EUR,4.5,9,2026-07-15
+02d08d09-95c1-412f-a9bd-b4ec17bf8c89,Historic apartment near the park,Amsterdam,NL,52.418357,4.959905,apartment,7,3,13000,EUR,,0,2025-09-14
+babc6b8c-e242-4979-a785-f231d2ff4703,Central apartment near the cathedral,Zurich,CH,47.386226,8.503892,apartment,3,1,13500,EUR,,0,2024-08-21
+f654bc2c-2a44-48ea-9503-a20f4e46f222,Bright apartment near the cathedral,Lisbon,PT,38.700977,-9.072521,apartment,5,2,11000,EUR,4.0,43,2025-12-24
+5aa76b81-5d9f-48a0-91be-e171247083ab,Spacious house near the museum,Barcelona,ES,41.365675,2.112208,house,10,4,16000,EUR,4.8,172,2023-11-12
+53071329-9267-476d-9fee-b9b472ee5bf7,Rooftop apartment near the main square,Prague,CZ,50.051031,14.391226,apartment,2,1,10500,EUR,,0,2023-09-06
+1d0d5253-abe5-4e97-88af-6dc414a57601,Garden loft near the cathedral,Zagreb,HR,45.79752,15.916644,loft,2,1,4500,EUR,4.5,35,2026-02-09
+0e2804bb-f3e0-4910-9ef7-9524564690e6,Garden studio near the market,Barcelona,ES,41.43,2.156988,studio,3,0,15500,EUR,4.1,8,2026-07-20
+29f2b669-8b8d-4880-a0ea-74fd4df6c0d4,Garden studio near the university,Belgrade,RS,44.769737,20.514373,studio,3,0,3500,EUR,5.0,156,2024-02-17
+376c557f-b68b-418f-85a6-80a75ec8e6fd,Rooftop house near the park,Vienna,AT,48.206761,16.341513,house,8,3,25000,EUR,4.4,30,2023-07-31
+009997cb-87fe-4a87-8664-210d43aa4a84,Warm room near the university,Belgrade,RS,44.760501,20.480099,room,1,1,2500,EUR,3.5,97,2025-02-02
+4a36c7c2-2098-4175-9442-361d3772061f,Airy room near the river,Barcelona,ES,41.42187,2.16479,room,2,1,5500,EUR,4.0,109,2024-11-26
+04807c45-815d-4a17-9623-6710b97e5440,Quiet room near the market,Budapest,HU,47.541406,19.024842,room,1,1,4500,EUR,4.4,45,2025-12-14
+0fa7110c-81e8-4ee0-8eb2-6c37abf54b2a,Warm apartment near the market,Belgrade,RS,44.752037,20.448867,apartment,5,2,6000,EUR,3.9,50,2025-09-21
+7328313f-f8a4-4fed-941d-da35d488701c,Modern house near the harbour,Belgrade,RS,44.838175,20.379478,house,10,5,6500,EUR,4.5,109,2024-10-22
+9c46e181-fc60-4ac7-be28-098975125dca,Sunny studio near the market,Lisbon,PT,38.672459,-9.070914,studio,2,0,10000,EUR,4.1,105,2024-12-20
+2339af38-299b-4bd8-870c-4a61dc8f2ff9,Charming apartment near the station,Belgrade,RS,44.786531,20.46263,apartment,7,3,4500,EUR,4.3,60,2025-09-12
+8858cf9f-e1db-4769-87ac-2c232c3e54a0,Spacious loft near the harbour,Belgrade,RS,44.771083,20.510145,loft,6,3,5500,EUR,3.4,56,2025-02-05
+a8fd4069-93f6-444c-95ee-60b18dfe9507,Sunny apartment near the market,Zagreb,HR,45.805749,15.97013,apartment,3,2,7000,EUR,4.3,59,2025-09-22
+82251252-464f-48fc-96ac-e98187624c52,Bright room near the station,Belgrade,RS,44.753364,20.424383,room,1,1,2000,EUR,,0,2024-09-28
+9b7f6336-e687-4ad9-92ba-0e6779210f63,Garden house near the main square,Vienna,AT,48.242137,16.407939,house,5,2,18500,EUR,4.0,62,2024-07-07
+98b723f1-23df-4d90-8ba2-ed3b36fa151e,Warm apartment near the market,Vienna,AT,48.238048,16.428005,apartment,7,3,14500,EUR,3.8,47,2025-11-28
+8448f7cb-a92b-4eef-ae73-82cdc919a1a9,Airy house near the harbour,Berlin,DE,52.504183,13.401133,house,10,4,18500,EUR,4.8,128,2024-08-01
+9b1f9839-9d90-4c44-90c0-80d117d73089,Garden house near the harbour,Zagreb,HR,45.852983,16.024446,house,8,4,9500,EUR,4.3,79,2025-05-20
+2b5077c9-4efc-48a1-8016-03573afc9d4d,Garden apartment near old town,Barcelona,ES,41.367316,2.130255,apartment,6,3,11500,EUR,3.9,40,2024-08-20
+f6b0bb53-269e-4fa8-8471-85cde08c89ec,Riverside apartment near the main square,Ljubljana,SI,46.046763,14.459174,apartment,5,3,9000,EUR,4.5,183,2023-09-05
+1f95714d-c957-4545-91fb-e6011095ec3d,Minimal apartment near the museum,Belgrade,RS,44.756189,20.400368,apartment,3,1,5000,EUR,4.5,111,2024-11-05
+63fd226c-8ba2-4dcb-bd94-54b58fc550dc,Modern room near the park,Lisbon,PT,38.696655,-9.167623,room,2,1,4500,EUR,3.5,112,2024-11-04
+5442b9ef-58a8-4b6d-96ea-972546791c7f,Garden loft near the station,Budapest,HU,47.461364,19.098217,loft,5,3,9000,EUR,4.6,92,2024-10-31
+dafbc562-45a7-49c3-87f6-3881362dec22,Riverside apartment near the station,Barcelona,ES,41.413276,2.22479,apartment,2,1,17000,EUR,4.3,43,2025-12-22
+f18495cc-e05e-4e2b-91dc-b19ea52109a7,Historic apartment near the river,Lisbon,PT,38.730586,-9.090842,apartment,7,3,10500,EUR,,0,2025-04-24
+af494908-64f2-4dc7-ba20-12a36c6c7b90,Minimal loft near the museum,Zagreb,HR,45.771189,15.907004,loft,3,1,7000,EUR,4.6,120,2024-09-16
+d1767afd-21b0-430d-974d-e9e1a3011941,Quiet studio near the main square,Amsterdam,NL,52.358513,4.916867,studio,2,0,13000,EUR,4.2,161,2024-01-16
+2fda9b33-5b60-4f34-92e8-43ceeb49e1a8,Modern apartment near the main square,Zagreb,HR,45.776371,15.954918,apartment,5,3,6500,EUR,,0,2024-08-27
+e1ec4ef3-5257-4dca-99a0-2fa630e96313,Rooftop loft near the cathedral,Lisbon,PT,38.769785,-9.118333,loft,7,3,9000,EUR,4.5,57,2025-09-30
+0f479ef4-f694-4458-92d1-1d4b7c0fe379,Historic studio near the cathedral,Barcelona,ES,41.385683,2.230339,studio,3,0,11500,EUR,3.7,69,2025-05-11
+9c5467e9-5eab-4f96-9e8d-83622544ddbd,Quiet studio near the museum,Prague,CZ,50.077753,14.445537,studio,3,0,9500,EUR,3.6,117,2024-10-07
+1ef8af5a-9fcd-4cd2-ba22-b9bc1e14886a,Warm studio near the university,Prague,CZ,50.093516,14.449369,studio,3,0,8500,EUR,3.5,96,2025-02-08
+cec0e6fa-8ac9-4617-8dee-816e34926d06,Airy house near the station,Belgrade,RS,44.764914,20.410156,house,6,2,13000,EUR,4.2,50,2025-11-10
+bfbd5e7c-d632-4a1f-a2bb-837c3b16bd0c,Garden room near the station,Belgrade,RS,44.816691,20.4777,room,1,1,2000,EUR,4.2,7,2026-07-27
+0ba0b9b7-4ecf-4785-933c-5e2fb3235012,Charming studio near old town,Ljubljana,SI,46.105136,14.54276,studio,3,0,10000,EUR,4.8,116,2024-10-13
+ca24dc05-c2f4-43ed-9617-2440ed950471,Bright loft near the university,Barcelona,ES,41.362976,2.121367,loft,5,2,17000,EUR,,0,2024-09-02
+dc8c4f86-c3f2-4414-b618-3ad546ad67f4,Charming apartment near the station,Berlin,DE,52.539799,13.345308,apartment,4,2,15500,EUR,4.6,113,2023-07-25
+7d803312-7375-4765-bccf-bc73134e148b,Spacious apartment near old town,Lisbon,PT,38.733307,-9.087091,apartment,5,2,8000,EUR,3.6,50,2025-11-11
+a279ebf2-eac9-4024-843c-5c719ffad103,Sunny house near the river,Novi Sad,RS,45.295476,19.845191,house,5,2,9000,EUR,,0,2026-02-26
+f73951ac-571b-4503-ba98-ab4ac451377a,Bright studio near the university,Prague,CZ,50.094976,14.411598,studio,2,0,7500,EUR,,0,2026-07-31
+d34647d7-623e-490c-88e5-8d830526e2b1,Airy room near the river,Belgrade,RS,44.835111,20.391055,room,2,1,2500,EUR,4.8,184,2023-08-29
+0a7a8793-705d-4541-95b1-c1b9edc4d2ea,Warm loft near the station,Amsterdam,NL,52.388062,4.954403,loft,3,1,15500,EUR,4.3,185,2023-08-27
+19357f5c-8832-4302-b7d8-310f9d3df9ec,Minimal apartment near the museum,Barcelona,ES,41.375946,2.153157,apartment,5,2,9000,EUR,3.9,101,2025-01-12
+99b2e26b-0a3d-48ef-9bb4-89aec7eaa224,Warm apartment near the main square,Barcelona,ES,41.3718,2.230772,apartment,2,1,13000,EUR,4.4,185,2023-08-26
+4a36d2b2-94dc-48b1-a999-44e1fd5e5561,Airy apartment near the harbour,Berlin,DE,52.494571,13.404504,apartment,5,2,9000,EUR,5.0,176,2023-10-20
+66363b49-d7a0-4df4-bec6-0a3dbad1ddea,Sunny apartment near the university,Berlin,DE,52.566935,13.389056,apartment,6,3,13000,EUR,,0,2025-09-26
+8f3bc67d-3ba0-44d1-8979-66eba9a179d2,Airy studio near the main square,Berlin,DE,52.538675,13.385443,studio,2,0,8500,EUR,4.0,111,2024-02-23
+5bef7e1f-d277-427e-897b-854218bc6e4a,Minimal loft near the harbour,Amsterdam,NL,52.327876,4.971115,loft,3,1,22000,EUR,3.7,41,2026-01-08
+378a966b-767f-443c-bde7-4a23726dd062,Minimal studio near the museum,Zagreb,HR,45.777328,16.022868,studio,3,0,6500,EUR,4.7,61,2025-09-09
+6c218742-5e55-49c5-a34a-bf16a542363e,Quiet apartment near the cathedral,Ljubljana,SI,46.01414,14.489633,apartment,3,1,12000,EUR,,0,2026-01-15
+dc810038-4ed8-4356-bd5d-d0c104d9fb21,Cosy room near the university,Budapest,HU,47.543761,19.001349,room,2,1,5000,EUR,4.3,14,2026-06-19
+a64f68f2-6bc4-4025-9ecb-635485e33a52,Sunny studio near the station,Belgrade,RS,44.779434,20.412712,studio,3,0,4500,EUR,,0,2026-01-11
+55f05e2d-51d8-4c73-b22d-fcfda7f5ff63,Rooftop studio near the market,Berlin,DE,52.563982,13.447933,studio,3,0,13500,EUR,3.9,96,2025-02-09
+e14d7a47-0c00-4329-96ab-280a3fdeb3e8,Central studio near the market,Lisbon,PT,38.715553,-9.116105,studio,2,0,9000,EUR,4.6,181,2023-09-16
+bbd3bad5-480b-4005-bf2d-b0c6fcbec969,Charming apartment near the station,Berlin,DE,52.469602,13.431556,apartment,5,3,9500,EUR,3.8,65,2025-08-16
+7a4fdfd3-098c-4655-90e9-c240a47e12e0,Warm apartment near the university,Zurich,CH,47.361914,8.563467,apartment,1,1,20500,EUR,4.8,135,2024-06-20
+040b37e3-0199-430e-a19f-0bcac038d82f,Quiet studio near the main square,Ljubljana,SI,46.083044,14.468516,studio,3,0,9000,EUR,4.1,30,2025-09-20
+d734ad87-0cf4-4b87-97d1-c2b6488426dc,Minimal apartment near the river,Novi Sad,RS,45.270898,19.885309,apartment,5,2,5500,EUR,4.0,67,2025-08-05
+9e65bc1f-1c05-47f0-94f0-ec1a7239a2f9,Warm apartment near the museum,Budapest,HU,47.477026,19.066593,apartment,7,3,7000,EUR,5.0,38,2026-01-25
+52c77df4-f14d-4c22-a835-4f5a0fdda4fb,Cosy apartment near old town,Vienna,AT,48.225116,16.331339,apartment,5,2,15500,EUR,4.1,87,2025-04-06
+ccbe7317-b2a9-4bea-af90-aee297c8bd08,Garden house near the cathedral,Belgrade,RS,44.825749,20.508997,house,10,5,9000,EUR,4.5,45,2025-12-11
+2ef99c34-1a8b-47b9-a87a-128a5bad9ba3,Riverside apartment near the university,Prague,CZ,50.03597,14.390936,apartment,3,2,13000,EUR,4.2,93,2025-02-25
+2c3ff82b-2e68-48b3-a84b-bb8a0d674f3a,Modern loft near the station,Budapest,HU,47.543262,19.087837,loft,5,3,10000,EUR,4.3,154,2024-03-01
+6183f195-ddde-4534-88c0-45954b45a7ac,Bright studio near the station,Zurich,CH,47.429415,8.529955,studio,2,0,17000,EUR,,0,2024-11-15
+bc05eeee-bc34-4043-b7c4-3fb6116b2132,Minimal loft near the station,Amsterdam,NL,52.412733,4.853238,loft,5,2,16000,EUR,4.3,62,2025-09-04
+d917bfa6-095a-43a4-b6fa-e1b1681a2025,Modern apartment near the university,Budapest,HU,47.465276,19.040823,apartment,6,3,4500,EUR,4.2,114,2024-10-25
+d0d28cce-7703-4849-a435-ad374a772f39,Garden studio near the station,Ljubljana,SI,46.028647,14.462026,studio,2,0,8500,EUR,4.5,8,2025-10-19
+e2b60313-2cb5-4b99-84c6-53f69df0ce64,Historic room near the cathedral,Vienna,AT,48.22306,16.355605,room,2,1,8500,EUR,4.1,70,2024-05-05
+335c0a11-46bb-4d7a-8e7b-42c315be2f85,Central house near the cathedral,Ljubljana,SI,46.081106,14.578169,house,8,4,11000,EUR,3.9,24,2026-04-20
+0d25f198-a655-4d03-8c00-28193b0195be,Garden house near old town,Zagreb,HR,45.841718,16.00501,house,8,3,9500,EUR,4.9,55,2025-10-11
+4f210dd1-a647-49ee-8627-38abc71be225,Cosy room near the market,Budapest,HU,47.541217,19.017374,room,2,1,4500,EUR,3.7,104,2024-12-21
+4b368d4c-da0c-4b37-8f76-5a8f24d2c4e2,Warm apartment near the river,Prague,CZ,50.024198,14.488245,apartment,5,3,7500,EUR,4.0,80,2025-05-14
+f1aad04b-7620-47e0-afb5-a6d48daa52c6,Minimal house near the park,Amsterdam,NL,52.377417,4.896261,house,5,2,22500,EUR,4.1,176,2023-10-18
+873fce2f-3922-436f-9f5f-55bab7988625,Quiet apartment near the park,Vienna,AT,48.234532,16.304582,apartment,4,2,17000,EUR,4.5,155,2023-09-03
+68a6b45f-987c-494a-9c91-3c788cded03c,Airy apartment near old town,Vienna,AT,48.230306,16.412827,apartment,2,1,13000,EUR,4.8,72,2023-11-22
+b17b724b-106e-474e-a15a-c72699d0df96,Charming studio near the market,Lisbon,PT,38.718548,-9.17001,studio,2,0,13500,EUR,4.3,49,2025-03-19
+55da69f3-bbd1-472b-bae6-2b28355a3717,Warm loft near the park,Prague,CZ,50.058736,14.455156,loft,1,1,13500,EUR,4.5,114,2024-10-22
+105f06e3-d293-4e8b-9e13-256681f956ef,Bright apartment near the station,Barcelona,ES,41.358483,2.138944,apartment,5,3,15000,EUR,,0,2024-12-07
+7ff38099-1ec4-4e88-b62b-c5ea88ab4df1,Quiet apartment near the river,Belgrade,RS,44.798803,20.425272,apartment,3,2,5500,EUR,4.2,127,2024-08-08
+fc45ecdc-1dd6-4485-9fb4-01ad011b097a,Quiet loft near the university,Berlin,DE,52.514282,13.478339,loft,1,1,9500,EUR,4.7,177,2023-10-12
+c536446c-ffc7-485b-ba8b-2b79c70985cc,Riverside studio near the market,Vienna,AT,48.20987,16.354231,studio,3,0,13500,EUR,,0,2025-11-29
+8865880d-e81c-4b4d-9f6c-86bacb759ca4,Bright studio near the market,Barcelona,ES,41.339796,2.20089,studio,2,0,12000,EUR,4.3,52,2025-10-31
+84091a81-8067-4135-b66e-e39cdf2fc814,Bright room near the harbour,Berlin,DE,52.478083,13.455839,room,2,1,7000,EUR,,0,2023-07-25
+fa585619-fb8f-4914-b391-ec40b0888f5c,Historic apartment near the university,Budapest,HU,47.490747,19.10965,apartment,2,1,8000,EUR,4.5,60,2024-05-23
+1f083a36-b4f2-477b-8897-0991632b9acc,Bright loft near the river,Berlin,DE,52.4983,13.467174,loft,2,1,16000,EUR,4.3,104,2024-09-26
+8317d6f7-7b85-4d98-ae3a-23765c9e7294,Warm apartment near the main square,Lisbon,PT,38.709225,-9.145391,apartment,5,2,8500,EUR,4.2,96,2025-02-07
+24e77ce3-886e-4a3d-a694-41ea3d11c933,Garden loft near the market,Vienna,AT,48.155779,16.427098,loft,7,3,9500,EUR,4.9,102,2025-01-03
+857e4668-e8a5-4ff4-8b30-ab2e1327fe1f,Sunny loft near the park,Ljubljana,SI,46.069172,14.499922,loft,7,3,10500,EUR,3.7,153,2024-03-04
+32fcd787-e9fb-4a60-865f-a08c1782927e,Cosy apartment near the harbour,Novi Sad,RS,45.305553,19.902174,apartment,1,1,3500,EUR,4.3,106,2024-12-11
+1e856325-82cf-41c9-b3a7-56b582f5bb2a,Charming apartment near the cathedral,Budapest,HU,47.48806,19.065086,apartment,5,2,11500,EUR,4.4,16,2026-06-05
+8a15febb-b4ae-4cb5-b75d-8eeccbf36060,Riverside studio near the market,Ljubljana,SI,46.007724,14.509928,studio,3,0,5500,EUR,4.4,107,2024-12-07
+61f65343-6499-409c-8270-c5f2de7755e3,Central apartment near the main square,Belgrade,RS,44.747774,20.50844,apartment,7,3,7000,EUR,3.9,120,2024-09-21
+ecae1f26-6bc4-4fcb-b9e1-a3782f13ca30,Riverside apartment near the station,Prague,CZ,50.047875,14.498888,apartment,1,1,6500,EUR,3.7,41,2026-01-05
+ffb37bcf-c76a-49c1-bbfb-b7904dc092dd,Spacious house near the cathedral,Budapest,HU,47.495076,19.069349,house,6,3,13500,EUR,4.2,10,2026-02-10
+e414ec82-d463-4805-824a-9534184b974f,Modern apartment near the harbour,Novi Sad,RS,45.250061,19.789908,apartment,7,3,6500,EUR,4.3,38,2026-01-23
+bea4def2-b0a4-414c-9651-7c9998c7101d,Minimal apartment near the harbour,Ljubljana,SI,46.038034,14.524831,apartment,7,3,8500,EUR,4.4,25,2025-07-30
+a09c70a8-0191-4f35-b86c-5bc78fbfd3c8,Bright studio near the cathedral,Vienna,AT,48.239404,16.317942,studio,3,0,11500,EUR,4.8,51,2025-11-09
+c5f01673-2980-494b-8563-aed2afb87547,Airy apartment near the park,Belgrade,RS,44.784876,20.395365,apartment,6,3,5500,EUR,4.0,63,2025-08-24
+24e13bb4-5ac2-4793-902d-0b131c39b086,Modern studio near the river,Novi Sad,RS,45.270912,19.892877,studio,3,0,4000,EUR,4.8,10,2026-07-10
+0a1195d8-477c-4de3-b178-9cc6c1d609da,Historic apartment near old town,Vienna,AT,48.221906,16.418303,apartment,3,1,10000,EUR,4.6,87,2024-08-08
+81d34018-b31b-4b3c-b4f5-247e666521c2,Cosy loft near the station,Zurich,CH,47.360512,8.508339,loft,2,1,14500,EUR,4.3,15,2026-06-12
+93809a01-363a-4baf-a294-111964834ffe,Spacious house near the river,Vienna,AT,48.179725,16.415431,house,10,4,29500,EUR,,0,2025-02-15
+511d6438-e818-49c5-8fdc-3829639cac17,Minimal loft near the market,Lisbon,PT,38.742583,-9.181397,loft,3,1,10000,EUR,3.8,7,2026-07-27
+20887d6f-9ee2-4e5a-a52d-265c27d8fdf6,Modern loft near the museum,Belgrade,RS,44.792884,20.385389,loft,7,3,6500,EUR,4.0,24,2026-04-19
+65a329db-f3a5-4fbc-a82f-a7f15b38390b,Rooftop apartment near the station,Vienna,AT,48.22059,16.408769,apartment,7,3,16500,EUR,3.9,53,2025-10-26
+5940b73f-d6bb-4c51-9cf7-f963dd1962f4,Warm studio near the cathedral,Belgrade,RS,44.799173,20.414864,studio,2,0,6500,EUR,4.3,72,2025-07-06
+7d15b5e5-2658-46d6-b83a-431e0371708d,Charming loft near the park,Prague,CZ,50.032105,14.512088,loft,7,3,6000,EUR,,0,2026-02-12
+df1ea88b-9ca1-48dd-bb50-776473065c26,Rooftop studio near the market,Belgrade,RS,44.757965,20.520559,studio,2,0,7000,EUR,5.0,35,2026-02-08
+ad5c0a4c-c056-4d14-9a7c-42f4b5de8a1f,Quiet apartment near the market,Barcelona,ES,41.387257,2.226495,apartment,4,2,19000,EUR,4.0,19,2024-12-21
+7c79c54d-c761-48c5-b7ec-2558bfa342a3,Bright studio near old town,Vienna,AT,48.227396,16.427935,studio,2,0,14000,EUR,3.7,167,2023-12-10
+a364b5a5-527a-447c-a80e-f1672cbf279c,Riverside apartment near the harbour,Budapest,HU,47.491944,19.075941,apartment,7,3,10500,EUR,3.6,92,2025-03-07
+64fdc236-e450-4010-b896-278ab9f38b96,Warm apartment near the river,Budapest,HU,47.497792,19.060541,apartment,7,3,5000,EUR,4.2,138,2024-06-04
+b8c4164c-6c4a-41af-b26d-22d50bcb090d,Quiet apartment near the main square,Amsterdam,NL,52.373451,4.970202,apartment,3,1,12500,EUR,,0,2024-11-07
+a45d84f1-139a-413d-955d-ffc6bdd0f158,Charming house near the park,Lisbon,PT,38.680004,-9.143906,house,6,2,12000,EUR,4.2,80,2025-05-14
+e49c54c3-6ec7-43cf-afca-d3a818cc5c39,Cosy studio near the park,Prague,CZ,50.112779,14.494646,studio,2,0,10000,EUR,4.3,42,2026-01-01
+652a3a44-d171-4cfa-9ba4-acb5822ba67b,Minimal apartment near old town,Amsterdam,NL,52.384347,4.92026,apartment,6,3,17500,EUR,4.2,43,2025-12-22
+40bc5be6-5bca-4cb7-a266-103554fab10e,Modern apartment near the river,Barcelona,ES,41.381514,2.110273,apartment,5,3,14500,EUR,4.6,126,2024-08-11
+5a67c363-e411-4467-ba95-3530f3e61e94,Airy studio near the university,Belgrade,RS,44.813264,20.516619,studio,3,0,7500,EUR,,0,2026-01-01
+9b157e0b-ce31-448c-9230-24183e2be921,Spacious apartment near the market,Zagreb,HR,45.82064,15.99655,apartment,5,3,6500,EUR,3.3,85,2025-04-14
+61fe2bd8-d276-44be-9a4a-e04f23d68568,Modern house near the university,Berlin,DE,52.513905,13.331423,house,12,5,21500,EUR,4.3,72,2025-07-04
+2bd0ee72-150d-4e9d-92de-6957ba5d4080,Cosy loft near the river,Zagreb,HR,45.795839,16.024257,loft,4,2,7500,EUR,3.4,12,2026-06-27
+22cb1eb2-24be-48bf-9b9c-32feb48fb35a,Riverside apartment near the station,Berlin,DE,52.52415,13.407752,apartment,7,3,6500,EUR,3.3,16,2024-04-21
+ff3be1c4-46a6-4ec1-acb6-aac022773649,Sunny studio near the main square,Vienna,AT,48.24351,16.364748,studio,3,0,16000,EUR,3.7,154,2024-02-27
+82f303bb-ee42-4707-a4ae-4114ddd5df55,Historic house near the station,Berlin,DE,52.502269,13.414639,house,12,5,22500,EUR,4.7,98,2025-01-28
+9b471f00-9d8e-4e49-a585-76e534cbe94d,Bright house near the market,Ljubljana,SI,46.05141,14.540765,house,5,2,17000,EUR,4.5,128,2023-07-30
+42d075cc-f4b9-4ea8-9af0-cc862d5f9957,Quiet house near the main square,Belgrade,RS,44.819867,20.384436,house,7,3,10500,EUR,5.0,104,2024-12-21
+52a7716e-1aa8-4b9e-bac6-124a57762657,Historic loft near the park,Lisbon,PT,38.676411,-9.195531,loft,2,1,6500,EUR,4.0,83,2025-04-28
+42e6db3a-e776-421a-9f7d-4e521dc40cff,Airy room near the harbour,Barcelona,ES,41.390546,2.21139,room,2,1,7500,EUR,4.2,65,2025-08-17
+ce4e60e8-c750-44ae-8414-9a7c318333e4,Garden apartment near the market,Vienna,AT,48.22583,16.417245,apartment,1,1,12000,EUR,4.4,41,2026-01-07
+e2e642d8-d94d-482b-a943-0c9ec68d4add,Cosy studio near the harbour,Vienna,AT,48.245287,16.42412,studio,3,0,14500,EUR,,0,2024-11-17
+348244d9-071a-4c43-8d04-62ad13a9aaef,Central room near the river,Berlin,DE,52.481735,13.356313,room,1,1,4500,EUR,4.3,36,2026-02-04
+4a1928ed-6e9c-42e5-a42e-9b502c6d035b,Minimal loft near the river,Prague,CZ,50.035314,14.471993,loft,3,1,7500,EUR,,0,2024-08-25
+8c4d5db7-e98f-43a7-b72f-358ea3bf016a,Minimal house near the harbour,Vienna,AT,48.227541,16.370529,house,4,2,23000,EUR,4.5,95,2025-02-13
+7d7f527f-64ab-47f5-a095-18bc8ccb7e56,Central house near the university,Berlin,DE,52.514193,13.419734,house,4,2,14500,EUR,5.0,129,2024-07-28
+0aeaff3f-35ba-4d9f-b4e5-dd08a9659a38,Central loft near the university,Lisbon,PT,38.757328,-9.167414,loft,3,1,15500,EUR,4.0,156,2024-02-15
+13091775-4b46-465d-8785-eaf199202cc8,Charming loft near the harbour,Ljubljana,SI,46.079326,14.474,loft,3,1,6000,EUR,3.9,147,2024-04-07
+52be21a7-a1d6-4112-9eb6-3ce4cdb28ce9,Riverside apartment near the cathedral,Lisbon,PT,38.740634,-9.213173,apartment,3,2,15500,EUR,4.4,172,2023-11-13
+14d41d80-ae4a-43ab-b11a-d139d6689b7a,Central studio near the park,Vienna,AT,48.223996,16.442879,studio,2,0,12500,EUR,4.2,123,2024-08-29
+92371f61-07ce-4f28-8a9a-3e9d03def097,Sunny studio near the main square,Ljubljana,SI,46.097836,14.451535,studio,2,0,10000,EUR,4.4,40,2026-01-09
+735c31dc-19f4-413b-ad78-cd817f0b905c,Central apartment near the harbour,Novi Sad,RS,45.299873,19.879339,apartment,7,3,5500,EUR,4.2,62,2025-09-02
+09965031-9e0d-4582-874d-925c51e6bb40,Modern apartment near the station,Budapest,HU,47.502967,18.990847,apartment,5,3,8500,EUR,4.2,19,2025-01-28
+878465d5-e536-460f-a6f2-fce77b2925a1,Central apartment near the station,Budapest,HU,47.524053,19.039017,apartment,2,1,9000,EUR,4.5,20,2026-05-12
+18f917d3-0143-499e-8f1f-2a65c062e256,Modern apartment near the main square,Lisbon,PT,38.733139,-9.138878,apartment,4,2,12500,EUR,4.8,76,2025-06-08
+5d9d4b10-1ffc-4ca9-91fc-e0dbedd56723,Central studio near the museum,Barcelona,ES,41.373084,2.136981,studio,3,0,11500,EUR,4.3,66,2025-03-19
+85a6b350-2157-46c1-affc-f9aad102e2e5,Historic apartment near the market,Zagreb,HR,45.808362,15.988326,apartment,2,1,6500,EUR,4.3,167,2023-12-14
+80bf7f11-b55a-4711-96da-972687805885,Quiet house near the park,Zagreb,HR,45.822276,15.931875,house,4,2,9500,EUR,3.8,70,2025-07-18
+87fbbc49-52cf-4691-b587-7af3f868e42a,Airy studio near the market,Barcelona,ES,41.361845,2.103033,studio,3,0,15500,EUR,4.4,126,2024-08-11
+65ebaf56-0c67-448d-a7d1-e06c77dd0216,Historic apartment near the main square,Prague,CZ,50.094808,14.449882,apartment,5,3,9000,EUR,4.7,45,2025-12-11
+bd2387f7-32f4-4513-95bb-441b96a20ff8,Riverside apartment near old town,Prague,CZ,50.079575,14.446141,apartment,3,1,8000,EUR,4.8,82,2025-05-07
+eaebf248-1a5c-4b89-bef0-9f1ea43a9df4,Modern studio near the university,Prague,CZ,50.124864,14.440329,studio,3,0,11000,EUR,4.0,61,2025-09-07
+f1ab7e9f-6070-4e03-aa0a-5ca3c1743b5c,Warm apartment near the main square,Berlin,DE,52.499609,13.345292,apartment,6,3,12000,EUR,4.4,17,2026-05-31
+f86000d2-7a35-4e2b-8254-c47b560aaa2f,Riverside apartment near the station,Zurich,CH,47.406987,8.469136,apartment,1,1,18000,EUR,4.8,45,2025-12-13
+69459537-4bed-48a7-a67b-4985f9152d81,Garden apartment near the university,Budapest,HU,47.446862,19.023161,apartment,2,1,5000,EUR,5.0,85,2025-04-15
+0ea15707-93c5-4163-9364-86cbbb2f0ff3,Airy room near the museum,Novi Sad,RS,45.288593,19.849313,room,2,1,2000,EUR,,0,2026-04-18
+9aad6269-3823-4ddb-9c85-1dc39619cd23,Quiet apartment near the cathedral,Belgrade,RS,44.742084,20.409025,apartment,2,1,4500,EUR,4.2,116,2024-10-12
+0c4fa69a-eaec-41fd-88b6-7bda04f0ea44,Bright loft near the cathedral,Barcelona,ES,41.441146,2.169246,loft,4,2,12500,EUR,4.3,46,2025-12-08
+45ceb646-ed83-4a06-9f7d-542faa3c25b1,Warm apartment near the harbour,Vienna,AT,48.229717,16.398492,apartment,4,2,9500,EUR,4.9,30,2026-03-12
+3322a0d0-35bf-481b-acd9-98060845f6b9,Central room near the main square,Lisbon,PT,38.755565,-9.181444,room,1,1,6500,EUR,4.4,69,2025-07-21
+de6d59dc-b939-4092-acb0-0a038b221800,Cosy house near the main square,Berlin,DE,52.558619,13.47972,house,8,3,17000,EUR,4.4,9,2026-07-14
+7303fcc6-46e8-4d3c-ac41-009b01127065,Garden apartment near the market,Budapest,HU,47.446168,19.095287,apartment,6,3,10500,EUR,4.8,125,2023-09-09
+354c4cd5-21d4-491a-89f6-605695a03e5a,Rooftop loft near the park,Prague,CZ,50.087858,14.425477,loft,5,2,8000,EUR,4.1,17,2026-05-27
+9eb6150a-bec3-4fca-b351-90eb47aec858,Spacious studio near the market,Barcelona,ES,41.418868,2.19122,studio,3,0,18500,EUR,4.5,46,2024-04-28
+1b148f98-8dcb-4e32-ab27-ae203baf48d8,Rooftop room near the university,Zagreb,HR,45.861781,15.935903,room,1,1,3500,EUR,4.7,77,2025-06-06
+981a397b-966f-478d-a377-788f3f5cbbec,Cosy apartment near the park,Amsterdam,NL,52.348037,4.946762,apartment,7,3,22500,EUR,3.9,109,2024-11-26
+52be6a79-af0a-4526-be77-fb9432a81817,Central loft near old town,Belgrade,RS,44.828163,20.445648,loft,5,3,5500,EUR,4.1,164,2023-08-08
+240b435a-5173-4594-bccc-9717f85ac3cf,Quiet loft near old town,Amsterdam,NL,52.319074,4.868448,loft,1,1,13500,EUR,4.0,117,2024-10-06
+21a91e3c-1c0b-431d-b31d-9efe204a158a,Airy apartment near the market,Berlin,DE,52.526618,13.358358,apartment,3,2,11000,EUR,5.0,128,2024-08-02
+41ec9f17-17cc-40af-9ef6-27ef7538ea30,Airy studio near old town,Budapest,HU,47.532269,18.99908,studio,2,0,7000,EUR,4.9,183,2023-09-09
+9440e1b1-9093-4f8f-8799-c17e231cdf53,Airy apartment near the park,Barcelona,ES,41.393145,2.242711,apartment,2,1,13000,EUR,4.7,86,2025-04-10
+19ee6f18-5be3-4ab9-bbb6-ced64ca6f981,Airy room near the cathedral,Prague,CZ,50.111386,14.449721,room,2,1,4500,EUR,,0,2023-12-05
+8a0e6160-d29d-4ee7-8d33-a44f5ed4cbb1,Sunny room near the river,Vienna,AT,48.15784,16.422932,room,1,1,8000,EUR,4.5,175,2023-10-27
+76cc73da-d726-4aa9-9cda-e1fd9995c789,Cosy house near old town,Zagreb,HR,45.78721,15.977457,house,4,2,13500,EUR,3.8,44,2025-12-16
+1a85f1ac-41d2-4e9b-b063-72d40533b780,Rooftop studio near the main square,Zagreb,HR,45.816972,15.965452,studio,3,0,5500,EUR,3.6,86,2025-04-08
+f4be83e6-e4f2-4858-b48e-701ebcea1415,Central loft near old town,Amsterdam,NL,52.348009,4.930572,loft,3,2,17500,EUR,,0,2025-05-16
+e8207984-1849-47b0-89ee-96ea53fa321d,Airy studio near the university,Zagreb,HR,45.842908,16.007104,studio,3,0,7500,EUR,4.4,190,2023-07-27
+d366f4d1-4a70-4b9c-9f7c-0a1095bb61a6,Garden studio near the university,Zagreb,HR,45.805662,15.984937,studio,3,0,11000,EUR,4.5,85,2025-04-15
+b3f1b954-6552-4616-93a4-8dc40e07f259,Quiet room near the market,Novi Sad,RS,45.321803,19.781505,room,2,1,2000,EUR,4.7,169,2023-11-27
+5a7332e2-a1ec-4791-a35c-1cdd42cafef5,Historic apartment near the main square,Zagreb,HR,45.802371,16.054104,apartment,5,2,8000,EUR,,0,2026-03-19
+d40a1fd9-9fd6-42b2-86ec-b3d789072f14,Sunny room near the cathedral,Prague,CZ,50.040356,14.488416,room,1,1,4500,EUR,4.3,60,2025-09-15
+9f8a522a-ec40-4eda-8b59-b697c35b15b8,Cosy apartment near the cathedral,Ljubljana,SI,46.04984,14.54542,apartment,1,1,6500,EUR,4.4,187,2023-08-15
+d986a4d7-9e8c-43ec-b7d2-fd7edac73120,Central apartment near the university,Vienna,AT,48.234893,16.344445,apartment,4,2,9000,EUR,3.5,76,2025-06-09
+27744f01-9c37-43c2-b10f-e0653aac7702,Central studio near the cathedral,Prague,CZ,50.126511,14.49999,studio,3,0,9500,EUR,4.4,103,2024-12-31
+3c7664e6-4e07-46ce-b747-f6ab7446295b,Rooftop apartment near the station,Ljubljana,SI,46.109135,14.577788,apartment,1,1,8000,EUR,4.6,24,2023-09-14
+8bee1060-4872-4bd0-8a46-d93dbe320097,Riverside apartment near the park,Barcelona,ES,41.361305,2.20981,apartment,5,2,12000,EUR,3.6,24,2023-12-28
+13cf1bf8-3022-407e-a349-21f838269af4,Garden apartment near the cathedral,Novi Sad,RS,45.221139,19.770732,apartment,1,1,4000,EUR,4.2,114,2024-10-26
+9088962a-6a85-426c-a3de-8e3d3b5b5fb9,Bright apartment near the main square,Vienna,AT,48.175034,16.376954,apartment,7,3,18500,EUR,4.9,58,2025-09-25
+89c0f035-c0a5-49a2-8bcf-301f8eb4475f,Quiet apartment near the market,Amsterdam,NL,52.415723,4.92461,apartment,2,1,22000,EUR,4.7,90,2025-03-19
+dad26ffd-944c-4f3e-a857-0cc03e8051f3,Minimal loft near the park,Budapest,HU,47.44538,19.10627,loft,2,1,7500,EUR,,0,2024-08-22
+9a308491-97e8-4b24-ab85-f7bed5a5f199,Sunny studio near the market,Berlin,DE,52.500851,13.413137,studio,3,0,6500,EUR,4.9,62,2025-08-31
+dfd35f7f-8eb1-45b4-98b8-466893631079,Spacious apartment near the market,Belgrade,RS,44.82751,20.502553,apartment,7,3,5500,EUR,4.6,6,2026-08-02
+19f8803b-c460-4532-8c04-30caa8a1c8d4,Minimal apartment near the harbour,Belgrade,RS,44.740912,20.420235,apartment,4,2,4500,EUR,4.2,94,2025-02-23
+13731ab6-0902-4b44-9b25-f2dbeae5e907,Charming studio near the main square,Vienna,AT,48.253222,16.388259,studio,3,0,11000,EUR,4.3,127,2023-11-12
+6bde287b-0441-4d41-a157-c36c5a0af7d2,Charming studio near the river,Belgrade,RS,44.813572,20.377664,studio,3,0,6500,EUR,,0,2024-06-03
+1fb3d350-b25f-4778-b693-a850c34c50d1,Charming house near the harbour,Ljubljana,SI,46.063432,14.460062,house,10,4,13500,EUR,4.9,25,2026-04-10
+72b0b845-6da3-43db-b043-aa7a967fc159,Charming apartment near the park,Amsterdam,NL,52.321561,4.848549,apartment,6,3,15000,EUR,4.1,69,2025-06-10
+399c7cbf-a9ee-49cf-b7b2-a58203ed1176,Riverside apartment near old town,Belgrade,RS,44.834552,20.454766,apartment,3,2,7500,EUR,4.5,38,2024-05-19
+3293514d-d625-46f1-8a64-76e64e87c975,Rooftop apartment near the museum,Prague,CZ,50.059458,14.374662,apartment,2,1,11000,EUR,4.0,182,2023-09-13
+2f3bb7b5-fe97-4d24-a437-c1cf0c27291b,Garden apartment near the museum,Novi Sad,RS,45.317346,19.815086,apartment,6,3,5500,EUR,4.5,16,2026-06-05
+e635732f-2660-4f2a-ba0c-aea55ee889b7,Charming studio near the river,Budapest,HU,47.505901,19.102174,studio,2,0,6500,EUR,4.6,148,2024-04-05
+cf243c93-a63c-4bdb-98fc-7c8d2297196f,Historic apartment near the river,Novi Sad,RS,45.216403,19.901783,apartment,2,1,5000,EUR,4.5,23,2026-04-24
+9f5cd8b4-d1a2-43be-a55d-324d896433fb,Warm apartment near the market,Budapest,HU,47.480802,19.091579,apartment,3,1,5000,EUR,5.0,175,2023-10-25
+9aae5f24-fe1b-4d67-8977-07a45bd5649a,Central loft near the market,Lisbon,PT,38.759389,-9.139887,loft,1,1,11000,EUR,4.1,134,2024-06-28
+2d481603-8769-42fa-a33a-927ebc2b08a8,Quiet apartment near the river,Ljubljana,SI,46.092214,14.570369,apartment,5,3,7000,EUR,4.6,53,2025-10-26
+105bc5e1-7912-421c-9de8-3100ec1ece20,Rooftop loft near old town,Vienna,AT,48.261127,16.38134,loft,6,3,15500,EUR,3.9,83,2025-04-29
+08d95803-84d7-49ab-94c6-6170d8ef2af3,Quiet apartment near the museum,Belgrade,RS,44.764986,20.419681,apartment,4,2,8500,EUR,4.4,155,2024-02-20
+f498c6fc-0946-4f95-b7fb-97ef691b4c87,Airy room near old town,Belgrade,RS,44.774189,20.500271,room,1,1,4000,EUR,4.6,8,2026-07-20
+1f8d15fc-45b1-44c3-ab22-98f628752bdb,Historic studio near old town,Barcelona,ES,41.420511,2.197608,studio,3,0,12500,EUR,3.9,7,2026-07-26
+33c9ea3a-8e77-434e-b80e-fdff183880f7,Airy apartment near old town,Zagreb,HR,45.816494,16.020435,apartment,2,1,6500,EUR,4.0,23,2026-03-25
+30c1dcc3-ae44-4da2-aaef-c666fbf5cd83,Riverside studio near old town,Zagreb,HR,45.816546,16.040668,studio,2,0,7000,EUR,4.7,190,2023-07-25
+bcab4e88-d96d-4725-89f7-a5909d7a8ceb,Cosy apartment near the river,Belgrade,RS,44.757185,20.50827,apartment,6,3,5500,EUR,4.2,101,2025-01-13
+2d941174-e617-4eed-864e-322654e3d7ba,Charming house near the cathedral,Berlin,DE,52.56762,13.353976,house,11,5,21000,EUR,,0,2023-09-13
+522ec826-a8ae-4499-b397-2abb73127452,Modern loft near the university,Vienna,AT,48.223308,16.399473,loft,3,2,18000,EUR,5.0,74,2025-06-23
+26cc1e5b-ca7e-49ce-aa2c-03b14143e67b,Spacious apartment near the university,Belgrade,RS,44.753081,20.456932,apartment,5,3,6000,EUR,4.7,125,2024-08-20
+8369dbe4-2421-4021-a849-2e74cd4a08ce,Sunny studio near the station,Vienna,AT,48.232623,16.362328,studio,2,0,14500,EUR,4.0,19,2026-05-17
+fc93b464-ea76-467a-8026-05336901deae,Garden house near the river,Budapest,HU,47.475236,19.042015,house,12,5,15000,EUR,4.5,131,2024-07-15
+8ed18b52-b540-4b1b-be54-e289df3f00e0,Airy room near the harbour,Budapest,HU,47.528435,18.983417,room,2,1,2500,EUR,4.6,8,2026-07-24
+39518f21-2ef4-4dad-b96f-0f4df61b7ec1,Sunny apartment near the harbour,Belgrade,RS,44.782412,20.383854,apartment,7,3,5000,EUR,4.5,89,2025-03-24
+80b38c83-5077-46b7-bb8b-9c6dd0b93ad1,Bright house near the river,Budapest,HU,47.529482,19.01446,house,6,2,13000,EUR,4.1,118,2024-10-02
+3a88d9c2-e39f-4775-8530-52e95a3ffbe5,Charming apartment near the station,Berlin,DE,52.531628,13.476924,apartment,2,1,14000,EUR,4.9,50,2025-11-10
+00651a02-6d7e-4b3a-99b2-0576cc894f00,Bright studio near the market,Novi Sad,RS,45.213779,19.781694,studio,2,0,4500,EUR,3.8,122,2024-09-09
+ec90f3b3-e08e-4db6-ab7e-f21c59783878,Minimal loft near old town,Prague,CZ,50.031213,14.455249,loft,2,1,11000,EUR,,0,2026-06-08
+86ac6f4c-026b-428f-82f4-c4ef6ab4f177,Garden loft near the cathedral,Ljubljana,SI,46.104778,14.570893,loft,3,1,7000,EUR,,0,2024-02-05
+f08e14ae-b7fa-4d59-90ed-db6a36d3657b,Central studio near old town,Belgrade,RS,44.761603,20.502756,studio,3,0,7500,EUR,4.1,95,2025-02-17
+cf461b0d-edc8-499e-a86c-26600eac287f,Historic apartment near old town,Prague,CZ,50.058272,14.469565,apartment,2,1,10000,EUR,4.2,130,2023-12-17
+4f2a070f-3253-4085-99c6-6efa4cad52dc,Modern apartment near the main square,Belgrade,RS,44.804792,20.390792,apartment,3,1,4500,EUR,,0,2025-01-19
+3c9296db-d511-4385-8c03-4f55a7ec8895,Riverside studio near the market,Belgrade,RS,44.77008,20.449734,studio,3,0,4000,EUR,4.3,29,2026-03-19
+e2546a7b-31d5-4380-9648-e7d36fe1b6e5,Minimal apartment near the university,Vienna,AT,48.20986,16.342936,apartment,4,2,16000,EUR,3.7,120,2024-09-17
+0c887f65-0c98-42d5-bc30-fc0588386ef4,Spacious loft near the park,Lisbon,PT,38.704966,-9.138746,loft,3,1,12500,EUR,4.3,89,2025-03-21
+be6bce28-5178-4cf9-bc5b-c0a6a2cee2fd,Spacious house near the museum,Barcelona,ES,41.399909,2.225623,house,10,4,22500,EUR,4.3,26,2025-02-10
+dda4d827-dfe2-498b-87f7-a417dce9b10b,Cosy apartment near the market,Berlin,DE,52.481425,13.470478,apartment,3,2,8500,EUR,5.0,27,2026-03-28
+74412e12-715d-4c5b-b3c5-299873558058,Riverside apartment near the market,Ljubljana,SI,46.016851,14.579015,apartment,3,1,8500,EUR,4.9,57,2025-09-30
+304da7ee-a2cc-499c-aa85-dfdacece7539,Quiet apartment near old town,Zagreb,HR,45.779893,16.053013,apartment,5,3,10000,EUR,4.5,97,2025-02-04
+6d3a1d80-615c-4213-9ac0-5717a60c21f2,Cosy loft near the market,Berlin,DE,52.524574,13.400876,loft,7,3,8000,EUR,4.0,9,2026-07-15
+662d8a4d-204d-4409-b841-7947d25856be,Historic apartment near old town,Belgrade,RS,44.756214,20.485729,apartment,2,1,8000,EUR,4.6,127,2024-08-10
+c3c56597-1b87-4c42-add3-d7ad58a560e3,Riverside studio near the university,Belgrade,RS,44.815452,20.388627,studio,3,0,4000,EUR,3.8,5,2026-08-12
+486f5285-c226-41d2-8a6b-a97e233e81ea,Quiet house near the market,Zurich,CH,47.324364,8.490012,house,11,5,29500,EUR,3.7,51,2025-11-05
+06a3fd9e-f8b1-4092-8dcc-b9992364d0c2,Charming apartment near the harbour,Zagreb,HR,45.773248,16.045169,apartment,5,3,6500,EUR,4.7,93,2025-02-25
+e3d6e341-407e-4170-949a-a84f16c8c613,Cosy house near the market,Berlin,DE,52.538406,13.390174,house,8,3,14500,EUR,4.8,24,2026-04-16
+eebd3a01-b356-4161-afc4-0b9513cb37cc,Minimal apartment near the cathedral,Vienna,AT,48.169009,16.336062,apartment,5,2,10500,EUR,3.7,35,2026-02-09
+35653b37-eb98-4498-a97c-accd7f7b096b,Cosy apartment near the university,Zagreb,HR,45.868352,15.987233,apartment,1,1,5000,EUR,4.2,105,2024-12-18
+1ce9e7ac-bfea-458b-b03b-e4b7145e6580,Bright loft near the river,Berlin,DE,52.518288,13.468351,loft,4,2,11000,EUR,4.8,41,2026-01-08
+5f0b1440-5457-47f8-9e13-a9901a522bb2,Airy apartment near the museum,Zagreb,HR,45.795318,15.909903,apartment,4,2,6000,EUR,4.2,150,2024-03-22
+abb0fb5f-4706-4ee1-ad8d-77fa8bf597c6,Historic house near the park,Zagreb,HR,45.809433,15.999021,house,7,3,9000,EUR,4.3,44,2025-12-21
+235690a9-8559-4b16-be72-d359152b83fb,Minimal room near the river,Vienna,AT,48.259683,16.410678,room,1,1,5000,EUR,4.0,188,2023-08-05
+376bfb9e-6a24-4d6d-bdaf-1c9ccf8c1097,Garden apartment near the harbour,Berlin,DE,52.57294,13.349921,apartment,1,1,10000,EUR,4.3,34,2024-04-22
+aa1e3c25-28d9-4056-9cdb-602fa1584720,Historic apartment near the river,Vienna,AT,48.191266,16.415479,apartment,1,1,9500,EUR,4.5,59,2023-11-15
+dc713d43-52df-47b8-aa31-20f74c2b9825,Riverside house near the university,Amsterdam,NL,52.403018,4.959288,house,5,2,17500,EUR,3.4,28,2026-03-27
+2ed1dc2a-8546-43b5-9694-28644da0cb0b,Airy room near the station,Prague,CZ,50.062223,14.455439,room,2,1,2500,EUR,3.8,111,2024-11-11
+8b8706cf-fc78-40de-a317-ccc005b010e1,Central studio near old town,Lisbon,PT,38.747697,-9.17889,studio,3,0,15500,EUR,,0,2024-05-04
+e881410f-1e43-4738-841d-8761be6dfe6a,Spacious studio near the river,Vienna,AT,48.163519,16.333105,studio,2,0,12500,EUR,4.1,59,2024-01-19
+4afd088a-baed-4da3-a851-d15913ee4f59,Central studio near old town,Belgrade,RS,44.766827,20.419298,studio,2,0,7000,EUR,5.0,124,2024-08-26
+a1a9581c-5e9b-462c-9ad2-77618308f116,Bright loft near the university,Ljubljana,SI,46.101158,14.475597,loft,5,2,6000,EUR,,0,2026-03-01
+89583f25-007b-4289-b184-84ee4180c413,Modern apartment near the market,Berlin,DE,52.484729,13.369137,apartment,7,3,8500,EUR,3.5,27,2025-02-10
+45ddc4d9-0656-43bf-8e6b-17030657d1c5,Garden apartment near the harbour,Budapest,HU,47.517903,18.973291,apartment,3,2,6000,EUR,4.7,8,2026-07-24
+e4980885-cb5a-42c7-8c20-6a4462a140ad,Airy apartment near the station,Zagreb,HR,45.824362,15.909256,apartment,1,1,7500,EUR,4.7,147,2024-04-12
+379eafca-5152-47df-89a5-4094369f990f,Minimal house near the museum,Prague,CZ,50.069059,14.407202,house,10,5,13500,EUR,3.8,165,2023-11-15
+27850c35-7ccf-44ea-930a-197b0e9e33b0,Rooftop house near the park,Budapest,HU,47.539759,19.039003,house,7,3,19000,EUR,5.0,185,2023-08-26
+ac75f54b-26dc-4786-9e8c-ccc2f8be6532,Historic apartment near the museum,Berlin,DE,52.558257,13.426297,apartment,1,1,13000,EUR,4.1,115,2024-10-17
+92f05572-d3bd-4f35-978a-b8b77631bf23,Quiet room near the park,Berlin,DE,52.488158,13.473367,room,2,1,3500,EUR,4.5,58,2024-10-07
+bab929f0-ed49-426f-88f9-775443992515,Rooftop apartment near the harbour,Prague,CZ,50.085075,14.429342,apartment,4,2,12500,EUR,4.2,8,2023-10-12
+8f41fc2a-cd63-49b4-95c4-730c502a5a88,Riverside studio near the museum,Vienna,AT,48.185289,16.434266,studio,3,0,15000,EUR,4.4,10,2026-07-11
+f1cb7ee4-80f7-4723-9424-b21d5bb79950,Historic loft near the market,Belgrade,RS,44.815325,20.481685,loft,7,3,5000,EUR,4.6,185,2023-08-23
+42fa764e-fb4b-4b8f-b0a2-eae77c06eab2,Spacious apartment near the station,Berlin,DE,52.512388,13.350367,apartment,3,2,11000,EUR,3.8,127,2024-08-07
+5b715997-ad30-4019-a658-7623e20f51da,Warm apartment near the university,Prague,CZ,50.063721,14.507018,apartment,2,1,6000,EUR,4.8,179,2023-10-03
+e8da2f1e-f009-470c-b84d-278cd3af0d36,Charming studio near the park,Berlin,DE,52.482456,13.347879,studio,2,0,8500,EUR,4.1,187,2023-08-11
+69c6df3d-2c1f-4dd4-ace0-145eb4948dbf,Warm studio near the park,Amsterdam,NL,52.386673,4.848189,studio,3,0,17000,EUR,3.9,79,2023-08-20
+7cf5a73c-cd9d-4009-9e84-a0f72c794929,Airy loft near the university,Zurich,CH,47.359951,8.569425,loft,2,1,20000,EUR,5.0,185,2023-08-26
+30af2156-f8ba-4432-b2d3-7b4b7f543c0e,Warm studio near the main square,Belgrade,RS,44.802053,20.461211,studio,3,0,4000,EUR,4.2,32,2026-02-28
+78a46d09-4385-4063-87c7-371c3d76ac3d,Bright studio near the station,Berlin,DE,52.5556,13.433369,studio,3,0,10500,EUR,4.8,62,2025-09-01
+eb2d96e2-4848-4b7a-b434-deeb9ef9fa45,Minimal apartment near the harbour,Vienna,AT,48.188406,16.383963,apartment,2,1,18000,EUR,3.9,54,2025-10-21
+67ddf087-0512-459a-8e62-9303dd27804c,Minimal apartment near the harbour,Zurich,CH,47.372929,8.495061,apartment,7,3,15000,EUR,4.6,75,2025-06-13
+4bded9f1-c6f7-49bb-8c9f-6285efafe1c9,Bright house near the museum,Ljubljana,SI,46.023048,14.535897,house,5,2,12000,EUR,3.8,18,2023-11-17
+110104e0-83b8-49fa-909d-45e6322b46c2,Rooftop apartment near the university,Belgrade,RS,44.831898,20.492238,apartment,4,2,4500,EUR,,0,2024-02-06
+57959d18-66a4-428d-9980-7af302333760,Historic apartment near the harbour,Berlin,DE,52.524912,13.454869,apartment,1,1,10000,EUR,4.2,101,2025-01-10
+48d6cec9-ab31-4f84-a5c2-3106563f967e,Modern apartment near old town,Barcelona,ES,41.34139,2.188626,apartment,1,1,12000,EUR,4.9,180,2023-09-27
+ac6d6557-e284-4137-9afb-3372ae5f134e,Cosy apartment near the university,Berlin,DE,52.570188,13.379002,apartment,2,1,12000,EUR,4.0,155,2024-02-21
+7c75098c-daaf-4922-b124-c3ff5e325319,Quiet room near the main square,Prague,CZ,50.099924,14.37793,room,2,1,5500,EUR,4.5,28,2026-03-25
+2f3096b1-60b1-4683-ac57-c3542a5742a5,Charming apartment near the park,Zagreb,HR,45.867508,15.924026,apartment,7,3,10500,EUR,4.2,42,2026-01-01
+d4c4b360-caa5-4782-a97c-084285a5b444,Sunny room near old town,Belgrade,RS,44.83834,20.410392,room,1,1,2000,EUR,4.8,139,2024-05-30
+73b0adeb-f6e5-44f7-8a38-3f6dfa5eacab,Warm room near the station,Lisbon,PT,38.776789,-9.16831,room,1,1,2500,EUR,5.0,71,2025-07-12
+f02fe95a-7544-44d7-bf1a-76095cfe801c,Quiet loft near the river,Prague,CZ,50.112577,14.474809,loft,1,1,10000,EUR,4.3,17,2026-05-30
+76735e13-b6f8-47fb-b697-21bfc294e3ac,Spacious house near the park,Barcelona,ES,41.350654,2.157276,house,8,3,15000,EUR,5.0,145,2024-04-24
+ed5b1995-3598-4de0-977f-001b4001efd3,Sunny studio near the museum,Vienna,AT,48.241044,16.416729,studio,2,0,12500,EUR,,0,2025-11-24
+1a9f10a9-1b39-4585-a740-32507148db33,Bright apartment near the station,Budapest,HU,47.527784,19.077242,apartment,4,2,6000,EUR,4.0,41,2026-01-07
+00a39ecd-c8f1-4ca6-bd28-b57876c358ac,Garden house near the station,Berlin,DE,52.522504,13.450471,house,8,4,17000,EUR,,0,2025-08-20
+bfc1729c-db13-4f11-a2ba-b72e62353052,Central house near the market,Belgrade,RS,44.824356,20.506512,house,6,2,10500,EUR,4.7,106,2024-12-12
+1bb074a0-363e-46e7-b33c-b4fb56de1548,Rooftop apartment near the market,Berlin,DE,52.486853,13.425215,apartment,4,2,12000,EUR,4.8,133,2024-07-01
+2d949330-838a-44cd-bcba-8d7e815ba7dd,Airy loft near the university,Barcelona,ES,41.409894,2.224878,loft,4,2,11000,EUR,,0,2024-03-20
+0452e7f7-8c43-42aa-9e0b-bd121287260e,Spacious loft near the station,Zagreb,HR,45.820651,15.962814,loft,7,3,6000,EUR,3.8,90,2025-03-16
+5aa86151-4317-4457-9beb-cdd336e7f918,Garden house near old town,Budapest,HU,47.549931,19.10174,house,8,4,12000,EUR,4.7,114,2024-10-22
+90013c11-0e20-40c7-8677-f06c1e4c7d36,Quiet studio near the river,Amsterdam,NL,52.332041,4.890471,studio,2,0,14500,EUR,4.0,172,2023-11-11
+e7241dc1-8241-4607-af58-8913b800d019,Garden house near the harbour,Vienna,AT,48.222078,16.417265,house,10,4,23000,EUR,3.7,15,2026-06-10
+071433dd-a349-42a7-8f3a-15773b11c848,Bright apartment near the station,Budapest,HU,47.450591,19.092169,apartment,5,3,9500,EUR,4.2,7,2026-07-31
+981156ce-914f-4073-a268-c6c7b1885386,Bright apartment near old town,Berlin,DE,52.505253,13.440711,apartment,6,3,11000,EUR,4.5,145,2024-04-20
+44853f17-a94e-40a8-97f3-b3a700f0315b,Central studio near the market,Zurich,CH,47.32238,8.526759,studio,2,0,21000,EUR,4.4,78,2025-05-31
+f20a5294-38af-4e67-91aa-ebf40abe483a,Warm house near old town,Zurich,CH,47.346827,8.604815,house,10,4,20000,EUR,3.9,39,2024-08-24
+788c2525-4e51-4d75-8f6c-569fa7220c49,Central apartment near the river,Ljubljana,SI,46.076051,14.551951,apartment,7,3,7500,EUR,3.9,119,2024-09-27
+7e5cd337-29b3-423a-b104-2481c2090498,Charming apartment near the park,Belgrade,RS,44.75901,20.425494,apartment,5,3,6500,EUR,,0,2024-02-11
+b3364258-48f0-41c9-968e-8390704f24f8,Modern studio near the market,Berlin,DE,52.571235,13.477891,studio,3,0,12000,EUR,3.8,12,2026-06-26
+371b96cf-80bc-4283-8e1d-3d4318184732,Central apartment near the museum,Belgrade,RS,44.840556,20.400492,apartment,7,3,5000,EUR,4.2,93,2025-03-01
+7d61fd16-3486-4549-ba18-b500addc1374,Quiet loft near the market,Berlin,DE,52.556402,13.38998,loft,1,1,11500,EUR,5.0,14,2026-02-17
+181048a2-df10-4443-9e69-7b52a8562396,Airy apartment near the market,Zagreb,HR,45.798667,15.976707,apartment,2,1,7500,EUR,5.0,73,2025-06-30
+0809eeff-abfe-4292-93a5-c29499fcdb1c,Historic apartment near the main square,Barcelona,ES,41.369976,2.176095,apartment,4,2,13500,EUR,3.3,25,2026-04-13
+6c4c9a77-4e67-4dbc-ac49-79d4804c9fd5,Charming apartment near old town,Barcelona,ES,41.37389,2.242141,apartment,4,2,10000,EUR,4.0,78,2024-12-30
+573df28d-0a3e-4fe3-bdd5-91fab6da14e9,Cosy apartment near the university,Belgrade,RS,44.764876,20.39954,apartment,4,2,5000,EUR,,0,2024-12-09
+4f69a5b2-a6be-4317-a23c-717bd1b0de3c,Quiet apartment near the station,Ljubljana,SI,46.089555,14.497897,apartment,3,2,7000,EUR,4.8,115,2024-10-20
+cb9765c3-19ca-4412-a072-c2dfa85ac071,Garden apartment near the harbour,Prague,CZ,50.09922,14.375087,apartment,6,3,9000,EUR,,0,2026-06-08
+bb53b0b0-c4b1-46bf-96bd-cb7d157204ed,Quiet apartment near the museum,Lisbon,PT,38.775354,-9.077574,apartment,5,2,8500,EUR,,0,2026-04-14
+0d6686c0-32fc-4cea-af7b-1f74670060e7,Central loft near old town,Lisbon,PT,38.672344,-9.108199,loft,4,2,8000,EUR,4.5,58,2025-09-28
+4f18c88e-7f71-4a8b-867f-9c34db183b57,Cosy apartment near the harbour,Zagreb,HR,45.841109,15.955037,apartment,3,1,7500,EUR,4.6,69,2025-07-21
+001d429c-2a4c-4937-af11-d88659e6e055,Riverside apartment near the park,Novi Sad,RS,45.264593,19.885063,apartment,3,1,7000,EUR,4.7,139,2024-05-29
+e2b163f1-daa4-4a92-8239-80bbbd1e2ce9,Modern house near the park,Novi Sad,RS,45.231062,19.892288,house,6,3,7000,EUR,4.5,97,2025-02-01
+be240c9e-b465-43bd-a708-443c04e434e2,Modern house near the river,Barcelona,ES,41.355111,2.139059,house,6,3,23000,EUR,4.5,120,2024-09-20
+82fb0bf8-22e5-4750-919c-c0efffed3b4b,Charming room near the station,Belgrade,RS,44.798777,20.432487,room,2,1,2000,EUR,4.8,121,2023-09-15
+9ef7a6f9-d422-44f7-99a7-c8d9a5f68b2f,Airy apartment near the harbour,Zagreb,HR,45.807368,15.963928,apartment,7,3,8500,EUR,4.5,74,2025-06-23
+9660ef6b-d5e7-4388-ad01-84a6a9418592,Central studio near the cathedral,Berlin,DE,52.480771,13.337366,studio,3,0,10000,EUR,4.1,98,2025-01-30
+9edac2a9-6041-4630-9254-057bf5efab58,Sunny studio near the university,Budapest,HU,47.470885,19.094105,studio,2,0,10500,EUR,4.5,11,2026-07-07
+ef44e7a0-3e39-4245-b2f5-7131ecaa84d5,Warm studio near the harbour,Zagreb,HR,45.806547,16.009892,studio,2,0,10500,EUR,,0,2024-01-29
+7af77c19-9f90-42c7-9747-d13488d42b09,Cosy studio near the river,Zurich,CH,47.430584,8.527899,studio,3,0,18500,EUR,5.0,97,2025-02-04
+6a5bed02-7346-4a4b-80ea-1a4c30991d64,Modern house near the museum,Belgrade,RS,44.791286,20.3956,house,7,3,8000,EUR,3.8,28,2025-05-12
+fe234f53-b459-4ceb-a630-2007d762ce12,Minimal loft near the river,Vienna,AT,48.166025,16.425969,loft,6,3,11500,EUR,3.9,83,2025-04-30
+18216c55-35cd-4158-b4eb-ae6ffea22b8b,Historic room near the main square,Barcelona,ES,41.34039,2.124891,room,2,1,5000,EUR,4.4,33,2026-02-24
+f9ec14dc-c6e1-47ad-b95f-47efb44c9998,Spacious studio near the main square,Barcelona,ES,41.373077,2.205048,studio,3,0,13500,EUR,4.1,51,2024-02-09
+26d68c9e-2deb-4a3b-9963-92fd12289bad,Minimal studio near the river,Barcelona,ES,41.348264,2.109897,studio,3,0,10000,EUR,4.6,31,2023-08-24
+aa3ee96e-360e-4ac4-ab5e-5175a77f5585,Historic apartment near the river,Amsterdam,NL,52.382406,4.92345,apartment,4,2,14500,EUR,3.8,16,2026-04-17
+ab436e85-6517-4e47-98d2-61be07f9aada,Central apartment near the museum,Budapest,HU,47.473961,19.053969,apartment,3,1,5500,EUR,4.3,154,2023-12-12
+1aca5d02-c922-4293-bddf-fbd991f087ce,Central studio near the park,Prague,CZ,50.102537,14.440623,studio,3,0,8500,EUR,4.8,154,2024-03-01
+f86b9ceb-f010-4098-9708-f7b93da0b9f4,Quiet room near the cathedral,Barcelona,ES,41.419087,2.134092,room,1,1,9000,EUR,4.8,151,2024-03-15
+f2f823b4-83e0-4324-9baf-ece03ef7f940,Warm apartment near the market,Novi Sad,RS,45.248292,19.898737,apartment,5,3,6000,EUR,5.0,172,2023-11-10
+67fe4ee0-8053-4d3a-ac42-a34626b7a2c4,Airy studio near the station,Lisbon,PT,38.719108,-9.155411,studio,2,0,14500,EUR,4.5,39,2026-01-18
+c8c841b0-e909-4f50-bc8c-71ca39aa85f7,Quiet studio near the market,Ljubljana,SI,46.006207,14.550122,studio,2,0,7000,EUR,4.5,77,2025-06-02
+2726514c-4120-4365-813e-e40566c258a5,Sunny studio near old town,Belgrade,RS,44.786054,20.437432,studio,2,0,6000,EUR,4.3,172,2023-11-14
+1c87728c-33e2-486f-8047-dfe21eb5667d,Quiet apartment near the cathedral,Berlin,DE,52.56579,13.400673,apartment,7,3,10000,EUR,3.9,110,2023-12-19
+a4899b49-7840-4377-bcee-aad3d8909ec4,Sunny apartment near the museum,Novi Sad,RS,45.228171,19.78564,apartment,7,3,5500,EUR,,0,2024-06-13
+eeadcbe8-8f64-4ba1-abc9-303fd1d2760e,Riverside studio near old town,Belgrade,RS,44.74947,20.46218,studio,2,0,4500,EUR,4.1,137,2024-06-07
+f2ba7c16-e062-4d2c-9fd8-4d296de2f848,Cosy apartment near the university,Zagreb,HR,45.844723,16.022952,apartment,7,3,9000,EUR,5.0,6,2026-08-01
+685a74fe-6657-4a7a-b0a9-cd9d5ad12c92,Garden apartment near the museum,Novi Sad,RS,45.288138,19.878443,apartment,6,3,3500,EUR,4.4,63,2024-05-30
+54f2d07e-875f-41ff-af84-bc5e24e84fb6,Charming studio near the cathedral,Zagreb,HR,45.783,15.99389,studio,2,0,9000,EUR,4.2,9,2026-06-14
+2fbe3444-bded-481b-8fcc-c2d8d1a6082a,Sunny loft near the market,Prague,CZ,50.107555,14.50555,loft,6,3,9500,EUR,3.9,7,2025-02-14
+14319da7-e84e-4bfd-9db0-076bdb23f4fc,Modern apartment near old town,Zurich,CH,47.355863,8.482892,apartment,1,1,13000,EUR,4.0,155,2024-02-22
+07d4433e-e670-45f5-bc3d-9c6cc105f571,Quiet apartment near the station,Barcelona,ES,41.359503,2.172969,apartment,6,3,12000,EUR,3.8,47,2025-11-29
+b83e242f-5bdc-4436-a29c-3ed91d830aa3,Cosy apartment near the cathedral,Berlin,DE,52.49699,13.363203,apartment,3,1,8500,EUR,4.2,23,2026-04-25
+e3cb7a79-01f8-4261-9fb2-915071d1dcf0,Modern apartment near old town,Budapest,HU,47.529634,19.042453,apartment,6,3,7500,EUR,5.0,40,2025-04-24
+0fc30d5d-8e31-479e-9143-eda68838df26,Garden house near the market,Prague,CZ,50.099751,14.394545,house,12,5,16000,EUR,4.0,32,2026-02-27
+d7dc1c9a-7f8d-49b3-bfca-dfe770530962,Central studio near old town,Berlin,DE,52.475037,13.402491,studio,3,0,10000,EUR,4.4,159,2023-12-15
+1efdc442-d8fa-41e6-9797-0aea724587f9,Rooftop loft near the university,Belgrade,RS,44.802391,20.391003,loft,2,1,4000,EUR,,0,2026-08-10
+0262f25a-afba-4f7f-9102-4f832d324b0b,Sunny apartment near the cathedral,Amsterdam,NL,52.413275,4.966284,apartment,1,1,21000,EUR,4.4,41,2026-01-03
+1f4398df-14d6-4734-ade2-e31291f8e80a,Cosy apartment near the university,Berlin,DE,52.485893,13.359474,apartment,6,3,11000,EUR,5.0,80,2023-10-06
+d0646e4d-0e66-4baf-a662-38f9fba716a0,Bright apartment near the main square,Zagreb,HR,45.827336,15.950325,apartment,4,2,6000,EUR,,0,2024-04-18
+e1897467-66b8-4d2a-94e1-b62d4c3d4417,Rooftop studio near the park,Prague,CZ,50.098547,14.46561,studio,3,0,9000,EUR,3.6,46,2025-12-07
+55c2966c-0c72-4e29-8077-de0048b8c3bb,Garden studio near the museum,Zurich,CH,47.35755,8.600719,studio,2,0,31000,EUR,,0,2024-01-28
+0c226517-7d67-46bd-b91f-fa5e055b02a8,Airy apartment near the market,Budapest,HU,47.504371,19.068661,apartment,3,1,9000,EUR,4.7,27,2026-03-29
+c918ec67-230f-4d96-ae5d-c21e71efb30f,Historic house near the market,Amsterdam,NL,52.342041,4.91475,house,5,2,20000,EUR,4.1,76,2025-06-09
+aa09f440-c1fb-40ce-9614-6ea616c57da7,Sunny house near the university,Prague,CZ,50.104284,14.499264,house,7,3,12000,EUR,3.9,60,2025-09-13
+456cd6dd-4f9f-4172-84ef-d6ee8b451239,Charming studio near the market,Amsterdam,NL,52.321841,4.959758,studio,2,0,15500,EUR,4.7,11,2025-10-28
+65becaca-a7ee-41a6-9e11-7e7ac4f3a984,Modern apartment near the cathedral,Budapest,HU,47.451286,19.027599,apartment,3,1,4500,EUR,4.4,5,2025-12-02
+8981c28a-5e5f-4223-97aa-ac17b2dbe586,Minimal house near the main square,Berlin,DE,52.553979,13.394377,house,10,4,12000,EUR,3.9,184,2023-08-29
+5438e713-6eb8-46e1-af11-238875acf925,Airy studio near old town,Vienna,AT,48.209346,16.341933,studio,3,0,11000,EUR,4.7,34,2026-02-17
+9f4313f5-5aa4-4ba9-b1dc-806e5d8b8f8c,Modern apartment near the river,Budapest,HU,47.500029,19.034925,apartment,5,2,6000,EUR,4.0,42,2025-09-24
+6281cdba-28c4-4331-a9fb-08df54dc20eb,Sunny apartment near the station,Barcelona,ES,41.396872,2.139762,apartment,2,1,11500,EUR,,0,2026-07-08
+a809f2b6-7776-4189-8118-b594dc129a9a,Quiet studio near the park,Zagreb,HR,45.793523,15.963495,studio,2,0,6000,EUR,4.8,131,2024-07-17
+d93ea996-6502-4f60-9f0b-b1883e88453d,Airy room near the museum,Budapest,HU,47.494105,19.086966,room,2,1,3000,EUR,3.6,48,2025-11-26
+142bcce6-8b9f-43f1-8901-dda08565d501,Spacious house near the main square,Prague,CZ,50.04114,14.461229,house,9,4,17500,EUR,,0,2024-10-04
+c5f8b54b-b4d2-4cef-85a7-6dfebfc2b27f,Central studio near the station,Budapest,HU,47.54193,19.079735,studio,3,0,8000,EUR,4.0,136,2024-06-16
+09284019-fddf-444d-aa99-367b1d3349c6,Riverside apartment near the harbour,Zagreb,HR,45.843982,15.964389,apartment,5,2,10000,EUR,4.1,65,2025-08-13
+f4674250-6d69-4af2-9fd2-119cf1043c1a,Historic studio near the museum,Ljubljana,SI,46.037718,14.576448,studio,2,0,10500,EUR,4.5,182,2023-09-10
+b3a4fd8c-bfe7-4ef6-a914-fcd6092e3851,Modern apartment near the river,Ljubljana,SI,46.061457,14.459263,apartment,4,2,5000,EUR,4.3,101,2025-01-10
+0f796a79-9ce2-4388-b7b5-c924224b5456,Historic studio near the main square,Vienna,AT,48.179226,16.357515,studio,2,0,15000,EUR,4.4,105,2024-12-15
+2a4161df-5964-4956-b57d-84db38c8df77,Cosy apartment near the main square,Budapest,HU,47.524883,19.091338,apartment,7,3,9000,EUR,3.6,139,2024-05-28
+dac4a23f-0d77-464d-a528-8574281e744e,Cosy apartment near the park,Barcelona,ES,41.362465,2.193828,apartment,4,2,10000,EUR,4.5,169,2023-11-27
+e20a6af2-45d0-4ac2-b6d3-356ec6debe6e,Rooftop loft near the park,Berlin,DE,52.500764,13.377755,loft,7,3,7500,EUR,4.4,118,2024-09-28
+94780dc4-416d-4bc1-801e-1825f2cf969c,Minimal apartment near the cathedral,Prague,CZ,50.061033,14.457847,apartment,6,3,9500,EUR,4.8,112,2024-11-04
+a55eed7d-bc1e-4e8f-b632-18e04935ac18,Bright apartment near the station,Zagreb,HR,45.860123,16.003592,apartment,4,2,5500,EUR,,0,2024-11-03
+5e0a0268-6f7f-4667-b618-fbba0b694955,Modern studio near the museum,Prague,CZ,50.099815,14.482644,studio,2,0,7000,EUR,4.7,158,2024-02-04
+4d27ef26-287a-4742-af6b-ac688c42c291,Minimal apartment near the river,Belgrade,RS,44.824483,20.409731,apartment,2,1,6500,EUR,4.1,49,2025-11-21
+455e3ed8-7e07-4fe4-8898-3571ad6de8f7,Bright studio near the harbour,Budapest,HU,47.539896,19.058732,studio,3,0,9000,EUR,5.0,88,2025-03-29
+cc9f5acd-1eb7-4a1a-b385-181ab9f2728d,Rooftop apartment near the museum,Novi Sad,RS,45.250045,19.775148,apartment,2,1,3000,EUR,4.3,36,2026-02-06
+97eb7c27-09fe-49d1-83c7-991c44b44f0e,Riverside studio near the harbour,Belgrade,RS,44.778549,20.464467,studio,3,0,6500,EUR,4.7,91,2024-07-06
+56c701c5-24fb-4460-b312-0fdab85c917f,Charming house near the park,Novi Sad,RS,45.216486,19.781838,house,10,4,9000,EUR,4.7,160,2024-01-14
+eb024542-d729-4c06-9947-725abde8de4b,Charming studio near old town,Zagreb,HR,45.825768,16.022062,studio,3,0,10500,EUR,,0,2026-07-23
+7ccd9d79-6c63-4750-9237-05cb019a0ce0,Historic house near the river,Zagreb,HR,45.779713,15.911449,house,6,2,13000,EUR,4.4,64,2025-08-22
+afa84005-fe71-4b54-8cd7-7727aa81d59c,Quiet apartment near the main square,Lisbon,PT,38.768235,-9.213091,apartment,7,3,6000,EUR,3.5,20,2026-05-13
+d01c5fa0-9054-440d-80ae-593ead4886d0,Cosy apartment near the university,Budapest,HU,47.548165,19.072875,apartment,6,3,7000,EUR,3.9,80,2025-05-16
+2fe2b450-2838-40d8-9035-fb5dae23ab3d,Cosy house near the cathedral,Barcelona,ES,41.409985,2.155312,house,6,2,32000,EUR,4.3,46,2025-12-06
+764b0054-83ca-488f-b76c-5c014557f86d,Sunny apartment near the harbour,Amsterdam,NL,52.373826,4.92483,apartment,7,3,18500,EUR,4.2,78,2025-05-29
+8d38b44c-d09f-4263-b9d4-e968084abe61,Charming studio near the river,Barcelona,ES,41.433106,2.137413,studio,3,0,18500,EUR,5.0,104,2024-12-22
+2f185470-498b-4beb-a1a0-6516f91bb336,Central loft near the university,Prague,CZ,50.022865,14.459819,loft,4,2,6500,EUR,4.1,47,2025-11-28
+99bf6c2b-6624-4250-be7c-3085c12a3640,Riverside apartment near old town,Vienna,AT,48.232857,16.311829,apartment,2,1,7500,EUR,4.1,13,2025-03-09
+1dc54612-c844-4879-9da9-69221b0ed5c1,Central studio near the cathedral,Ljubljana,SI,46.084676,14.463236,studio,3,0,8500,EUR,4.3,64,2025-08-21
+7205543a-f170-49a4-978f-b922a15538a3,Minimal apartment near the university,Barcelona,ES,41.336183,2.102618,apartment,3,2,15000,EUR,4.0,15,2025-09-15
+bbd78a45-8d47-4f2c-8459-1a0bd766d6a5,Cosy apartment near the park,Lisbon,PT,38.762053,-9.12982,apartment,6,3,9000,EUR,4.4,23,2023-12-20
+848ae0e9-8685-4a15-a06a-7db94bb8e1a8,Charming apartment near the river,Berlin,DE,52.477112,13.42048,apartment,4,2,11500,EUR,4.3,8,2026-07-23
+8313a993-6c94-47c5-9fa1-1235db001fb3,Central apartment near the museum,Zurich,CH,47.332221,8.540672,apartment,2,1,28000,EUR,4.8,146,2024-04-18
+411cc204-fd6f-40e5-9597-c713baa9a31e,Historic apartment near the park,Budapest,HU,47.467344,19.086412,apartment,4,2,8000,EUR,4.0,26,2026-04-03
+77d89b99-b65c-4628-9a12-0ec2f5adc7f2,Modern apartment near the museum,Zagreb,HR,45.806092,15.97226,apartment,1,1,4500,EUR,,0,2023-11-20
+299ef69f-b9e1-421c-b4f4-bcc3c850b7b5,Historic apartment near the cathedral,Lisbon,PT,38.729708,-9.147675,apartment,6,3,9000,EUR,5.0,103,2025-01-01

@@ -1,0 +1,16 @@
+# Local environment and dependencies
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+
+# Generated outputs
+dist/
+coverage/
+test-results/
+playwright-report/
+*.log
+
+# Local worktrees
+.worktrees/
