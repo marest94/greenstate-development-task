@@ -408,7 +408,7 @@ maxPriceCents?: number; from?: IsoDate; to?: IsoDate; page: number; pageSize: nu
 `{ today: IsoDate; days: { date: IsoDate; available: boolean }[] }`.
 All routes have the `/api/v1` prefix.
 
-- [ ] Write real-HTTP fixtures for two tenants, archived listings, capacity/price/city filters,
+- [x] Write real-HTTP fixtures for two tenants, archived listings, capacity/price/city filters,
   combined filters, pagination totals, foreign IDs, and every overlap boundary. Run
   `npm run test:integration -w apps/api -- test/public-listings.test.ts` and observe failures.
   Given a confirmed stay on October 1–4 and no other occupancy on the fixture listing:
@@ -423,10 +423,10 @@ All routes have the `/api/v1` prefix.
     .query({ from: '2026-10-03', to: '2026-10-06' }).expect(200);
   expect(occupied.body.items.map((item: ListingDto) => item.id)).not.toContain(listingA.id);
   ```
-- [ ] Define strict schemas: page >= 1, pageSize 1–50 (default 20), valid UUIDs, bounded strings,
+- [x] Define strict schemas: page >= 1, pageSize 1–50 (default 20), valid UUIDs, bounded strings,
   integer cents, paired dates, `from < to`, maximum span 366 nights. Reject unknown query keys.
   Search with past dates remains a valid historical query; the picker guides new future searches.
-- [ ] Implement one shared search predicate for results and totals, stable title/id ordering,
+- [x] Implement one shared search predicate for results and totals, stable title/id ordering,
   and tenant-scoped city facets. Use a bound `NOT EXISTS` overlap predicate:
 
   ```sql
@@ -443,13 +443,13 @@ All routes have the `/api/v1` prefix.
   )
   ```
 
-- [ ] Map rows explicitly, converting database decimals/dates deliberately. Both archived and
+- [x] Map rows explicitly, converting database decimals/dates deliberately. Both archived and
   foreign public detail IDs answer the same resource-not-found response. Public availability
   exposes availability only, never booking or host details.
-- [ ] Compare SQL search and HTTP calendar results with `isFree` using identical fixtures.
+- [x] Compare SQL search and HTTP calendar results with `isFree` using identical fixtures.
   Add seeded-data smoke assertions calculated from the input CSVs, without borrowing unverified
   golden counts from the old spec.
-- [ ] Run focused/full integration tests, unit tests, lint/typecheck. Inspect indexes and query
+- [x] Run focused/full integration tests, unit tests, lint/typecheck. Inspect indexes and query
   plans for the actual search on seeded data; add only indexes justified by predicates and plans.
   Commit the public API.
 
@@ -472,7 +472,7 @@ removes both date parameters from the URL/query and resets the page to 1. An inc
 selection remains a draft; only a valid pair is submitted. Back/forward navigation restores
 the effective pair into the controls. Direct API queries with only one date still receive 400.
 
-- [ ] Write component tests with intercepted HTTP responses for filtering, empty/error/loading
+- [x] Write component tests with intercepted HTTP responses for filtering, empty/error/loading
   states, wrong tenant, URL restoration, clearing either date, leap month, and keyboard navigation.
   Run `npm test -w apps/web -- src/features/portal/portal.test.tsx src/components/calendar.test.tsx`
   and observe missing-behavior failures.
@@ -489,11 +489,11 @@ the effective pair into the controls. Direct API queries with only one date stil
     today="2026-09-22" onChange={onChange} />);
   expect((screen.getByLabelText('Check-in') as HTMLInputElement).value).toBe('2026-11-01');
   ```
-- [ ] Add a search-level test starting on page 2 with an active date range. Clear each input
+- [x] Add a search-level test starting on page 2 with an active date range. Clear each input
   in separate cases and assert that both URL date parameters disappear, page resets to 1,
   and the next intercepted API request has neither date. Enter just one new date and assert
   no partial-range request is sent; complete the pair and verify exactly that pair is applied.
-- [ ] Implement the API client, tenant provider, and error handling. Query keys always include
+- [x] Implement the API client, tenant provider, and error handling. Query keys always include
   tenant slug and effective filters. Changes to URL search parameters drive fetching; form
   drafts do not silently diverge from submitted URL values:
 
@@ -509,19 +509,19 @@ the effective pair into the controls. Direct API queries with only one date stil
   const submit = (next: ListingSearch) => setParams(toSearchParams({ ...next, page: 1 }));
   ```
 
-- [ ] Build search cards, filters, and pagination. Keep integer cents in submitted state;
+- [x] Build search cards, filters, and pagination. Keep integer cents in submitted state;
   convert decimal price input with string parsing, rejecting excess fractional digits. Format
   output with Intl. Display rating null as an unrated listing, not zero stars.
-- [ ] Build detail and two-month availability. Fetch each displayed month explicitly; missing
+- [x] Build detail and two-month availability. Fetch each displayed month explicitly; missing
   data displays loading, not availability. Use controlled date props and fixed-reference date
   parsing; reject past clicks in the picker and synchronize external value changes. Label the
   tenant business date and timezone; keep historical months browsable in the availability view.
-- [ ] Keep the UI responsive and keyboard operable. Verify an unknown tenant, archived detail,
+- [x] Keep the UI responsive and keyboard operable. Verify an unknown tenant, archived detail,
   server failure, and slow response. Add a visible sign-in entry point only when task 7 lands.
-- [ ] Establish Playwright now with one real-stack portal journey: filter, open detail, navigate
+- [x] Establish Playwright now with one real-stack portal journey: filter, open detail, navigate
   calendars, clear a date, and use browser back/forward. Add it to CI with failure traces.
   Use isolated Compose/test data; no public endpoint controls the application's clock.
-- [ ] Run web tests, lint/typecheck/build, `npm run test:browser`, and inspect narrow-screen
+- [x] Run web tests, lint/typecheck/build, `npm run test:browser`, and inspect narrow-screen
   layout against the real seeded stack. Commit the portal and its first browser check.
 
 ## Stage 3 — Identity, access, and saved listings

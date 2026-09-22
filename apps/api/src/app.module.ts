@@ -5,9 +5,10 @@ import type { TenantDb } from './db/tenant-db.js';
 import { TimeModule } from './common/time/time.module.js';
 import { Clock } from './common/time/clock.js';
 import { TenantsModule } from './tenants/tenants.module.js';
+import { ListingsModule } from './listings/listings.module.js';
 @Module({})
 export class AppModule {
   static register(database: TenantDb | null, clock: Clock): DynamicModule {
-    return { module: AppModule, imports: [TimeModule.register(clock), DatabaseModule.register(database), TenantsModule], controllers: [HealthController] };
+    return { module: AppModule, imports: [TimeModule.register(clock), DatabaseModule.register(database), TenantsModule, ListingsModule], controllers: [HealthController] };
   }
 }

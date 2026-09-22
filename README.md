@@ -2,10 +2,9 @@
 
 Fresh implementation of the GreenState accommodation rental challenge.
 
-Status: implementation is underway on `feat/foundation`. The API/frontend scaffold,
-HTTP boundary tests, tenant-isolated PostgreSQL access, lifecycle coordination, and local Docker
-startup, deterministic data import, and date/availability rules are implemented. Public portal
-screens and account/host/admin features follow; remote CI has not run yet.
+Status: foundation tasks 1–3 are merged, with successful GitHub CI. The public portal now includes
+listing search, facets, detail, and availability screens with verified browser journeys. Account, host,
+and administration features follow in subsequent milestones.
 
 ## Planning
 
@@ -13,7 +12,7 @@ screens and account/host/admin features follow; remote CI has not run yet.
 - [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
 
 Follow the 13-task plan, with one integration owner, bounded parallel work, and commits at
-verified task boundaries. Foundation tasks 1–3 are complete. The next milestone is the public portal (tasks 4–5).
+verified task boundaries. Foundation and public portal tasks 1–5 are complete. Identity is the next milestone (tasks 6–7).
 
 Use short-lived milestone branches, starting with `feat/foundation` for tasks 1–3.
 Parallel work uses `feat/task-<number>-<short-name>` branches/worktrees based on the active
@@ -29,8 +28,10 @@ Install Docker with Compose v2 or newer, then run from the repository root:
 docker compose up --build -d --wait
 ```
 
-Open <http://localhost:8080>. The landing page reports the API connection through nginx;
-`/api/health/live` returns `{"status":"ok"}`. The database-backed `/api/health/ready` endpoint reports readiness. Both application containers
+Browse <http://localhost:8080/greenstate> or <http://localhost:8080/citystays>. Each portal has
+its own inventory, search filters, details, and two-month availability. The root landing page
+reports the API connection through nginx; `/api/health/live` returns `{"status":"ok"}`.
+The database-backed `/api/health/ready` endpoint reports readiness. Both application containers
 run as non-root. A one-off migration/import container completes before the API starts.
 The local Compose configuration explicitly enables challenge demo data. It imports every supplied
 listing and booking into these two tenants:
@@ -75,8 +76,9 @@ npm run test:stack  # requires the running Compose stack
 
 Tests use the same Nest application factory as production. The current suite covers liveness,
 safe request metadata/error responses, the 32 KiB JSON body limit, startup configuration, and
-frontend connection states. CI runs clean install, these checks, production builds, and real
-PostgreSQL integration tests. Browser suites arrive with the corresponding product journeys.
+frontend connection states and tenant context. CI runs clean install, these checks, production
+builds, real PostgreSQL integration tests, and the portal browser journey. Browser reports and
+traces are retained for seven days when a CI check fails.
 
 After starting the local database, run:
 
@@ -87,10 +89,37 @@ npm run test:integration
 The suite creates uniquely named `greenstate_test_*` databases and drops only those databases
 afterward; it never resets the development database. It covers tenant/child-table isolation,
 connection-context cleanup, restricted grants, constraints, startup credential rejection, tenant
-resolution, real shared/exclusive lock contention, and deterministic import/retention. Test
+resolution, real shared/exclusive lock contention, deterministic import/retention, public search
+filters/pagination, archived and foreign visibility, and calendar/search agreement. Test
 database ownership matches Compose. `test:stack` verifies request-secret redaction through both
 nginx and the API, including proxy-generated errors. Set `COMPOSE_PROJECT_NAME` and
 `STACK_BASE_URL` if using a custom Compose project or port.
+
+For the public portal browser journey, install Chromium once and use a running, seeded stack:
+
+```sh
+npx playwright install chromium
+npm run test:browser
+```
+
+The journey runs in desktop and 375-pixel Chromium viewports. It follows filtering, listing
+navigation, two-month availability, clearing either date, and browser back/forward restoration.
+Set `STACK_BASE_URL` for a nondefault web port. It does not reset or modify the supplied inventory.
+Reports are written to `playwright-report/`; failures retain traces in `test-results/`.
+Use a separate Compose project and ports when running it alongside another development stack:
+
+```sh
+COMPOSE_PROJECT_NAME=greenstate-browser DATABASE_PORT=54330 WEB_PORT=18080 \
+  APP_ORIGIN=http://localhost:18080 docker compose up --build -d --wait
+STACK_BASE_URL=http://localhost:18080 npm run test:browser
+```
+
+Public API routes start with `/api/v1/t/:slug`. `/listings` accepts city, guests,
+`minPriceCents`, `maxPriceCents`, paired `from`/`to` dates, page, and pageSize (maximum 50).
+Unknown keys and incomplete or invalid date ranges return a structured 400 error. Historical
+queries are allowed; date ranges span at most 366 nights. `/listings/facets` supplies active cities,
+`/listings/:id` supplies public details, and `/listings/:id/availability?from=…&to=…` exposes daily
+availability. Archived or foreign listing IDs have the same public 404 response.
 
 `infra/db/roles.sql` creates separate local migration (`gs_owner`), ordinary (`gs_app`), and
 privileged (`gs_admin`) credentials. The ordinary role cannot bypass forced row-level security,
