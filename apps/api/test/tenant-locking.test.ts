@@ -23,12 +23,12 @@ async function waitForAdvisoryWait(pid: number) {
   }
   throw new Error('Expected a transaction waiting on the tenant advisory lock');
 }
-async function waitingWrite() {
+async function waitingWrite(tenantId = fixture.a.id) {
   const pid = Promise.withResolvers<number>();
   const result = db.tenantDb.run(fixture.a.id, async tx => {
     const rows = await tx.$queryRaw<{ pid: number }[]>`SELECT pg_backend_pid() AS pid`;
     pid.resolve(rows[0]!.pid);
-    const tenant = await lockLiveTenant(tx, fixture.a.id, 'shared');
+    const tenant = await lockLiveTenant(tx, tenantId, 'shared');
     return { tenant, isolation: await tx.$queryRaw`SHOW transaction_isolation` };
   });
   // Attach immediately so assertion errors cannot leave a rejected transaction unobserved.
@@ -49,7 +49,7 @@ describe('Tenant lifecycle transaction coordination', () => {
       });
     } finally { release.resolve(); await first; }
   });
-  it('rejects a waiting write after deletion commits, despite a Repeatable Read database default', async () => {
+  it.each(['canonical', 'uppercase'])('rejects a waiting %s UUID write after deletion commits, despite a Repeatable Read database default', async representation => {
     const acquired = Promise.withResolvers<void>(); const release = Promise.withResolvers<void>();
     const deletion = adminDb.forTenant(fixture.a.id, 'exclusive', async tx => {
       expect(await tx.$queryRaw`SHOW transaction_isolation`).toEqual([{ transaction_isolation: 'read committed' }]);
@@ -59,7 +59,7 @@ describe('Tenant lifecycle transaction coordination', () => {
     const observedDeletion = deletion.catch(error => { acquired.reject(error); throw error; });
     try {
       await acquired.promise;
-      const waiting = await waitingWrite();
+      const waiting = await waitingWrite(representation === 'uppercase' ? fixture.a.id.toUpperCase() : fixture.a.id);
       await waitForAdvisoryWait(waiting.pid);
       release.resolve(); await observedDeletion;
       expect((await waiting.outcome).error).toMatchObject({ code: 'TENANT_NOT_FOUND' });
