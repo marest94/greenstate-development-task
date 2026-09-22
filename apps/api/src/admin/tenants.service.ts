@@ -9,7 +9,8 @@ function toTenant(row: AdminTenantRecord): AdminTenant {
 @Injectable()
 export class AdminTenantsService {
   constructor(@Inject(AdminTenantsRepository) private readonly repository: AdminTenantsRepository, @Inject(Clock) private readonly clock: Clock) {}
-  async list(query: AdminTenantsQuery): Promise<AdminTenantsPage> { const result = await this.repository.list(query); return { ...result, items: result.items.map(toTenant), page: query.page, pageSize: query.pageSize }; }
+  async list(query: AdminTenantsQuery): Promise<AdminTenantsPage> { const result = await this.repository.list(query); return { ...result, items: result.items.map(row => ({ ...toTenant(row), counts: row.counts })), page: query.page, pageSize: query.pageSize }; }
+  async summary(id: string) { const row = await this.repository.summary(id); if (!row) throw new AppError(404, 'RESOURCE_NOT_FOUND', 'The requested resource was not found.'); return { ...toTenant(row), counts: row.counts }; }
   async detail(id: string) { const row = await this.repository.detail(id); if (!row) throw new AppError(404, 'RESOURCE_NOT_FOUND', 'The requested resource was not found.'); return toTenant(row); }
   async create(input: TenantCreate) { return toTenant(await this.repository.create(input)); }
   async update(id: string, input: TenantUpdate) { return toTenant(await this.repository.update(id, input)); }

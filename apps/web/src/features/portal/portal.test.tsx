@@ -61,6 +61,34 @@ it('round-trips strict URL filters using API defaults and exact integer cents', 
 });
 
 describe('URL-driven search', () => {
+  it('removes the complete date range via a chip and preserves unrelated filters', async () => {
+    const http = intercept(); const router = mount('/greenstate?city=Berlin&guests=4&from=2026-10-01&to=2026-10-04&page=2');
+    await screen.findByRole('link', { name: listing.title });
+    await userEvent.setup().click(screen.getByRole('button', { name: /^Remove dates filter:/ }));
+    const params = new URLSearchParams(router.state.location.search);
+    expect(params.get('city')).toBe('Berlin'); expect(params.get('guests')).toBe('4');
+    expect(params.get('page')).toBe('1'); expect(params.has('from')).toBe(false); expect(params.has('to')).toBe(false);
+    await waitFor(() => expect(http.searches()).toHaveLength(2));
+    expect(http.searches().every(url => url.searchParams.has('from') === url.searchParams.has('to'))).toBe(true);
+  });
+  it('keeps map mode in the URL across filtering and detail navigation without sending it to the API', async () => {
+    const http = intercept(); const router = mount('/greenstate?city=Berlin&view=map');
+    await screen.findByRole('link', { name: listing.title });
+    expect(screen.getByRole('button', { name: 'Hide map' })).toHaveAttribute('aria-pressed', 'true');
+    expect(http.searches()[0]!.searchParams.has('view')).toBe(false);
+    await userEvent.setup().click(screen.getByRole('button', { name: 'Remove city filter: Berlin' }));
+    expect(new URLSearchParams(router.state.location.search).get('view')).toBe('map');
+    await userEvent.setup().click(await screen.findByRole('link', { name: listing.title }));
+    await userEvent.setup().click(await screen.findByRole('link', { name: 'Back to listings' }));
+    expect(new URLSearchParams(router.state.location.search).get('view')).toBe('map');
+  });
+  it('switches map mode without losing an unsubmitted search draft or refetching listings', async () => {
+    const http = intercept(); mount(); await screen.findByRole('link', { name: listing.title });
+    change('Guests', '6');
+    await userEvent.setup().click(screen.getByRole('button', { name: 'Show map' }));
+    expect(screen.getByLabelText('Guests')).toHaveValue(6);
+    expect(http.searches()).toHaveLength(1);
+  });
   it('shows original facts, EUR prices, and an unrated listing without invented amenities', async () => {
     intercept(); mount();
     const link = await screen.findByRole('link', { name: listing.title });
@@ -163,6 +191,34 @@ describe('public screen states', () => {
 });
 
 describe('listing detail availability', () => {
+  it('opens the illustration gallery, navigates images with the keyboard, and restores focus on close', async () => {
+    intercept(); mount(`/greenstate/listings/${listing.id}`);
+    const open = await screen.findByRole('button', { name: 'View all illustrations' });
+    await userEvent.setup().click(open);
+    const dialog = screen.getByRole('dialog', { name: 'Stay inspiration' });
+    const first = within(dialog).getByRole('img').getAttribute('src');
+    fireEvent.keyDown(dialog, { key: 'ArrowRight' });
+    expect(within(dialog).getByRole('img').getAttribute('src')).not.toBe(first);
+    fireEvent.keyDown(dialog, { key: 'Escape' });
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(open).toHaveFocus();
+  });
+  it('keeps a usable location link with the exact supplied coordinates independently of map tiles', async () => {
+    intercept(); mount(`/greenstate/listings/${listing.id}`);
+    const link = await screen.findByRole('link', { name: 'Open in OpenStreetMap' });
+    const url = new URL(link.getAttribute('href')!);
+    expect(url.hostname).toBe('www.openstreetmap.org');
+    expect(url.searchParams.get('mlat')).toBe('52.52');
+    expect(url.searchParams.get('mlon')).toBe('13.405');
+    expect(screen.getByRole('region', { name: 'Property location' })).toBeVisible();
+  });
+  it('returns from details to the same search filters and page', async () => {
+    intercept(); const router = mount('/greenstate?city=Berlin&guests=4&page=2');
+    await userEvent.setup().click(await screen.findByRole('link', { name: listing.title }));
+    await userEvent.setup().click(await screen.findByRole('link', { name: 'Back to listings' }));
+    expect(router.state.location.search).toBe('?city=Berlin&guests=4&page=2');
+    expect(screen.getByLabelText('City')).toHaveValue('Berlin');
+  });
   it('preserves the listing date and exact supplied coordinates in secondary details', async () => {
     intercept(); mount(`/greenstate/listings/${listing.id}`);
     await screen.findByRole('heading', { name: listing.title });

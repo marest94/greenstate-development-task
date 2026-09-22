@@ -20,9 +20,10 @@ function intercept(handle?: (url: URL, init: RequestInit) => Response | Promise<
  const requests: { url: URL; init: RequestInit; body: Record<string, unknown> | null }[] = [];
  vi.stubGlobal('fetch', async (input: string, init: RequestInit = {}) => {
   const url = new URL(input, 'http://localhost'); requests.push({ url, init, body: init.body ? JSON.parse(String(init.body)) : null }); const response = handle?.(url, init); if (response !== undefined) return response;
+  if (url.pathname === `${detail}/summary`) return json({ ...tenant, counts: { activeListings: 2, archivedListings: 1, accounts: 4, enabledHosts: 1 } });
   if (url.pathname.endsWith('/auth/me')) return json(user);
   if (url.pathname.endsWith('/auth/logout')) return new Response(null, { status: 204 });
-  if (url.pathname === base) return json({ items: [tenant], total: 41, page: Number(url.searchParams.get('page') ?? 1), pageSize: 20 });
+  if (url.pathname === base) return json({ items: [{ ...tenant, counts: { activeListings: 2, archivedListings: 1, accounts: 4, enabledHosts: 1 } }], total: 41, page: Number(url.searchParams.get('page') ?? 1), pageSize: 20 });
   if (url.pathname === detail) return json(tenant);
   if (url.pathname === `${detail}/accounts`) return json({ items: [client, host], total: 2, page: 1, pageSize: 20 });
   return new Response(null, { status: 204 });
@@ -80,4 +81,27 @@ it('aborts a pending credential action on sign-out and ignores its late completi
  let release!: (response: Response) => void; const pending = new Promise<Response>(resolve => { release = resolve; });
  const requests = intercept((url, init) => url.pathname.endsWith('/password-reset') && init.method === 'POST' ? pending : undefined); const { cache } = mount(`/admin/tenants/${tenant.id}/accounts`); await screen.findByText(client.email); await userEvent.click(within(screen.getByRole('row', { name: new RegExp(client.email) })).getByRole('button', { name: 'Reset password' })); fill('Temporary password', temp); await userEvent.click(screen.getByLabelText(/I verified.*identity/)); submit('Confirm password reset'); await waitFor(() => expect(requests.some(r => r.url.pathname.endsWith('/password-reset'))).toBe(true));
  await userEvent.click(screen.getByRole('button', { name: 'Sign out' })); await screen.findByRole('heading', { name: 'Sign in' }); expect(requests.find(r => r.url.pathname.endsWith('/password-reset'))?.init.signal?.aborted).toBe(true); await act(async () => { release(new Response(null, { status: 204 })); }); expect(cache.getQueryCache().getAll().some(q => q.queryKey[0] === 'private')).toBe(false); expect(screen.queryByText(/Password reset.*sessions revoked/i)).not.toBeInTheDocument();
+});
+
+it('opens account actions in a focused dialog with tenant context', async () => {
+ intercept(); mount(`/admin/tenants/${tenant.id}/accounts`); await screen.findByText(host.email);
+ const trigger = within(screen.getByRole('row', { name: /host@example.test/ })).getByRole('button', { name: 'Reset password' });
+ await userEvent.click(trigger);
+ const dialog = screen.getByRole('dialog', { name: 'Reset password' });
+ expect(within(dialog).getByText('GreenState · greenstate')).toBeVisible();
+ await userEvent.click(within(dialog).getByRole('button', { name: 'Cancel' }));
+ expect(trigger).toHaveFocus();
+});
+
+it('keeps focus on the accounts heading when a successful action removes its row', async () => {
+ let disabled = false;
+ intercept((url, init) => {
+   if (url.pathname.endsWith('/disable') && init.method === 'POST') { disabled = true; return new Response(null, { status: 204 }); }
+   if (url.pathname === `${detail}/accounts`) return json({ items: disabled ? [client] : [client, host], total: disabled ? 1 : 2, page: 1, pageSize: 20 });
+ });
+ mount(`/admin/tenants/${tenant.id}/accounts?status=enabled`); await screen.findByText(host.email);
+ await userEvent.click(within(screen.getByRole('row', { name: /host@example.test/ })).getByRole('button', { name: 'Disable' }));
+ await userEvent.click(screen.getByRole('button', { name: 'Confirm disable' }));
+ await waitFor(() => expect(screen.queryByRole('row', { name: /host@example.test/ })).not.toBeInTheDocument());
+ expect(screen.getByRole('heading', { name: 'GreenState accounts' })).toHaveFocus();
 });

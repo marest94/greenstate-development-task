@@ -16,6 +16,10 @@ export class HostListingsRepository {
     const conditions = [Prisma.sql`l.tenant_id = ${tenantId}::uuid`];
     if (query.status === 'active') conditions.push(Prisma.sql`l.archived_at IS NULL`);
     if (query.status === 'archived') conditions.push(Prisma.sql`l.archived_at IS NOT NULL`);
+    if (query.search) conditions.push(Prisma.sql`position(${query.search.toLowerCase()} in lower(l.title)) > 0`);
+    if (query.city) conditions.push(Prisma.sql`position(${query.city.toLowerCase()} in lower(l.city)) > 0`);
+    if (query.propertyType) conditions.push(Prisma.sql`l.property_type = ${query.propertyType}`);
+    const order = { title: Prisma.sql`title COLLATE "C", id`, 'price-asc': Prisma.sql`"pricePerNightCents" ASC, title COLLATE "C", id`, 'price-desc': Prisma.sql`"pricePerNightCents" DESC, title COLLATE "C", id` }[query.sort];
     return this.db.run(tenantId, async tx => {
       // Rows and total share a snapshot, including an empty or out-of-range page.
       const [result] = await tx.$queryRaw<{ total: number; items: HostListingRecord[] }[]>(Prisma.sql`WITH matching AS MATERIALIZED (
@@ -25,7 +29,7 @@ export class HostListingsRepository {
         FROM listings l WHERE ${Prisma.join(conditions, ' AND ')}
       ) SELECT (SELECT count(*)::int FROM matching) AS total,
         COALESCE((SELECT jsonb_agg(to_jsonb(p)) FROM (
-          SELECT * FROM matching ORDER BY title COLLATE "C", id LIMIT ${query.pageSize} OFFSET ${(query.page - 1) * query.pageSize}
+          SELECT * FROM matching ORDER BY ${order} LIMIT ${query.pageSize} OFFSET ${(query.page - 1) * query.pageSize}
         ) p), '[]'::jsonb) AS items`);
       return result!;
     });

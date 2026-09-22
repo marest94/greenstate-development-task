@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { AvailabilityQuery, BlockView, BlockWrite, HostCalendar, TenantContext } from '@greenstate/contracts';
+import type { BlockRange, AvailabilityQuery, BlockView, BlockWrite, HostCalendar, TenantContext } from '@greenstate/contracts';
 import { Clock } from '../common/time/clock.js';
 import { eachDay, fromDbDate, todayIn } from '../common/time/dates.js';
 import { toBookingDto } from '../bookings/booking.mapper.js';
@@ -20,5 +20,6 @@ export class HostCalendarService {
     const result = await this.repository.create(tenant.id, listingId, input);
     return { id: result.id, listingId: result.listingId, date: fromDbDate(result.date), reason: result.reason };
   }
+  range(tenant: TenantContext, listingId: string, input: BlockRange) { return this.repository.range(tenant.id, listingId, input); }
   remove(tenant: TenantContext, listingId: string, blockId: string) { return this.repository.remove(tenant.id, listingId, blockId); }
 }

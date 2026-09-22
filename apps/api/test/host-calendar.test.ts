@@ -150,3 +150,51 @@ it('keeps historical archived calendars inspectable as supplied bookings age', a
   expect(response.body.days.map((day: { status: string }) => day.status)).toEqual(['booked', 'booked', 'available']);
   expect(response.body.bookings[0]).toMatchObject({ id: booking.id, status: 'confirmed', checkOut: '2025-06-03' });
 });
+
+const blockRange = (id: string, action = 'block', from = '2026-10-09', to = '2026-10-14', cookie = host) => request(app.getHttpServer()).post(`${base(id)}/block-range`).set(calendarCsrf).set('Cookie', cookie).send({ from, to, action, ...(action === 'block' ? { reason: 'Maintenance' } : {}) });
+it('applies ranges atomically, preserves existing reasons, and removes only manual blocks', async () => {
+  const listing = await db.admin.listing.create({ data: listingData(f.a.id) });
+  const booking = await db.admin.booking.create({ data: bookingData(f.a.id, listing.id) });
+  await blockRange(listing.id).expect(409);
+  expect(await db.admin.blockedDay.count({ where: { listingId: listing.id } })).toBe(0);
+  const existing = await db.admin.blockedDay.create({ data: { tenantId: f.a.id, listingId: listing.id, date: new Date('2026-10-13'), reason: 'Original' } });
+  await blockRange(listing.id, 'block', '2026-10-12', '2026-10-15').expect(201).expect(r => expect(r.body.changed).toBe(2));
+  expect((await db.admin.blockedDay.findUniqueOrThrow({ where: { id: existing.id } })).reason).toBe('Original');
+  await blockRange(listing.id, 'block', '2026-10-12', '2026-10-15').expect(201).expect(r => expect(r.body.changed).toBe(0));
+  await blockRange(listing.id, 'unblock', '2026-10-09', '2026-10-15').expect(201).expect(r => expect(r.body.changed).toBe(3));
+  expect(await db.admin.booking.findUniqueOrThrow({ where: { id: booking.id } })).toEqual(booking);
+});
+it('bounds and scopes range mutations and retains existing permissions', async () => {
+  await blockRange(f.listingB.id).expect(404);
+  await blockRange(f.listingA.id, 'block', '2026-10-01', '2026-10-03').expect(409);
+  await blockRange(f.listingA.id, 'block', '2026-10-01', '2026-12-03').expect(400);
+  await blockRange(f.listingA.id, 'block', '2026-10-14', '2026-10-09').expect(400);
+  await blockRange(f.listingA.id, 'block', '2026-10-09', '2026-10-14', client).expect(403);
+});
+it('returns bounded portfolio rows with tenant-scoped calendar states and literal filters', async () => {
+  const listing = await db.admin.listing.create({ data: { ...listingData(f.a.id), title: 'Portfolio 100% unique', city: 'Porto' } });
+  await db.admin.booking.create({ data: bookingData(f.a.id, listing.id) });
+  const endpoint = `/api/v1/t/${f.a.slug}/host/calendar`;
+  const response = await request(app.getHttpServer()).get(endpoint).set('Cookie', host).query({ ...range, search: '100%', city: 'porto', pageSize: 1 }).expect(200);
+  expect(response.body.total).toBe(1); expect(response.body.items[0].listing.id).toBe(listing.id);
+  expect(response.body.items[0].days.map((d: { status: string }) => d.status)).toEqual(['available', 'booked', 'booked', 'available', 'available']);
+  await request(app.getHttpServer()).get(endpoint).set('Cookie', client).query(range).expect(403);
+  await request(app.getHttpServer()).get(endpoint).set('Cookie', host).query({ from: '2026-01-01', to: '2026-03-01' }).expect(400);
+});
+it('serializes overlapping range submissions and protects archived and past legacy blocks', async () => {
+  const listing = await db.admin.listing.create({ data: listingData(f.a.id) });
+  const results = await Promise.all([blockRange(listing.id), blockRange(listing.id)]);
+  expect(results.map(r => r.status)).toEqual([201, 201]); expect(results.map(r => r.body.changed).sort()).toEqual([0, 5]);
+  await db.admin.listing.update({ where: { id: listing.id }, data: { archivedAt: now } });
+  await blockRange(listing.id, 'block', '2026-10-20', '2026-10-23').expect(409).expect(r => expect(r.body.code).toBe('LISTING_ARCHIVED'));
+  await blockRange(listing.id, 'unblock').expect(201).expect(r => expect(r.body.changed).toBe(5));
+  await request(app.getHttpServer()).post(`${base(listing.id)}/block-range`).set('Cookie', host).send({ ...range, action: 'block' }).expect(403);
+});
+it('checks range business dates after a lock wait crosses midnight', async () => {
+  const listing = await db.admin.listing.create({ data: listingData(f.a.id) });
+  const barrier = holdFirstListingLock(); const result = blockRange(listing.id, 'block', '2026-10-02', '2026-10-04').then(response => response);
+  try { await barrier.entered; now = new Date('2026-10-02T22:30:00Z'); barrier.release();
+    const response = await result; expect(response.status).toBe(409); expect(response.body.code).toBe('PAST_DATE');
+    expect(await db.admin.blockedDay.count({ where: { listingId: listing.id } })).toBe(0);
+  } finally { barrier.release(); await result; }
+});

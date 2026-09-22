@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
-import { AvailabilityQuerySchema, BlockWriteSchema } from '@greenstate/contracts';
+import { AvailabilityQuerySchema, BlockWriteSchema, BlockRangeSchema } from '@greenstate/contracts';
 import { validate } from '../common/http/validation.js';
 import { CsrfGuard } from '../common/http/csrf.guard.js';
 import { TenantGuard } from '../tenants/tenant.guard.js';
@@ -18,6 +18,10 @@ export class HostCalendarController {
   @Post('blocks')
   create(@Req() request: AuthenticatedRequest, @Param('id') id: unknown, @Query() query: unknown, @Body() body: unknown) {
     validate(Empty, query); return this.service.create(request.tenant, validate(z.uuid(), id), validate(BlockWriteSchema, body));
+  }
+  @Post('block-range')
+  range(@Req() request: AuthenticatedRequest, @Param('id') id: unknown, @Query() query: unknown, @Body() body: unknown) {
+    validate(Empty, query); return this.service.range(request.tenant, validate(z.uuid(), id), validate(BlockRangeSchema, body));
   }
   @Delete('blocks/:blockId') @HttpCode(204)
   remove(@Req() request: AuthenticatedRequest, @Param('id') id: unknown, @Param('blockId') blockId: unknown, @Query() query: unknown) {

@@ -13,6 +13,7 @@ const Empty = z.strictObject({});
 export class AdminTenantsController {
   constructor(@Inject(AdminTenantsService) private readonly service: AdminTenantsService) {}
   @Get() list(@Query() query: unknown) { return this.service.list(validate(AdminTenantsQuerySchema, query)); }
+  @Get(':id/summary') summary(@Param('id') id: unknown, @Query() query: unknown) { validate(Empty, query); return this.service.summary(validate(z.uuid(), id)); }
   @Get(':id') detail(@Param('id') id: unknown, @Query() query: unknown) { validate(Empty, query); return this.service.detail(validate(z.uuid(), id)); }
   @Post() create(@Body() body: unknown, @Query() query: unknown) { validate(Empty, query); return this.service.create(validate(TenantCreateSchema, body)); }
   @Patch(':id') update(@Param('id') id: unknown, @Body() body: unknown, @Query() query: unknown) { validate(Empty, query); return this.service.update(validate(z.uuid(), id), validate(TenantUpdateSchema, body)); }

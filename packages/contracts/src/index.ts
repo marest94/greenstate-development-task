@@ -24,3 +24,5 @@ export * from './host-listings.js';
 export * from './host-calendar.js';
 export * from './bookings.js';
 export * from './admin.js';
+
+export * from './portfolio-calendar.js';

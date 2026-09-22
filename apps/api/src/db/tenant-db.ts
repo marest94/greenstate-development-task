@@ -4,11 +4,11 @@ import { Prisma } from '../generated/prisma/client.js';
 export class TenantDb {
   readonly client;
   constructor(url: string, max = 10) { this.client = createClient(url, max); }
-  run<T>(tenantId: string, fn: (tx: Prisma.TransactionClient) => Promise<T>): Promise<T> {
+  run<T>(tenantId: string, fn: (tx: Prisma.TransactionClient) => Promise<T>, isolationLevel: Prisma.TransactionIsolationLevel = Prisma.TransactionIsolationLevel.ReadCommitted): Promise<T> {
     return this.client.$transaction(async tx => {
       await tx.$queryRaw`SELECT set_config('app.tenant_id', ${tenantId}, true)`;
       return fn(tx);
-    }, { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted });
+    }, { isolationLevel });
   }
   runForUser<T>(tenantId: string, userId: string, fn: (tx: Prisma.TransactionClient) => Promise<T>): Promise<T> {
     return this.run(tenantId, async tx => {

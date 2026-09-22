@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { AvailabilityQuery, BlockWrite } from '@greenstate/contracts';
+import type { AvailabilityQuery, BlockWrite, BlockRange } from '@greenstate/contracts';
 import { Prisma } from '../generated/prisma/client.js';
 import { TenantDb } from '../db/tenant-db.js';
 import { Clock } from '../common/time/clock.js';
-import { toDbDate, todayIn } from '../common/time/dates.js';
+import { toDbDate, todayIn, eachDay, fromDbDate } from '../common/time/dates.js';
 import { AppError } from '../common/http/errors.js';
 import { lockListing } from '../listings/listing-lock.js';
 const missing = () => new AppError(404, 'RESOURCE_NOT_FOUND', 'The requested resource was not found.');
@@ -34,6 +34,20 @@ export class HostCalendarRepository {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') throw duplicate();
       throw error;
     }
+  }
+  range(tenantId: string, listingId: string, input: BlockRange) {
+    return this.db.write(tenantId, async (tx, tenant) => {
+      const listing = await lockListing(tx, tenantId, listingId);
+      const where = { tenantId, listingId, date: { gte: toDbDate(input.from), lt: toDbDate(input.to) } };
+      if (input.action === 'unblock') return { changed: (await tx.blockedDay.deleteMany({ where })).count };
+      if (listing.archivedAt) throw new AppError(409, 'LISTING_ARCHIVED', 'Restore this listing before adding blocked days.');
+      if (input.from < todayIn(tenant.timezone, this.clock.now())) throw new AppError(409, 'PAST_DATE', 'Choose today or a future tenant business date.');
+      const occupied = await tx.booking.findFirst({ where: { tenantId, listingId, status: { not: 'cancelled' }, checkIn: { lt: toDbDate(input.to) }, checkOut: { gt: toDbDate(input.from) } } });
+      if (occupied) throw new AppError(409, 'DATE_OCCUPIED', 'This range includes booked nights. Adjust the dates; no blocks were added.');
+      const existing = new Set((await tx.blockedDay.findMany({ where })).map(row => fromDbDate(row.date)));
+      const data = eachDay(input).filter(date => !existing.has(date)).map(date => ({ tenantId, listingId, date: toDbDate(date), reason: input.reason ?? null }));
+      return { changed: data.length ? (await tx.blockedDay.createMany({ data })).count : 0 };
+    });
   }
   remove(tenantId: string, listingId: string, blockId: string) {
     return this.db.write(tenantId, async tx => {

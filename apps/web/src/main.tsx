@@ -5,5 +5,6 @@ import { RouterProvider } from 'react-router-dom';
 import { queryClient } from './app/query-client';
 import { router } from './app/router';
 import './index.css';
+import './features/portal/portal.css';
 
 createRoot(document.getElementById('root')!).render(<StrictMode><QueryClientProvider client={queryClient}><RouterProvider router={router} /></QueryClientProvider></StrictMode>);

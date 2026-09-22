@@ -146,3 +146,38 @@ it('keeps the requested page size when advancing inventory pages', async () => {
   expect(new URLSearchParams(router.state.location.search).get('pageSize')).toBe('10');
   expect(requests.filter(r => r.url.pathname === base).at(-1)?.url.searchParams.get('pageSize')).toBe('10');
 });
+
+it('protects a dirty listing draft when navigating to inventory', async () => {
+  intercept(); mount(`/greenstate/host/listings/${listing.id}`);
+  await screen.findByLabelText('Title'); fill('Title', 'My unsaved draft');
+  await userEvent.setup().click(screen.getByRole('link', { name: 'Back to inventory' }));
+  expect(screen.getByRole('dialog', { name: 'Leave without saving?' })).toBeVisible();
+  await userEvent.setup().click(screen.getByRole('button', { name: 'Keep editing' }));
+  expect(screen.getByLabelText('Title')).toHaveValue('My unsaved draft');
+});
+it('applies inventory discovery filters and preserves page size', async () => {
+  intercept(); const { router } = mount('/greenstate/host/listings?page=2&pageSize=10');
+  await screen.findByRole('link', { name: listing.title });
+  fill('Property name', 'courtyard'); fill('City', 'Berlin');
+  await userEvent.setup().click(screen.getByRole('button', { name: 'Apply filters' }));
+  expect(new URLSearchParams(router.state.location.search).get('search')).toBe('courtyard');
+  expect(new URLSearchParams(router.state.location.search).get('page')).toBe('1');
+  expect(new URLSearchParams(router.state.location.search).get('pageSize')).toBe('10');
+});
+it('does not warn after reverting a draft to its saved values', async () => {
+ intercept(); const { router } = mount(`/greenstate/host/listings/${listing.id}`); await screen.findByLabelText('Title');
+ fill('Title', 'Changed'); fill('Title', listing.title);
+ await userEvent.click(screen.getByRole('link', { name: 'Back to inventory' }));
+ await waitFor(() => expect(router.state.location.pathname).toBe('/greenstate/host/listings'));
+ expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+});
+it('requires saving or discarding edits before restoring an archived listing', async () => {
+ const requests = intercept({ listing: { ...listing, archivedAt: '2026-10-01T00:00:00.000Z' } });
+ mount(`/greenstate/host/listings/${listing.id}`); await screen.findByLabelText('Title');
+ fill('Title', 'An unsaved title');
+ expect(screen.getByRole('button', { name: 'Restore listing' })).toBeDisabled();
+ await userEvent.click(screen.getByRole('button', { name: 'Discard changes' }));
+ expect(screen.getByLabelText('Title')).toHaveValue(listing.title);
+ expect(screen.getByRole('button', { name: 'Restore listing' })).toBeEnabled();
+ expect(requests.some(r => r.init.method === 'POST' || r.init.method === 'PATCH')).toBe(false);
+});

@@ -19,6 +19,7 @@ const PasswordPage = lazy(() => import('../features/auth/PasswordPage').then(mod
 const SavedListingsPage = lazy(() => import('../features/saved/SavedListingsPage').then(module => ({ default: module.SavedListingsPage })));
 const ListingsPage = lazy(() => import('../features/host/ListingsPage').then(module => ({ default: module.ListingsPage })));
 const ListingForm = lazy(() => import('../features/host/ListingForm').then(module => ({ default: module.ListingForm })));
+const PortfolioCalendarPage = lazy(() => import('../features/host/PortfolioCalendarPage').then(module => ({ default: module.PortfolioCalendarPage })));
 const CalendarPage = lazy(() => import('../features/host/CalendarPage').then(module => ({ default: module.CalendarPage })));
 const BookingsPage = lazy(() => import('../features/host/BookingsPage').then(module => ({ default: module.BookingsPage })));
 const TenantsPage = lazy(() => import('../features/admin/TenantsPage').then(module => ({ default: module.TenantsPage })));
@@ -58,6 +59,7 @@ export const router = createBrowserRouter([
       { path: 'host', element: <HostLayout />, children: [
         { index: true, element: <Navigate to="listings" replace /> },
         { path: 'listings', element: <ListingsPage /> },
+        { path: 'calendar', element: <PortfolioCalendarPage /> },
         { path: 'listings/new', element: <ListingForm mode="create" /> },
         { path: 'listings/:id', element: <ListingForm mode="edit" /> },
         { path: 'listings/:id/calendar', element: <CalendarPage /> },

@@ -25,7 +25,11 @@ export const AdminTenantSchema = z.strictObject({ ...TenantSchema.shape, created
 export type AdminTenant = z.infer<typeof AdminTenantSchema>;
 export const AdminTenantsQuerySchema = PaginationSchema.extend({ search: z.string().trim().min(1).max(120).optional(), status: z.enum(['active', 'deleted', 'all']).default('active') });
 export type AdminTenantsQuery = z.infer<typeof AdminTenantsQuerySchema>;
-export const AdminTenantsPageSchema = z.strictObject({ items: z.array(AdminTenantSchema), total: z.number().int().nonnegative(), page: z.number().int().positive(), pageSize: z.number().int().min(1).max(50) });
+export const TenantCountsSchema = z.strictObject({ activeListings: z.number().int().nonnegative(), archivedListings: z.number().int().nonnegative(), accounts: z.number().int().nonnegative(), enabledHosts: z.number().int().nonnegative() });
+export type TenantCounts = z.infer<typeof TenantCountsSchema>;
+export const AdminTenantSummarySchema = AdminTenantSchema.extend({ counts: TenantCountsSchema });
+export type AdminTenantSummary = z.infer<typeof AdminTenantSummarySchema>;
+export const AdminTenantsPageSchema = z.strictObject({ items: z.array(AdminTenantSummarySchema), total: z.number().int().nonnegative(), page: z.number().int().positive(), pageSize: z.number().int().min(1).max(50) });
 export type AdminTenantsPage = z.infer<typeof AdminTenantsPageSchema>;
 export const TenantAccountSchema = z.strictObject({
   id: z.uuid(), tenantId: z.uuid(), name: z.string().nullable(), email: EmailSchema, role: z.enum(['client', 'host']),

@@ -11,3 +11,8 @@ export const HostCalendarDaySchema = z.strictObject({
 });
 export const HostCalendarSchema = z.strictObject({ today: IsoDateSchema, days: z.array(HostCalendarDaySchema).max(366), bookings: z.array(BookingDtoSchema) });
 export type HostCalendar = z.infer<typeof HostCalendarSchema>;
+
+export const RangeResultSchema = z.strictObject({ changed: z.number().int().nonnegative() });
+export const BlockRangeSchema = z.strictObject({ from: IsoDateSchema, to: IsoDateSchema, action: z.enum(['block', 'unblock']), reason: BlockWriteSchema.shape.reason })
+  .refine(({ from, to }) => from < to && Date.parse(to) - Date.parse(from) <= 31 * 86400000, { path: ['to'], message: 'Choose a range of 1 to 31 nights.' });
+export type BlockRange = z.infer<typeof BlockRangeSchema>;
