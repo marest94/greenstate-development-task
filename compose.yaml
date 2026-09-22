@@ -39,6 +39,12 @@ services:
       NODE_ENV: production
       PORT: 3000
       TRUST_PROXY_HOPS: 1
+      AUTH_LOGIN_IP_LIMIT: ${AUTH_LOGIN_IP_LIMIT:-30}
+      AUTH_LOGIN_ACCOUNT_LIMIT: ${AUTH_LOGIN_ACCOUNT_LIMIT:-10}
+      AUTH_REGISTRATION_IP_LIMIT: ${AUTH_REGISTRATION_IP_LIMIT:-10}
+      AUTH_PASSWORD_ACTOR_LIMIT: ${AUTH_PASSWORD_ACTOR_LIMIT:-10}
+      AUTH_WINDOW_MS: ${AUTH_WINDOW_MS:-900000}
+      AUTH_MAX_BUCKETS: ${AUTH_MAX_BUCKETS:-10000}
       APP_ORIGIN: ${APP_ORIGIN:-http://localhost:8080}
       DATABASE_URL: postgresql://gs_app:local-app-only@db:5432/greenstate
       ADMIN_DATABASE_URL: postgresql://gs_admin:local-admin-only@db:5432/greenstate

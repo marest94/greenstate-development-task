@@ -13,6 +13,7 @@ function Probe() {
   const auth = useAuth();
   return <><h1>{auth.isLoading ? 'Loading account' : auth.principal?.email ?? 'Signed out'}</h1><p>{auth.error?.message}</p>
     <button onClick={() => { void auth.logout(); }}>Log out</button><button onClick={() => { void auth.login({ email: second.email, password: 'A second account password' }).catch(() => {}); }}>Other account</button>
+    <button onClick={() => { void auth.changePassword({ currentPassword: 'A current account password', newPassword: 'A replacement account password' }).catch(() => {}); }}>Change password</button>
     <span data-testid="key">{JSON.stringify(auth.privateKey)}</span></>;
 }
 function mount() {
@@ -83,4 +84,19 @@ it('settles initial loading when a submitted login fails after cancelling sessio
   mount(); fireEvent.click(screen.getByRole('button', { name: 'Other account' }));
   expect(await screen.findByRole('heading', { name: 'Signed out' })).toBeVisible();
   await act(async () => { resolveMe(unauthorized()); });
+});
+
+it('ignores a private 401 from before a password transition while accepting its replacement session', async () => {
+  let resolvePrivate!: (response: Response) => void; let resolvePassword!: (response: Response) => void;
+  vi.stubGlobal('fetch', vi.fn((url: string) => url.endsWith('/auth/me') ? Promise.resolve(json(first)) : new Promise<Response>(resolve => { if (url.endsWith('/auth/password')) resolvePassword = resolve; else resolvePrivate = resolve; })));
+  const { client } = mount(); await screen.findByRole('heading', { name: first.email });
+  client.setQueryData(['private', 'tenant', tenantId, first.id, 'saved'], ['old private data']);
+  const pendingPrivate = api.get('/t/greenstate/saved-listings').catch(() => {});
+  fireEvent.click(screen.getByRole('button', { name: 'Change password' }));
+  expect(screen.getByTestId('key')).toHaveTextContent('null');
+  expect(client.getQueriesData({ queryKey: ['private'] })).toEqual([]);
+  await act(async () => { resolvePrivate(unauthorized()); await pendingPrivate; });
+  await act(async () => { resolvePassword(json(first)); });
+  expect(await screen.findByRole('heading', { name: first.email })).toBeVisible();
+  expect(client.getQueriesData({ queryKey: ['private'] })).toEqual([]);
 });

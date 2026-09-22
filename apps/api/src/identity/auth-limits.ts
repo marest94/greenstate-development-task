@@ -8,8 +8,11 @@ import { SECURITY_CONFIG, type SecurityConfig } from '../common/http/security-co
 export class AuthLimits {
   constructor(@Inject(RateLimiter) private readonly limiter: RateLimiter, @Inject(SECURITY_CONFIG) private readonly config: SecurityConfig) {}
   private enforce(res: Response, limits: [string, number][]) {
-    const retry = Math.max(...limits.map(([key, limit]) => this.limiter.consume(createHash('sha256').update(key).digest('hex'), limit)));
-    if (retry > 0) { res.setHeader('Retry-After', retry); throw new AppError(429, 'RATE_LIMITED', 'Too many requests. Please try again later.'); }
+    // A rejected IP/actor must not allocate fresh downstream account/target buckets.
+    for (const [key, limit] of limits) {
+      const retry = this.limiter.consume(createHash('sha256').update(key).digest('hex'), limit);
+      if (retry > 0) { res.setHeader('Retry-After', retry); throw new AppError(429, 'RATE_LIMITED', 'Too many requests. Please try again later.'); }
+    }
   }
   login(req: Request, res: Response, realm: string, email: string) {
     this.enforce(res, [[`login:ip:${req.ip}`, this.config.loginIpLimit], [`login:account:${realm}:${email}`, this.config.loginAccountLimit]]);
