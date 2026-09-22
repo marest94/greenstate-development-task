@@ -13,5 +13,6 @@ export class AdminDb {
   forTenant<T>(tenantId: string, mode: 'shared' | 'exclusive', fn: (tx: Prisma.TransactionClient, tenant: Awaited<ReturnType<typeof lockLiveTenant>>) => Promise<T>) {
     return this.transaction(async tx => fn(tx, await lockLiveTenant(tx, tenantId, mode)));
   }
+  async onApplicationShutdown() { await this.close(); }
   async close() { await this.client.$disconnect(); }
 }

@@ -16,6 +16,7 @@ model Tenant {
   contactEmail String? @map("contact_email")
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  users TenantUser[]
   listings Listing[]
   @@map("tenants")
 }
@@ -74,4 +75,50 @@ model SeedRun {
   counts Json
   completedAt DateTime @default(now()) @map("completed_at") @db.Timestamptz(3)
   @@map("seed_runs")
+}
+
+model TenantUser {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenantId String @map("tenant_id") @db.Uuid
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  email String @db.VarChar(254)
+  passwordHash String @map("password_hash")
+  role String @default("client")
+  mustChangePassword Boolean @default(false) @map("must_change_password")
+  disabledAt DateTime? @map("disabled_at") @db.Timestamptz(3)
+  credentialVersion Int @default(1) @map("credential_version")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  sessions TenantSession[]
+  @@unique([tenantId, email])
+  @@unique([id, tenantId])
+  @@map("tenant_users")
+}
+model TenantSession {
+  tokenHash String @id @map("token_hash") @db.Char(64)
+  tenantId String @map("tenant_id") @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  user TenantUser @relation(fields: [userId, tenantId], references: [id, tenantId], onDelete: Restrict)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
+  @@index([tenantId, userId])
+  @@map("tenant_sessions")
+}
+model PlatformUser {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email String @unique @db.VarChar(254)
+  passwordHash String @map("password_hash")
+  mustChangePassword Boolean @default(false) @map("must_change_password")
+  credentialVersion Int @default(1) @map("credential_version")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  sessions PlatformSession[]
+  @@map("platform_users")
+}
+model PlatformSession {
+  tokenHash String @id @map("token_hash") @db.Char(64)
+  userId String @map("user_id") @db.Uuid
+  user PlatformUser @relation(fields: [userId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
+  @@index([userId])
+  @@map("platform_sessions")
 }

@@ -67,7 +67,7 @@ jobs:
           npm run test:stack
       - name: Install Chromium for browser checks
         run: npx playwright install --with-deps chromium
-      - name: Verify public portal in desktop and narrow browsers
+      - name: Verify portal and account journeys in desktop and narrow browsers
         env:
           STACK_BASE_URL: http://localhost:18080
         run: npm run test:browser

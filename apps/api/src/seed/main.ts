@@ -1,6 +1,7 @@
 import { loadDatabaseConfig } from '../config.js';
 import { AdminDb } from '../db/admin-db.js';
 import { assertRuntimeRole } from '../db/role-check.js';
+import { runAccountSeed } from './accounts.js';
 import { runSeed } from './seed.js';
 if (process.env.SEED_DEMO_DATA !== 'true') {
   process.stdout.write('Demo seed skipped. Set SEED_DEMO_DATA=true to import the challenge data.\n');
@@ -8,7 +9,9 @@ if (process.env.SEED_DEMO_DATA !== 'true') {
   const db = new AdminDb(loadDatabaseConfig().privilegedUrl);
   try {
     await assertRuntimeRole(db.client, 'privileged');
-    process.stdout.write(`${JSON.stringify(await runSeed({ db, enabled: true }))}\n`);
+    const inventory = await runSeed({ db, enabled: true });
+    const accounts = await runAccountSeed({ db, enabled: true });
+    process.stdout.write(`${JSON.stringify({ inventory, accounts })}\n`);
   } catch {
     process.stderr.write('Demo seed failed. Check input files, database access, and conflicting existing data.\n');
     process.exitCode = 1;

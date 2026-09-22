@@ -27,7 +27,7 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 .portal-shell main { flex: 1; }
 .portal-header { min-height: 100px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
 .portal-header .wordmark { color: var(--tenant-color, var(--ink)); font-size: 19px; letter-spacing: -.025em; overflow-wrap: anywhere; }
-.portal-header nav { flex-shrink: 0; font-size: 13px; }
+.portal-header nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 20px; flex-shrink: 1; font-size: 13px; }
 .portal-header nav a { text-decoration: none; padding: 12px 0; border-bottom: 1px solid currentColor; }
 .skip-link { position: absolute; top: -80px; left: 20px; z-index: 10; background: var(--ink); color: #fff; padding: 14px 20px; border-radius: 6px; }
 .skip-link:focus { top: 12px; }
@@ -166,9 +166,9 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
   .calendar-day > span, .calendar-day > button { min-height: 44px; }
 }
 @media (max-width: 600px) {
-  .portal-header { min-height: 80px; gap: 18px; }
+  .portal-header { min-height: 80px; gap: 8px; flex-direction: column; align-items: flex-start; padding: 18px 0; }
   .portal-header .wordmark { font-size: 17px; }
-  .portal-header nav { font-size: 11px; }
+  .portal-header nav { justify-content: flex-start; gap: 6px 18px; font-size: 11px; }
   .search-intro { display: block; margin: 38px 0 30px; }
   .search-intro .eyebrow { margin-bottom: 16px; max-width: 245px; }
   .search-intro h1 { font-size: 49px; }
@@ -219,3 +219,6 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
   .calendar-legend { gap: 18px; font-size: 9px; }
 }
 @media (prefers-reduced-motion: reduce) { .listing-card { transition: none; } }
+
+.welcome-portals { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; margin: 1.5rem 0; }
+.welcome-portals a { color: var(--tenant-color, #173d32); text-underline-offset: .25em; }

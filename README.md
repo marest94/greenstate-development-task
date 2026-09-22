@@ -2,9 +2,9 @@
 
 Fresh implementation of the GreenState accommodation rental challenge.
 
-Status: foundation tasks 1–3 are merged, with successful GitHub CI. The public portal now includes
-listing search, facets, detail, and availability screens with verified browser journeys. Account, host,
-and administration features follow in subsequent milestones.
+Status: foundation and public portal tasks 1–5 are merged with successful GitHub CI. Tenant
+registration, platform sign-in, account pages, password changes and secure sessions are implemented
+in the identity milestone. Saved listings, inventory management and administration follow next.
 
 ## Planning
 
@@ -12,7 +12,7 @@ and administration features follow in subsequent milestones.
 - [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
 
 Follow the 13-task plan, with one integration owner, bounded parallel work, and commits at
-verified task boundaries. Foundation and public portal tasks 1–5 are complete. Identity is the next milestone (tasks 6–7).
+verified task boundaries. Implementation currently covers tasks 1–7. The next milestone is saved listings and inventory management (tasks 8–9).
 
 Use short-lived milestone branches, starting with `feat/foundation` for tasks 1–3.
 Parallel work uses `feat/task-<number>-<short-name>` branches/worktrees based on the active
@@ -48,8 +48,8 @@ ranges, so a stay can begin on another stay's checkout date. Cancelled stays occ
 
 Import completion is stored transactionally with its version and input checksum. Rerunning the
 import preserves later edits, additional listings, archives, and tenant deletion; changed source
-files or conflicting original IDs fail rather than overwrite data. Account bootstrap will receive
-its own completion marker in the identity milestone. Demo accounts do not exist yet.
+files or conflicting original IDs fail rather than overwrite data. Account bootstrap uses its own
+completion marker and adds the local examples documented below without resetting existing accounts.
 
 PostgreSQL is available only on localhost port 54329, with a named volume for local data.
 The Compose credentials are public development examples; this is not deployment configuration.
@@ -77,7 +77,7 @@ npm run test:stack  # requires the running Compose stack
 Tests use the same Nest application factory as production. The current suite covers liveness,
 safe request metadata/error responses, the 32 KiB JSON body limit, startup configuration, and
 frontend connection states and tenant context. CI runs clean install, these checks, production
-builds, real PostgreSQL integration tests, and the portal browser journey. Browser reports and
+builds, real PostgreSQL integration tests, and the portal/account browser journeys. Browser reports and
 traces are retained for seven days when a CI check fails.
 
 After starting the local database, run:
@@ -90,21 +90,26 @@ The suite creates uniquely named `greenstate_test_*` databases and drops only th
 afterward; it never resets the development database. It covers tenant/child-table isolation,
 connection-context cleanup, restricted grants, constraints, startup credential rejection, tenant
 resolution, real shared/exclusive lock contention, deterministic import/retention, public search
-filters/pagination, archived and foreign visibility, and calendar/search agreement. Test
+filters/pagination, archived and foreign visibility, calendar/search agreement, tenant/platform
+authentication, credential races, throttling, disabled accounts, and separate account initialization. Test
 database ownership matches Compose. `test:stack` verifies request-secret redaction through both
 nginx and the API, including proxy-generated errors. Set `COMPOSE_PROJECT_NAME` and
 `STACK_BASE_URL` if using a custom Compose project or port.
 
-For the public portal browser journey, install Chromium once and use a running, seeded stack:
+For the portal and account browser journeys, install Chromium once and use a running, seeded stack:
 
 ```sh
 npx playwright install chromium
 npm run test:browser
 ```
 
-The journey runs in desktop and 375-pixel Chromium viewports. It follows filtering, listing
-navigation, two-month availability, clearing either date, and browser back/forward restoration.
-Set `STACK_BASE_URL` for a nondefault web port. It does not reset or modify the supplied inventory.
+The journeys run in desktop and 375-pixel Chromium viewports. They cover filters, listing
+navigation, two-month availability, clearing dates, browser history, account registration, password
+changes, sign-in return paths, forced-password sessions, logout, and cross-portal account isolation.
+Set `STACK_BASE_URL` for a nondefault web port. Browser checks create uniquely named test client
+accounts in the running demo portals and leave the supplied inventory intact. The forced-password
+journey expects unchanged initial host/admin demo credentials, so use a separate demo stack if
+you have changed those credentials for manual testing.
 Reports are written to `playwright-report/`; failures retain traces in `test-results/`.
 Use a separate Compose project and ports when running it alongside another development stack:
 
@@ -171,3 +176,19 @@ project's copies also match these originals.
 | `task-material/contracts.ts` | `d3b46cc388e1defa94fc191511a7aa80418c0314c713ab2be3badf72ff081711` |
 | `data/listings.csv` | `05c4ceb34325652c9cd65f0912fcaef4d02513c3bab93fa438fc3150fb5c200e` |
 | `data/bookings.csv` | `2b547c5439db31c8659264c6fb63c245a75aa59411e572c94878a55c523ebcf6` |
+
+### Local demo accounts
+
+With `SEED_DEMO_DATA=true`, account initialization follows inventory initialization as a separate, versioned transaction. Both tenant portals have the same example host and client emails; their identities, passwords and sessions are separate. All provisioned demo accounts require a password change on first sign-in.
+
+| Realm | Email | Initial local password |
+| --- | --- | --- |
+| Each tenant — host | `host@example.test` | `GreenState demo host 2026!` |
+| Each tenant — client | `client@example.test` | `GreenState demo client 2026!` |
+| Platform admin | `admin@example.test` | `GreenState demo admin 2026!` |
+
+These are public local examples enabled by the explicit demo-data option. Initialization reruns preserve changed passwords, account state and inventory edits. An already deleted tenant is skipped during an inventory-only upgrade. Conflicting existing accounts cause the entire new account phase to roll back instead of being overwritten.
+
+Authentication uses Argon2id (19 MiB, two iterations, parallelism one), random 32-byte session tokens stored only as SHA-256 hashes, and fixed seven-day sessions. New passwords accept 15–128 Unicode characters, including spaces. Password changes revoke every previous session in that realm. HTTP-only, SameSite=Lax cookies become Secure when `APP_ORIGIN` uses HTTPS; responses are not stored by HTTP caches.
+
+Mutations require an Origin matching `APP_ORIGIN` and `X-Requested-By: greenstate-web`. Authentication limits are configured in `.env.example`, applied before hashing, and held in bounded memory for this single API instance. Login limits apply both per IP and per tenant/platform account; registration applies per IP across portals; password changes apply per actor and target. A 429 response includes `Retry-After`. `TRUST_PROXY_HOPS` defaults to zero for direct Node development; Compose sets it to one behind nginx, which replaces forwarded IP headers. Multiple API replicas would require a shared limiter.
