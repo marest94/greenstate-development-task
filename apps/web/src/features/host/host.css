@@ -1,0 +1,44 @@
+.host-area { padding: 28px 0 20px; }
+.host-nav { display: flex; flex-wrap: wrap; gap: 24px; font-size: 13px; padding: 12px 0 24px; border-bottom: 1px solid var(--line); }
+.host-nav a { text-underline-offset: 5px; }
+.host-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 36px 0 28px; }
+.host-heading h1 { font-size: clamp(36px, 5vw, 56px); margin: 12px 0 16px; }
+.host-heading p:not(.eyebrow), .host-archive p { max-width: 680px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.host-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; font-size: 13px; }
+.host-toolbar select { min-height: 42px; padding: 8px 36px 8px 12px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+.host-count { font-size: 12px; margin: 24px 0 14px; color: var(--muted); }
+.host-table-scroll { max-width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+.host-table { border-collapse: collapse; width: 100%; font-size: 13px; text-align: left; }
+.host-table th, .host-table td { padding: 20px 16px; border-bottom: 1px solid var(--line); }
+.host-table thead th { font-size: 11px; color: var(--muted); background: #edf0e5; font-weight: 600; white-space: nowrap; }
+.host-table tbody th { font-weight: 500; min-width: 170px; max-width: 380px; overflow-wrap: anywhere; }
+.host-table tbody td { white-space: nowrap; }
+.host-table tbody tr:last-child > * { border-bottom: 0; }
+.host-table a { text-underline-offset: 4px; }
+.host-badge { display: inline-block; padding: 7px 10px; font-size: 11px; border-radius: 5px; background: var(--soft-green); }
+.host-editor { max-width: 960px; }
+.host-form { background: var(--paper); padding: 28px; border: 1px solid var(--line); border-radius: 12px; margin-top: 24px; }
+.host-form fieldset { padding: 0; margin: 0; border: 0; min-width: 0; }
+.host-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.host-field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.host-field-wide { grid-column: 1 / -1; }
+.host-field label { font-size: 12px; font-weight: 600; }
+.host-field input, .host-field select, .host-field textarea { box-sizing: border-box; font: inherit; font-size: 14px; color: var(--ink); width: 100%; min-width: 0; padding: 12px; min-height: 44px; background: #fffefa; border: 1px solid #ccd6c4; border-radius: 6px; }
+.host-field textarea { resize: vertical; }
+.host-field [aria-invalid=true] { border-color: #963b31; }
+.host-hint { margin: 0; font-size: 11px; color: var(--muted); line-height: 1.5; }
+.host-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.host-archive { border-top: 1px solid var(--line); margin-top: 40px; padding: 20px 0; }
+.host-archive h2 { font-family: Georgia, serif; font-size: 26px; }
+.host-confirm { border: 1px solid #d7c197; border-radius: 8px; padding: 20px; background: #faf4e5; }
+.host-confirm > p { margin-top: 0; }
+.host-success { color: #315e42; padding: 14px 18px; font-size: 13px; line-height: 1.6; background: #e6eddf; border-radius: 6px; }
+.host-conflict { padding: 0 0 16px; font-size: 13px; line-height: 1.6; }
+.host-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-width: 640px) {
+  .host-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .host-form { padding: 18px; }
+  .host-form-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .host-toolbar select { flex: 1; min-width: 0; }
+  .host-table th, .host-table td { padding: 16px 12px; }
+}
