@@ -10,6 +10,12 @@ export class TenantDb {
       return fn(tx);
     }, { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted });
   }
+  runForUser<T>(tenantId: string, userId: string, fn: (tx: Prisma.TransactionClient) => Promise<T>): Promise<T> {
+    return this.run(tenantId, async tx => {
+      await tx.$queryRaw`SELECT set_config('app.user_id', ${userId}, true)`;
+      return fn(tx);
+    });
+  }
   write<T>(tenantId: string, fn: (tx: Prisma.TransactionClient, tenant: Awaited<ReturnType<typeof lockLiveTenant>>) => Promise<T>) {
     return this.run(tenantId, async tx => fn(tx, await lockLiveTenant(tx, tenantId, 'shared')));
   }

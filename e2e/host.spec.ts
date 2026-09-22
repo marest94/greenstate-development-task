@@ -1,0 +1,44 @@
+import { randomUUID } from 'node:crypto';
+import { test, expect } from '@playwright/test';
+import { provisionHostFixture } from './fixtures.js';
+test('first-login host creates, edits, archives, rediscovers and restores inventory with a client shortlist', async ({ page, browser, baseURL }, testInfo) => {
+  const tenant = await (await page.request.get('/api/v1/t/greenstate')).json();
+  const host = await provisionHostFixture(tenant.id); const title = `000 Browser home ${randomUUID()}`; const revised = `${title} updated`;
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/greenstate/login'); await page.getByLabel('Email', { exact: true }).fill(host.email); await page.getByLabel('Password', { exact: true }).fill(host.password);
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click(); await expect(page).toHaveURL(/\/greenstate\/password/);
+  await page.goto('/greenstate/host/listings/new'); await expect(page).toHaveURL(/\/greenstate\/password/);
+  await expect(page.getByRole('heading', { name: 'Create listing', exact: true })).not.toBeVisible();
+  await page.getByLabel('Current password', { exact: true }).fill(host.password); await page.getByLabel('New password', { exact: true }).fill(`Changed browser host ${randomUUID()}!`);
+  await page.getByRole('button', { name: 'Change password', exact: true }).click(); await expect(page).toHaveURL(/\/greenstate\/account$/);
+  await page.getByRole('link', { name: 'Host workspace', exact: true }).click();
+  await page.getByRole('link', { name: 'Create listing', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Create listing', exact: true })).toBeVisible();
+  for (const [label, value] of Object.entries({ Title: title, Description: 'A host-created home with a private courtyard.', City: 'Berlin', 'Country code': 'DE', Latitude: '52.52', Longitude: '13.4', 'Maximum guests': '4', Bedrooms: '2', 'Price per night (€)': '123.45' })) await page.getByLabel(label, { exact: true }).fill(value);
+  await page.getByRole('button', { name: 'Create listing', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Edit listing', exact: true })).toBeVisible();
+  const id = new URL(page.url()).pathname.split('/').at(-1)!;
+  await page.getByLabel('Title', { exact: true }).fill(revised); await page.getByRole('button', { name: 'Save changes', exact: true }).click();
+  await expect(page.getByText('Listing changes saved.', { exact: true })).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath('host-listing.png'), fullPage: true });
+  const clientContext = await browser.newContext({ baseURL }); const client = await clientContext.newPage();
+  try {
+    await client.goto('/greenstate/register'); await client.getByLabel('Email', { exact: true }).fill(`host-shortlist-${randomUUID()}@example.test`); await client.getByLabel('Password', { exact: true }).fill('A client shortlist password 2026!');
+    await client.getByRole('button', { name: 'Create account', exact: true }).click(); await expect(client).toHaveURL(/\/greenstate\/account$/);
+    await client.goto(`/greenstate/listings/${id}`); await expect(client.getByRole('heading', { name: revised, exact: true })).toBeVisible();
+    await expect(client.getByText('A host-created home with a private courtyard.', { exact: true })).toBeVisible();
+    await client.getByRole('button', { name: `Save ${revised}`, exact: true }).click(); await expect(client.getByRole('button', { name: `Remove ${revised} from saved listings`, exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Archive listing', exact: true }).click(); await expect(page.getByText(/Existing active and future bookings remain unchanged/)).toBeVisible();
+    await page.getByRole('button', { name: 'Confirm archive', exact: true }).click(); await expect(page.getByText('Listing archived. Existing bookings remain unchanged.', { exact: true })).toBeVisible();
+    expect((await client.request.get(`/api/v1/t/greenstate/listings/${id}`)).status()).toBe(404);
+    await client.goto('/greenstate/saved'); await expect(client.getByText('This listing is unavailable', { exact: true })).toBeVisible();
+    await expect(client.getByRole('link', { name: revised, exact: true })).not.toBeVisible();
+    await expect(client.getByRole('button', { name: 'Remove unavailable listing from saved listings', exact: true })).toBeVisible();
+    await page.goto('/greenstate'); await page.getByRole('link', { name: 'Host workspace', exact: true }).click();
+    await page.getByLabel('Listing status', { exact: true }).selectOption('archived'); await page.reload();
+    await expect(page.getByLabel('Listing status', { exact: true })).toHaveValue('archived'); await page.getByRole('link', { name: revised, exact: true }).click();
+    await page.getByRole('button', { name: 'Restore listing', exact: true }).click(); await expect(page.getByText('Listing restored and visible on the public portal.', { exact: true })).toBeVisible();
+    await client.reload(); await expect(client.getByRole('link', { name: revised, exact: true })).toBeVisible();
+    await client.getByRole('button', { name: `Remove ${revised} from saved listings`, exact: true }).click(); await expect(client.getByRole('heading', { name: 'Your shortlist starts here', exact: true })).toBeVisible();
+    expect((await client.request.get(`/api/v1/t/citystays/listings/${id}`)).status()).toBe(404);
+  } finally { await clientContext.close(); }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true); expect(errors).toEqual([]);
+});

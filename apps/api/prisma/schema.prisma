@@ -25,6 +25,7 @@ model Listing {
   tenantId String @map("tenant_id") @db.Uuid
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Restrict)
   title String
+  description String?
   city String
   country String @db.Char(2)
   latitude Float
@@ -41,6 +42,7 @@ model Listing {
   version Int @default(1)
   bookings Booking[]
   blockedDays BlockedDay[]
+  savedListings SavedListing[]
   @@unique([id, tenantId])
   @@index([tenantId, archivedAt, city])
   @@index([tenantId, pricePerNightCents, id])
@@ -89,6 +91,7 @@ model TenantUser {
   credentialVersion Int @default(1) @map("credential_version")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   sessions TenantSession[]
+  savedListings SavedListing[]
   @@unique([tenantId, email])
   @@unique([id, tenantId])
   @@map("tenant_users")
@@ -121,4 +124,16 @@ model PlatformSession {
   expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
   @@index([userId])
   @@map("platform_sessions")
+}
+
+model SavedListing {
+  tenantId String @map("tenant_id") @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  listingId String @map("listing_id") @db.Uuid
+  savedAt DateTime @default(now()) @map("saved_at") @db.Timestamptz(3)
+  user TenantUser @relation(fields: [userId, tenantId], references: [id, tenantId], onDelete: Restrict)
+  listing Listing @relation(fields: [listingId, tenantId], references: [id, tenantId], onDelete: Restrict)
+  @@id([tenantId, userId, listingId])
+  @@index([tenantId, userId, savedAt(sort: Desc), listingId], map: "saved_listings_owner_order_idx")
+  @@map("saved_listings")
 }

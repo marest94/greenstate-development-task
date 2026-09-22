@@ -11,10 +11,11 @@ import type { AppConfig } from './config.js';
 import type { SecurityConfig } from './common/http/security-config.js';
 import { SecurityModule } from './common/http/security.module.js';
 import { IdentityModule } from './identity/identity.module.js';
+import { SavedListingsModule } from './saved-listings/saved-listings.module.js';
 import { ListingsModule } from './listings/listings.module.js';
 @Module({})
 export class AppModule {
   static register(database: TenantDb | null, privileged: AdminDb | null, clock: Clock, config: AppConfig, security: SecurityConfig): DynamicModule {
-    return { module: AppModule, imports: [TimeModule.register(clock), SecurityModule.register(config, security), IdentityModule, AdminModule.register(privileged), DatabaseModule.register(database), TenantsModule, ListingsModule], controllers: [HealthController] };
+    return { module: AppModule, imports: [TimeModule.register(clock), SecurityModule.register(config, security), IdentityModule, AdminModule.register(privileged), DatabaseModule.register(database), TenantsModule, ListingsModule, SavedListingsModule], controllers: [HealthController] };
   }
 }

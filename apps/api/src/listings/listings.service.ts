@@ -16,6 +16,6 @@ export class ListingsService {
   async detail(tenant: TenantContext, id: string): Promise<ListingView> {
     const row = await this.repository.detail(tenant.id, id);
     if (!row) throw new AppError(404, 'RESOURCE_NOT_FOUND', 'The requested resource was not found.');
-    return { ...toListingDto(row), description: null, version: row.version };
+    return { ...toListingDto(row), description: row.description, version: row.version };
   }
 }

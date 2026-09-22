@@ -12,6 +12,6 @@ export function AccountPage() {
     <dl className="auth-identity"><div><dt>Email</dt><dd>{auth.principal.email}</dd></div><div><dt>Account type</dt><dd>{role}</dd></div></dl>
     <p className="auth-intro">{auth.scope.realm === 'platform' ? 'This account is for platform administration.' : 'This account belongs to this rental portal.'}</p>
     <div className="auth-actions"><Link className="button-primary" to={`${auth.basePath}/password`}>Change password</Link><SignOutButton /></div>
-    {auth.scope.realm === 'tenant' && <p className="auth-footer"><Link to={auth.basePath}>Explore stays</Link></p>}
+    {auth.scope.realm === 'tenant' && <p className="auth-footer"><Link to={auth.basePath}>Explore stays</Link> · <Link to={`${auth.basePath}/saved`}>Saved listings</Link></p>}
   </section>;
 }

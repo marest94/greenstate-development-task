@@ -1,0 +1,12 @@
+.saved-heading { margin: 2rem 0; max-width: 42rem; }
+.saved-heading h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin: .4rem 0 1rem; }
+.saved-heading > p:last-child { color: var(--muted); line-height: 1.6; }
+.save-button { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; gap: .4rem; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); padding: .65rem 1rem; text-decoration: none; font: inherit; font-size: .88rem; cursor: pointer; }
+.save-button:hover { border-color: var(--tenant-color); }
+.save-button.is-saved { background: var(--soft-green); color: var(--tenant-color); }
+.save-button:disabled { opacity: .65; cursor: wait; }
+.save-control { margin-top: 1rem; }
+.save-status { display: block; font-size: .85rem; color: var(--muted); margin-top: 1rem; }
+.save-error { color: #9c3028; font-size: .85rem; line-height: 1.5; }
+.unavailable-card h2 { font-size: 1.35rem; }
+.unavailable-card > p { color: var(--muted); line-height: 1.6; }

@@ -668,7 +668,7 @@ from client ownership fields.
   ```ts
   await request(app.getHttpServer()).put(`/api/v1/t/${tenantA.slug}/me/saved-listings/${listingA.id}`)
     .set('Cookie', firstClientCookie).set('Origin', appOrigin)
-    .set('X-Requested-By', 'rental-web').expect(204);
+    .set('X-Requested-By', 'greenstate-web').expect(204);
   const other = await request(app.getHttpServer())
     .get(`/api/v1/t/${tenantA.slug}/me/saved-listings`).set('Cookie', secondClientCookie).expect(200);
   expect(other.body.items).toEqual([]);
@@ -882,7 +882,7 @@ terminal prompt (stdin in controlled tests). It never creates accounts or runs a
   ```ts
   await request(app.getHttpServer())
     .post(`/api/v1/admin/tenants/${tenantA.id}/accounts/${clientA.id}/password-reset`)
-    .set('Cookie', adminCookie).set('Origin', appOrigin).set('X-Requested-By', 'rental-web')
+    .set('Cookie', adminCookie).set('Origin', appOrigin).set('X-Requested-By', 'greenstate-web')
     .send({ temporaryPassword: newTemporaryPassword }).expect(204);
   await request(app.getHttpServer()).get(`/api/v1/t/${tenantA.slug}/auth/me`)
     .set('Cookie', oldClientCookie).expect(401);
