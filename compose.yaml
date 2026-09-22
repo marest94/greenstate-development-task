@@ -10,11 +10,25 @@ services:
       - "127.0.0.1:${DATABASE_PORT:-54329}:5432"
     volumes:
       - database:/var/lib/postgresql
+      - ./infra/db/roles.sql:/docker-entrypoint-initdb.d/001-roles.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d greenstate"]
       interval: 3s
       timeout: 3s
       retries: 20
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: build
+    user: "1000:1000"
+    working_dir: /app/apps/api
+    command: ["npm", "run", "db:migrate"]
+    environment:
+      MIGRATION_DATABASE_URL: postgresql://gs_owner:local-owner-only@db:5432/greenstate
+    depends_on:
+      db:
+        condition: service_healthy
   api:
     build:
       context: .
@@ -23,11 +37,15 @@ services:
       NODE_ENV: production
       PORT: 3000
       APP_ORIGIN: ${APP_ORIGIN:-http://localhost:8080}
+      DATABASE_URL: postgresql://gs_app:local-app-only@db:5432/greenstate
+      ADMIN_DATABASE_URL: postgresql://gs_admin:local-admin-only@db:5432/greenstate
     depends_on:
       db:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health/live').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 5s
       timeout: 3s
       retries: 10

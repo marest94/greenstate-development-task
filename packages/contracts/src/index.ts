@@ -10,3 +10,5 @@ export const ApiErrorSchema = z.object({
   fields: z.record(z.string(), z.array(z.string())).optional(),
 });
 export type ApiError = z.infer<typeof ApiErrorSchema>;
+
+export * from './tenant.js';

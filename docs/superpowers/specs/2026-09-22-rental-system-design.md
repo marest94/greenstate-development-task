@@ -1,7 +1,7 @@
 # Accommodation Rental System — fresh project design
 
 Status: original design and grill-review revisions approved by the user on 2026-09-22.
-Hybrid execution has been selected. No application code has been created or verified.
+Hybrid execution is underway. Task completion and verification evidence are tracked in the implementation plan and commits.
 
 ## Purpose and sources
 

@@ -6,11 +6,12 @@ COPY apps/web/package.json apps/web/package.json
 COPY packages/contracts/package.json packages/contracts/package.json
 
 FROM base AS build
+RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
 RUN npm ci --no-fund
 COPY tsconfig.base.json ./
 COPY packages/contracts packages/contracts
 COPY apps/api apps/api
-RUN npm run build -w packages/contracts && npm run build -w apps/api
+RUN npm run db:generate -w apps/api && npm run build -w packages/contracts && npm run build -w apps/api
 
 FROM base AS dependencies
 RUN npm ci --omit=dev --workspace=apps/api --workspace=packages/contracts --no-fund

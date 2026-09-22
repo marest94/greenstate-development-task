@@ -4,7 +4,7 @@ import request from 'supertest';
 import { createApp } from '../src/bootstrap.js';
 let app: INestApplication;
 let logs: Record<string, unknown>[];
-beforeEach(async () => { logs = []; app = await createApp({ log: (record: Record<string, unknown>) => logs.push(record) }); await app.init(); });
+beforeEach(async () => { logs = []; app = await createApp({ database: false, log: (record: Record<string, unknown>) => logs.push(record) }); await app.init(); });
 afterEach(async () => { await app.close(); });
 describe('HTTP boundary', () => {
   it('logs request metadata without bodies, cookies, or query-string credentials', async () => {

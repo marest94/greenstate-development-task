@@ -267,7 +267,7 @@ the database layer. It acquires transaction-scoped coordination, then reads and 
 live tenant in a separate SQL statement in that transaction. Date-dependent mutations use
 this fresh configuration. Mutations and administration share the same key derivation.
 
-- [ ] Write integration cases for tenant A/B reads and writes, an unscoped read, a mismatched
+- [x] Write integration cases for tenant A/B reads and writes, an unscoped read, a mismatched
   booking/listing tenant, and a reused connection after a scoped transaction. Run
   `npm run test:integration -w apps/api -- test/tenant-isolation.test.ts` and confirm failure.
   The fixture creates two tenants and one listing each; `appDb` uses the ordinary role and a
@@ -280,10 +280,10 @@ this fresh configuration. Mutations and administration share the same key deriva
   const next = await tenantDb.run(tenantB.id, tx => tx.listing.findMany());
   expect(next.map(row => row.id)).toEqual([listingB.id]);
   ```
-- [ ] Model tenants, listings, bookings, and blocked days. Preserve supplied IDs, date and money
+- [x] Model tenants, listings, bookings, and blocked days. Preserve supplied IDs, date and money
   semantics; make `(listing_id, tenant_id)` child references target `(id, tenant_id)` on listings.
   Add positive capacity, nonnegative price, valid coordinates, and `check_in < check_out` checks.
-- [ ] Create migration-owner, ordinary application, and non-superuser privileged runtime roles.
+- [x] Create migration-owner, ordinary application, and non-superuser privileged runtime roles.
   Force RLS on tenant-owned tables. The ordinary role has SELECT-only access to tenants,
   reads bookings, manages
   inventory/blocks, and cannot hard-delete listings or alter table definitions. Implement
@@ -298,7 +298,7 @@ this fresh configuration. Mutations and administration share the same key deriva
   // tenant_id = NULLIF(current_setting('app.tenant_id', true), '')::uuid
   ```
 
-- [ ] Establish the tenant-deletion coordination mechanism under the actual restricted role.
+- [x] Establish the tenant-deletion coordination mechanism under the actual restricted role.
   Use a shared transaction-scoped advisory lock for tenant mutations and an exclusive lock
   for deletion, keyed consistently from the immutable tenant ID in a dedicated key namespace.
   Explicitly use READ COMMITTED in ordinary and privileged coordinated transactions. After
@@ -315,17 +315,17 @@ this fresh configuration. Mutations and administration share the same key deriva
   default set to Repeatable Read while the wrapper explicitly selects Read Committed.
   Also order a configuration update against a date-dependent write and assert that the
   resumed write uses the updated timezone, not the guard's earlier tenant snapshot.
-- [ ] Establish one lock order: tenant coordination first, then any user or listing row lock.
+- [x] Establish one lock order: tenant coordination first, then any user or listing row lock.
   Shared tenant locks allow unrelated host writes to proceed concurrently. Advisory locks
   coordinate cooperating code; RLS, foreign keys, and privileges still enforce isolation.
-- [ ] Add startup checks rejecting superuser/BYPASSRLS ordinary connections and superuser
+- [x] Add startup checks rejecting superuser/BYPASSRLS ordinary connections and superuser
   privileged connections. Run both negative startup cases in the integration suite. Keep
   AdminDb injectable only through the admin/platform module, seed entry point, and task 11's
   local platform-recovery command.
-- [ ] Implement strict slug validation, registry lookup, and the tenant guard. An unknown or
+- [x] Implement strict slug validation, registry lookup, and the tenant guard. An unknown or
   deleted slug returns `404 TENANT_NOT_FOUND`. Malformed/control-character slugs return 400
   before lookup. Test all three over HTTP, including an encoded NUL.
-- [ ] Add the one-off migration Compose service, database readiness probe, and the real-PostgreSQL
+- [x] Add the one-off migration Compose service, database readiness probe, and the real-PostgreSQL
   integration job in CI. Rerun focused
   integration tests, all unit tests, lint/typecheck, and migrations from an empty test database.
   Commit the working isolation boundary.
