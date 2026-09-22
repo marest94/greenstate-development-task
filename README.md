@@ -2,9 +2,8 @@
 
 Fresh implementation of the GreenState accommodation rental challenge.
 
-Status: foundation and public portal tasks 1–5 are merged with successful GitHub CI. Tenant
-registration, platform sign-in, account pages, password changes and secure sessions are implemented
-in the identity milestone. Saved listings, inventory management and administration follow next.
+Status: foundation, portal and identity tasks 1–7 are merged with successful GitHub CI. Private
+saved listings are implemented in the current milestone; host inventory and administration follow.
 
 ## Planning
 
@@ -12,7 +11,7 @@ in the identity milestone. Saved listings, inventory management and administrati
 - [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
 
 Follow the 13-task plan, with one integration owner, bounded parallel work, and commits at
-verified task boundaries. Implementation currently covers tasks 1–7. The next milestone is saved listings and inventory management (tasks 8–9).
+verified task boundaries. Implementation currently covers tasks 1–8. The current milestone is saved listings and inventory management (tasks 8–9).
 
 Use short-lived milestone branches, starting with `feat/foundation` for tasks 1–3.
 Parallel work uses `feat/task-<number>-<short-name>` branches/worktrees based on the active
@@ -125,6 +124,14 @@ Unknown keys and incomplete or invalid date ranges return a structured 400 error
 queries are allowed; date ranges span at most 366 nights. `/listings/facets` supplies active cities,
 `/listings/:id` supplies public details, and `/listings/:id/availability?from=…&to=…` exposes daily
 availability. Archived or foreign listing IDs have the same public 404 response.
+
+Clients and hosts can save listings from cards or details and open `/:slug/saved`. Each account
+has a private shortlist for its tenant; hosts have no access to another account's saved rows.
+`/me/saved-listings` returns bounded pages, newest first, and accepts an optional comma-separated
+`listingIds` filter of up to 50 UUIDs. PUT/DELETE `/me/saved-listings/:id` add/remove idempotently.
+Archived saves remain as unavailable entries without listing details, and can still be removed.
+Restoring the listing makes a retained save available again. Both tenant and user context are
+required by database row-level security; private browser queries are cancelled on account changes.
 
 `infra/db/roles.sql` creates separate local migration (`gs_owner`), ordinary (`gs_app`), and
 privileged (`gs_admin`) credentials. The ordinary role cannot bypass forced row-level security,

@@ -12,6 +12,7 @@ import { PasswordPage } from '../features/auth/PasswordPage';
 import { RequirePermission } from '../features/auth/RequirePermission';
 import { TenantAccountProvider, ForcePasswordChange } from './AccountBoundary';
 import { AdminLayout } from './AdminLayout';
+import { SavedListingsPage } from '../features/saved/SavedListingsPage';
 import { SearchPage } from '../features/portal/SearchPage';
 import { ListingPage } from '../features/portal/ListingPage';
 export const router = createBrowserRouter([
@@ -37,6 +38,7 @@ export const router = createBrowserRouter([
       { path: 'account', element: <RequirePermission><AccountPage /></RequirePermission> },
       { path: 'password', element: <PasswordPage /> },
       { path: 'listings/:id', element: <ListingPage /> },
+      { path: 'saved', element: <RequirePermission permission="saved-listings:manage"><SavedListingsPage /></RequirePermission> },
       { path: '*', element: <ErrorScreen error={new ApiProblem({ status: 404, code: 'RESOURCE_NOT_FOUND', message: 'The requested page was not found.', requestId: '' })} /> },
     ],
   },

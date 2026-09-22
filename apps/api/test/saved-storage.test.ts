@@ -33,3 +33,9 @@ describe('Saved listing storage under real restricted roles', () => {
     await expect(db.admin.$executeRaw`INSERT INTO saved_listings (tenant_id, user_id, listing_id) VALUES (${f.a.id}::uuid, ${other}::uuid, ${f.listingA.id}::uuid)`).rejects.toThrow(/duplicate key/);
   });
 });
+
+it('clears owner context after transaction rollback on a reused connection', async () => {
+  await expect(db.tenantDb.runForUser(f.a.id, a, async tx => { await tx.savedListing.findMany(); throw new Error('rollback fixture'); })).rejects.toThrow('rollback fixture');
+  expect(await db.tenantDb.run(f.a.id, tx => tx.savedListing.findMany())).toEqual([]);
+  expect(await db.tenantDb.client.savedListing.findMany()).toEqual([]);
+});

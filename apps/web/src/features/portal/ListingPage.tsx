@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { AvailabilitySchema, ListingViewSchema, type ListingView } from '@greenstate/contracts';
 import { ErrorScreen } from '../../app/ErrorScreen';
 import { useTenant } from '../../app/TenantProvider';
+import { SaveButton, SavedListingsState } from '../saved/SaveButton';
 import { MonthCalendar } from '../../components/MonthCalendar';
 import { api } from '../../lib/api';
 import { countryName, currentBusinessDate, formatDate, formatMoney, formatRating, monthRange, shiftMonth } from '../../lib/format';
@@ -42,6 +43,7 @@ function ListingDetail({ listing }: { listing: ListingView }) {
   return <div className="listing-detail">
     <Link className="back-link" to={`/${tenant.slug}`}><span aria-hidden="true">← </span>Back to listings</Link>
     <section className="detail-intro"><div><p className="eyebrow">{listing.propertyType} · {listing.city}, {countryName(listing.country)}</p><h1>{listing.title}</h1><p className="detail-rating">{listing.rating !== null && <span aria-hidden="true">☆ </span>}{formatRating(listing.rating)}{listing.reviewCount > 0 && ` · ${listing.reviewCount} ${listing.reviewCount === 1 ? 'review' : 'reviews'}`}</p></div><div className="detail-price"><span>Your stay, at your pace</span><strong>{formatMoney(listing.pricePerNightCents)}</strong><span>per night · EUR</span></div></section>
+    <SavedListingsState listingIds={[listing.id]}><SaveButton listingId={listing.id} title={listing.title} /></SavedListingsState>
     <dl className="listing-facts"><div><dt>Room for</dt><dd>{listing.maxGuests} {listing.maxGuests === 1 ? 'guest' : 'guests'}</dd></div><div><dt>Bedrooms</dt><dd>{listing.bedrooms}</dd></div><div><dt>Property</dt><dd className="property-name">{listing.propertyType}</dd></div><div><dt>Location</dt><dd>{listing.city}, {listing.country}</dd></div></dl>
     <dl className="listing-secondary-facts"><div><dt>Listed on</dt><dd><time dateTime={listing.createdAt}>{formatDate(listing.createdAt)}</time></dd></div><div><dt>Coordinates</dt><dd>{listing.latitude}, {listing.longitude}</dd></div></dl>
     {listing.description && <section className="listing-description"><h2>About this stay</h2><p>{listing.description}</p></section>}
