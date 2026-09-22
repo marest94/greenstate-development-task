@@ -14,9 +14,11 @@ started, so there is no application startup command or test suite yet.
 Follow the 13-task plan, with one integration owner, bounded parallel work, and commits at
 verified task boundaries. The next deliverable is task 1's runnable API/frontend scaffold.
 
-Application development uses `codex/implementation`; parallel work uses separate
-`codex/task-<number>-<short-name>` branches/worktrees. `main` holds the initial baseline
-and reviewed milestones, integrated through pull requests.
+Use short-lived milestone branches, starting with `feat/foundation` for tasks 1–3.
+Parallel work uses `feat/task-<number>-<short-name>` branches/worktrees based on the active
+milestone. Sequential tasks receive their own verified commits without requiring extra branches.
+Review each milestone through a pull request into `main`, preserving those commits; start the
+next milestone from the updated `main`. The implementation plan lists all six milestone branches.
 
 ## Original challenge material
 
@@ -29,7 +31,10 @@ was copied into this repository.
 - `data/listings.csv`: 1,000 listings.
 - `data/bookings.csv`: 12,757 bookings.
 
-The SHA-256 checksums below were compared with the originals during repository setup.
+The SHA-256 checksums below were verified against the original email-attachment folder
+`full-stack-challenge 2` on 2026-09-22. All four files match byte-for-byte in the working tree
+and committed Git copies; no substantive attachment file is missing. The earlier working
+project's copies also match these originals.
 
 | File | SHA-256 |
 |---|---|

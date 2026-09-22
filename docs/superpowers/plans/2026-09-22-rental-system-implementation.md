@@ -57,11 +57,15 @@ skill establishes the working branch/worktree before product edits. Publishing a
 repository or pushing is a separate action from implementing locally.
 
 Branching model: `main` holds the initial planning/input baseline and reviewed delivery
-milestones. Application work uses `codex/implementation`, with verified task commits preserving
-progress. Parallel implementation branches use `codex/task-<number>-<short-name>` from a verified
-integration commit and run in separate worktrees. Integrate them into `codex/implementation`
-one at a time, then review the combined changes through a pull request into `main` at a delivery
-milestone. A separate pull request for every task is not required. This describes workflow;
+milestones. Use a short-lived branch for each milestone in the schedule below, starting with
+`feat/foundation`; create the next milestone branch from the reviewed `main` after the preceding
+milestone merges. Keep verified task commits on that branch so progress remains visible.
+Parallel implementation branches use `feat/task-<number>-<short-name>` from a verified commit
+on the active milestone branch and run in separate worktrees. Integrate them into that milestone
+one at a time, then review the combined changes through a pull request into `main`. Preserve
+the task commits when merging the milestone rather than collapsing them into one squash commit.
+Sequential tasks need commits but not separate branches or pull requests. Create branches only
+when their work starts; there is no permanent development branch or required tool-name prefix.
 GitHub branch protection has not been configured.
 
 Root script contract, established in task 1 and extended as suites arrive:
@@ -94,14 +98,14 @@ No recursive delegation or new project-specific orchestration framework is neede
 Task numbers and stages describe deliverables. The following schedule permits implementation
 overlap; it does not mark a dependent task complete before its real-stack acceptance checks pass.
 
-| Wave | Main implementer | Parallel work | Prerequisites and integration checkpoint |
-|---|---|---|---|
-| Foundation — tasks 1–3 | Scaffold, database roles/RLS/locks, seed, date rules, and shared test harness, in order | Independent database/security review after task 2; task 3 may proceed during that review | Resolve isolation/locking findings and pass the seeded-stack checks before tenant-facing feature work |
-| Portal — tasks 4–5 | Task 4 API and shared portal contracts | Task 5 screens and component tests against those contracts | Tasks 1–3 complete; agree schemas, URL/date behavior, API client, tenant-provider and calendar interfaces first. Join on the real API before the task 5 browser journey |
-| Identity — tasks 6–7 | Task 6 sessions, guards, permissions, and task 7 shared auth provider/cache behavior | Task 7 forms and account navigation after the auth contracts and core session tests are stable | Complete the portal first. UI mocks may support implementation, but real login/password-change/crossover tests and the identity review must pass before tasks 8–9 |
-| Saved lists and inventory — tasks 8–9 | Task 8 saved-list data/API/UI and its user-context database extension | Task 9 host listing API/UI in its assigned files | Tasks 6–7 complete. Land the required schema, contracts, listing-lock helper, and archive/version fields before dispatch. Join for saved→archive→unavailable→restore and save/archive race checks |
-| Calendar and administration — tasks 10–11 | Task 11 tenant/account administration and local recovery | Task 10 host calendar and read-only bookings | Tasks 8–9 integrated; settle calendar/booking/admin contracts first. Join for deletion-versus-write tests, lifecycle regressions, and the new-tenant→host→listing journey |
-| Delivery — tasks 12–13 | Task 12 combined regression runs and final integration | Task 13 usability inspection/README work; independent final review of the integrated application | All feature work integrated. Inspection may overlap tests; apply resulting behavior/infrastructure fixes in a controlled sequence, then run final checks on the resulting code |
+| Wave | Milestone branch | Main implementer | Parallel work | Prerequisites and integration checkpoint |
+|---|---|---|---|---|
+| Foundation — tasks 1–3 | `feat/foundation` | Scaffold, database roles/RLS/locks, seed, date rules, and shared test harness, in order | Independent database/security review after task 2; task 3 may proceed during that review | Resolve isolation/locking findings and pass the seeded-stack checks before tenant-facing feature work |
+| Portal — tasks 4–5 | `feat/public-portal` | Task 4 API and shared portal contracts | Task 5 screens and component tests against those contracts | Tasks 1–3 complete; agree schemas, URL/date behavior, API client, tenant-provider and calendar interfaces first. Join on the real API before the task 5 browser journey |
+| Identity — tasks 6–7 | `feat/identity` | Task 6 sessions, guards, permissions, and task 7 shared auth provider/cache behavior | Task 7 forms and account navigation after the auth contracts and core session tests are stable | Complete the portal first. UI mocks may support implementation, but real login/password-change/crossover tests and the identity review must pass before tasks 8–9 |
+| Saved lists and inventory — tasks 8–9 | `feat/saved-listings-and-inventory` | Task 8 saved-list data/API/UI and its user-context database extension | Task 9 host listing API/UI in its assigned files | Tasks 6–7 complete. Land the required schema, contracts, listing-lock helper, and archive/version fields before dispatch. Join for saved→archive→unavailable→restore and save/archive race checks |
+| Calendar and administration — tasks 10–11 | `feat/calendar-and-administration` | Task 11 tenant/account administration and local recovery | Task 10 host calendar and read-only bookings | Tasks 8–9 integrated; settle calendar/booking/admin contracts first. Join for deletion-versus-write tests, lifecycle regressions, and the new-tenant→host→listing journey |
+| Delivery — tasks 12–13 | `chore/release-readiness` | Task 12 combined regression runs and final integration | Task 13 usability inspection/README work; independent final review of the integrated application | All feature work integrated. Inspection may overlap tests; apply resulting behavior/infrastructure fixes in a controlled sequence, then run final checks on the resulting code |
 
 Shared files need an explicit owner during each overlap: dependency manifests and lockfile,
 Prisma schema/migrations/role SQL, transaction helpers, shared contracts/barrels, app module,
