@@ -219,12 +219,12 @@ both `main.ts` and tests; importing the factory never starts a server.
 
 - [x] Copy only the original brief, contracts, and CSV files into their designated paths;
   compare their SHA-256 hashes with the originals. Record attribution and data counts in README.
-  Completed during fresh-repository setup; the runnable scaffold and remaining task 1 checks
-  have not been implemented.
-- [ ] Establish workspaces and the minimal test harness. Select supported stable dependency
+  Completed during fresh-repository setup; the scaffold was subsequently verified with
+  unit/component tests, lint, typecheck, builds, and local Compose startup.
+- [x] Establish workspaces and the minimal test harness. Select supported stable dependency
   versions by checking official package engines and peer dependencies, use a supported Node LTS,
   and save exact versions and the lockfile. Record Node and required Docker setup in README.
-- [ ] Write the health test and a web test that shows API status. Run them and observe the
+- [x] Write the health test and a web test that shows API status. Run them and observe the
   application-level failure before implementing the app factories/components:
 
   ```ts
@@ -235,17 +235,17 @@ both `main.ts` and tests; importing the factory never starts a server.
   await app.close();
   ```
 
-- [ ] Implement bootstrap and a minimal landing page. Disable Nest's default JSON parser and
+- [x] Implement bootstrap and a minimal landing page. Disable Nest's default JSON parser and
   install one bounded parser; wire validation/errors/request IDs through the same factory used
   in tests. Add Helmet, safe logging, and startup environment validation. Test malformed and
   oversized JSON as HTTP requests; return 400 and 413 without internal details.
-- [ ] Configure Vite's development proxy and nginx's `/api` proxy/history fallback. Build
+- [x] Configure Vite's development proxy and nginx's `/api` proxy/history fallback. Build
   multi-stage images; the runtime image runs as a non-root user. Compose initially starts API,
   web, and PostgreSQL, with database credentials restricted to local development.
-- [ ] Add basic CI now: clean install, lint, typecheck, current unit/component tests, and build.
+- [x] Add basic CI now: clean install, lint, typecheck, current unit/component tests, and build.
   Add database, seed, and browser checks in the tasks that introduce them. Do not advertise
   remote CI success before a run has actually executed on the chosen repository host.
-- [ ] Run `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`, and
+- [x] Run `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`, and
   `docker compose -f compose.yaml up --build -d`. Verify the landing page and health through
   nginx. Commit the verified scaffold and original input copies.
 
