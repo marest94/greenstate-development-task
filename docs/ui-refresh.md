@@ -21,7 +21,15 @@ Preview: http://localhost:8081/greenstate. The isolated Compose project is `gree
 
 Rebuild: `COMPOSE_PROJECT_NAME=greenstate-ui DATABASE_PORT=54331 WEB_PORT=8081 APP_ORIGIN=http://localhost:8081 docker compose up --build -d --wait`.
 
-Verified: 236 API/web unit and component tests, repository type checks and lint, production Docker build, and six public portal browser cases across desktop and 375px mobile. Browser checks cover date searches, pagination/history, gallery keyboard/touch events, focus return, search-context restoration, overflow, and unavailable tiles. Live OSM tiles and mobile footer clearance were also inspected. Independent review findings were addressed. PostgreSQL integration and unrelated authenticated browser journeys were not rerun for this frontend change.
+Verified after the additional search features: 240 API/web unit and component tests, repository type checks and lint, production Docker build, and ten public portal browser cases across desktop and 375px mobile. Browser checks cover date searches, pagination/history, gallery keyboard/touch events, focus return, search-context restoration, overflow, unavailable tiles, synchronized map selection, filter removal, and shared-coordinate pins. Live OSM tiles and mobile layouts were also inspected. Independent review findings were addressed. PostgreSQL integration and unrelated authenticated browser journeys were not rerun for these frontend changes.
+
+## Additional search features
+
+- Removable chips show the applied city, guest capacity, nightly price range and complete date range. Removing a chip preserves unrelated filters and resets pagination. Screen-reader names include the displayed value; focus remains within the filter controls after removal.
+- Show map uses `view=map` in the browser URL. This presentation parameter is stripped before API requests. Filtering, pagination, refresh and returning from a property retain map mode. Toggling the view preserves an unsubmitted form draft and reuses the current query data.
+- The desktop split view and mobile full-width map display exactly the current page of results, with explicit page and total counts. Map movement does not filter listings. No all-results download or geographic search endpoint has been added.
+- Cards and price pins share selection. Explicit Show on map brings the map panel and the selected pin into view. Map selection survives a background data refresh. Identical coordinates use one grouped pin with a choice of stays at that location.
+- Preview example: http://localhost:8081/greenstate?city=Berlin&view=map.
 
 Prompts, in asset order:
 

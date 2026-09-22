@@ -3,7 +3,13 @@ import { ListingSearchSchema, type ListingSearch } from '@greenstate/contracts';
 import { DateRangeField, type DateRangeValue } from '../../components/DateRangeField';
 import { parsePriceCents, priceInput } from '../../lib/format';
 
-export const parseSearchParams = (params: URLSearchParams): ListingSearch => ListingSearchSchema.parse(Object.fromEntries(params));
+export const parseSearchParams = (params: URLSearchParams): ListingSearch => {
+  const apiParams = new URLSearchParams(params);
+  const view = apiParams.get('view');
+  if (view !== null && view !== 'map') throw new Error('Use a valid results view.');
+  apiParams.delete('view');
+  return ListingSearchSchema.parse(Object.fromEntries(apiParams));
+};
 export function toSearchParams(filters: ListingSearch): URLSearchParams {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(ListingSearchSchema.parse(filters))) {

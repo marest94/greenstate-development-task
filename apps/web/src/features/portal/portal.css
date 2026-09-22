@@ -214,3 +214,57 @@ body:has(.portal-shell) { background: #fff; }
 @media (prefers-reduced-motion: reduce) {
   .listing-card, .listing-banner img, .gallery-tile img { transition: none; }
 }
+
+/* Search refinements and the synchronized results map. */
+.filter-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 18px 0 0; min-height: 30px; }
+.filter-chips button { display: inline-flex; align-items: center; gap: 12px; padding: 8px 12px; border: 1px solid #d8e2d2; border-radius: 20px; background: #f1f5ed; color: #354c36; font-size: 12px; }
+.filter-chips button:hover { background: #e5eddc; }
+.filter-chips button span { font-size: 17px; line-height: 1; }
+.no-active-filters { color: #74806f; font-size: 12px; }
+.map-view-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; flex-shrink: 0; padding: 10px 17px; border: 1px solid #cdd8c6; border-radius: 24px; background: #fff; color: #243b32; font-size: 12px; font-weight: 600; }
+.map-view-toggle[aria-pressed=true] { color: #fff; background: #243b32; border-color: #243b32; }
+.map-view-toggle span { font-size: 18px; }
+.listing-map-item { min-width: 0; border-radius: 16px; }
+.listing-map-item .listing-card { height: 100%; }
+.map-results-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(350px, .95fr); gap: 28px; align-items: start; }
+.map-results-layout > .listing-grid { grid-column: 1; grid-row: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 18px; }
+.map-results-layout .listing-map-item { padding-bottom: 30px; position: relative; outline: 2px solid transparent; outline-offset: 6px; }
+.map-results-layout .listing-map-item.is-highlighted { outline-color: #52704b; }
+.map-results-layout .listing-banner { aspect-ratio: 1.2; }
+.locate-stay { position: absolute; bottom: 0; left: 0; background: transparent; border: 0; padding: 7px 0; min-height: 30px; color: #53714a; font-size: 11px; text-decoration: underline; text-underline-offset: 3px; }
+.search-map-panel { grid-column: 2; grid-row: 1; position: sticky; top: 20px; min-width: 0; padding: 16px; background: #fafbf8; border: 1px solid #e0e5db; border-radius: 20px; }
+.search-map-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.search-map-heading h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.search-map-heading span { color: #6d7a66; font-size: 11px; }
+.search-map { height: clamp(290px, 48vh, 520px); background: #eaf0e3; border-radius: 12px; isolation: isolate; z-index: 0; }
+.search-map-caption, .map-select-hint { color: #6d7767; font-size: 11px; line-height: 1.5; margin: 12px 0 0; }
+.search-map .search-map-pin { background: transparent; border: 0; }
+.map-price-pin { display: block; min-width: 72px; max-width: 120px; padding: 8px 10px; margin: auto; background: #fff; color: #263e30; border: 1px solid #c6d3be; box-shadow: 0 2px 7px #20392325; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.map-price-pin:hover, .map-price-pin.is-active { background: #243b32; border-color: #243b32; color: #fff; }
+.search-map .leaflet-control-attribution { font-size: 9px; }
+.map-selection { display: flex; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.map-selection img { width: 90px; height: 80px; object-fit: cover; border-radius: 9px; }
+.map-selection > div { min-width: 0; }
+.map-selection p { font-size: 11px; color: #52684b; margin: 0 0 5px; }
+.map-selection a { display: block; font-size: 13px; font-weight: 650; line-height: 1.4; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.map-selection span { display: block; font-size: 11px; color: #6d7767; margin-top: 6px; }
+.map-neighbours { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; max-height: 110px; overflow: auto; }
+.map-neighbours button { text-align: left; font-size: 11px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
+.map-neighbours button[aria-pressed=true] { background: #e5eddc; }
+@media (max-width: 1100px) {
+  .map-results-layout { grid-template-columns: minmax(0, 1fr) minmax(320px, 1.1fr); gap: 24px; }
+  .map-results-layout > .listing-grid { grid-template-columns: 1fr; }
+  .map-results-layout .listing-banner { aspect-ratio: 1.65; }
+}
+@media (max-width: 700px) {
+  .map-results-layout { display: flex; flex-direction: column; gap: 26px; }
+  .search-map-panel { position: static; width: 100%; padding: 12px; }
+  .search-map { height: 350px; }
+  .map-results-layout > .listing-grid { width: 100%; }
+  .map-results-layout .listing-banner { aspect-ratio: 1.35; }
+  .filter-chips { gap: 7px; }
+  .filter-chips button { font-size: 11px; max-width: 100%; text-align: left; }
+  .results-heading { align-items: center; gap: 10px; }
+  .map-view-toggle { padding-inline: 12px; font-size: 11px; }
+  .map-selection img { width: 72px; }
+}
