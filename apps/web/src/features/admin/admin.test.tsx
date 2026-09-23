@@ -131,3 +131,61 @@ it.each([403, 404])('withholds cached tenant configuration after a definitive HT
  expect(await screen.findByRole('alert')).toHaveTextContent('This tenant is no longer available.');
  expect(screen.queryByLabelText('Tenant name')).not.toBeInTheDocument();
 });
+
+it('updates tenant setup as enabled host access and published inventory change', async () => {
+ let counts = { activeListings: 0, archivedListings: 1, accounts: 1, enabledHosts: 0 };
+ intercept(url => url.pathname === `${detail}/summary` ? json({ ...tenant, counts }) : undefined);
+ const { cache, router } = mount(`/admin/tenants/${tenant.id}`);
+ const setup = await screen.findByRole('region', { name: 'Setup progress' });
+ expect(within(setup).getByText('Add an enabled host')).toBeVisible();
+ expect(within(setup).getByText('Publish the first property')).toBeVisible();
+ expect(within(setup).getByRole('link', { name: 'Manage host accounts' })).toHaveAttribute('href', `/admin/tenants/${tenant.id}/accounts`);
+ expect(within(setup).getByRole('link', { name: 'Open public portal' })).toHaveAttribute('href', '/greenstate');
+ counts = { ...counts, enabledHosts: 1 };
+ await act(() => cache.invalidateQueries({ queryKey: ['private', 'platform', null, principal.id, 'admin-tenant-summary', tenant.id] }));
+ expect(await within(setup).findByText('Host access ready')).toBeVisible();
+ expect(within(setup).getByText('Publish the first property')).toBeVisible();
+ counts = { ...counts, activeListings: 1 };
+ await act(() => cache.invalidateQueries({ queryKey: ['private', 'platform', null, principal.id, 'admin-tenant-summary', tenant.id] }));
+ expect(await within(setup).findByText('Properties published')).toBeVisible();
+ counts = { ...counts, enabledHosts: 0, activeListings: 0, archivedListings: 2 };
+ await act(() => cache.invalidateQueries({ queryKey: ['private', 'platform', null, principal.id, 'admin-tenant-summary', tenant.id] }));
+ expect(await within(setup).findByText('Add an enabled host')).toBeVisible();
+ expect(within(setup).getByText('Publish the first property')).toBeVisible();
+ expect(within(setup).queryByText('Host access ready')).not.toBeInTheDocument();
+ expect(within(setup).queryByText('Properties published')).not.toBeInTheDocument();
+ await userEvent.click(within(setup).getByRole('link', { name: 'Manage host accounts' }));
+ await waitFor(() => expect(router.state.location.pathname).toBe(`/admin/tenants/${tenant.id}/accounts`));
+ expect(await screen.findByRole('heading', { name: 'GreenState accounts' })).toBeVisible();
+});
+
+it('recovers an unavailable setup summary without discarding configuration edits', async () => {
+ let unavailable = true;
+ intercept(url => url.pathname === `${detail}/summary` && unavailable ? json({ status: 503, code: 'UNAVAILABLE', message: 'Temporarily unavailable.', requestId: 'test' }, 503) : undefined);
+ mount(`/admin/tenants/${tenant.id}`);
+ await screen.findByRole('button', { name: 'Retry summary' });
+ fill('Tenant name', 'An unsaved configuration');
+ unavailable = false;
+ await userEvent.click(screen.getByRole('button', { name: 'Retry summary' }));
+ expect(await screen.findByRole('region', { name: 'Setup progress' })).toBeVisible();
+ expect(screen.getByLabelText('Tenant name')).toHaveValue('An unsaved configuration');
+ expect(screen.queryByRole('button', { name: 'Retry summary' })).not.toBeInTheDocument();
+});
+
+it('shows retained records for a deleted tenant without setup, editing, or portal actions', async () => {
+ const deleted = { ...tenant, deletedAt: '2026-10-01T12:00:00.000Z' };
+ intercept(url => url.pathname === detail ? json(deleted) : url.pathname === `${detail}/summary` ? json({ ...deleted, counts: { activeListings: 2, archivedListings: 1, accounts: 4, enabledHosts: 0 } }) : undefined);
+ mount(`/admin/tenants/${tenant.id}`);
+ const records = await screen.findByRole('region', { name: 'Retained records' });
+ expect(within(records).getByText('Tenant access is disabled. Records are retained.')).toBeVisible();
+ expect(within(records).getByText('Active listings')).toHaveTextContent('2Active listings');
+ expect(within(records).getByText('Archived listings')).toHaveTextContent('1Archived listings');
+ expect(within(records).queryByRole('list')).not.toBeInTheDocument();
+ expect(screen.getByLabelText('Tenant name')).toHaveValue('GreenState');
+ expect(screen.getByLabelText('Tenant name')).toBeDisabled();
+ expect(screen.getByLabelText('Business time zone')).toBeDisabled();
+ expect(screen.queryByRole('button', { name: 'Save configuration' })).not.toBeInTheDocument();
+ expect(screen.queryByRole('button', { name: 'Delete tenant' })).not.toBeInTheDocument();
+ expect(screen.queryByRole('link', { name: /Manage (host )?accounts/ })).not.toBeInTheDocument();
+ expect(screen.queryByRole('link', { name: 'Open public portal' })).not.toBeInTheDocument();
+});

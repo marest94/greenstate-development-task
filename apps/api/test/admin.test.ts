@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, beforeEach, expect, it } from 'vitest';
 import request from 'supertest';
 import { adminHarness, csrf, password, temporaryPassword, type AdminHarness, type AdminFixture } from './admin-fixtures.js';
+import { listingData } from './fixtures.js';
 let h: AdminHarness; let f: AdminFixture;
 const base = '/api/v1/admin/tenants';
 const createBody = () => ({ name: 'New tenant', slug: `new-${randomUUID()}`, timezone: 'Europe/Berlin' });
@@ -79,13 +80,40 @@ it('enforces CSRF and validates identifiers/unknown fields on administration mut
   expect(h.logs.join('\n')).not.toContain(temporaryPassword);
 });
 
-it('reports tenant-wide summary counts without multiplying listings and users', async () => {
-  const expected = { activeListings: 1, archivedListings: 0, accounts: 2, enabledHosts: 1 };
+it('counts each tenant listing and account once across mixed states and retains those counts after deletion', async () => {
+  const archivedAt = new Date('2026-09-01T00:00:00Z');
+  await h.db.admin.listing.createMany({ data: [
+    listingData(f.a.id), listingData(f.a.id),
+    { ...listingData(f.a.id), archivedAt }, { ...listingData(f.a.id), archivedAt },
+    { ...listingData(f.b.id), archivedAt },
+  ] });
+  await h.db.admin.tenantUser.createMany({ data: [
+    { tenantId: f.a.id, email: 'enabled@example.test', passwordHash: h.passwordHash, role: 'host' },
+    { tenantId: f.a.id, email: 'disabled@example.test', passwordHash: h.passwordHash, role: 'host', disabledAt: archivedAt },
+    { tenantId: f.a.id, email: 'client@example.test', passwordHash: h.passwordHash, role: 'client' },
+    { tenantId: f.b.id, email: 'disabled@example.test', passwordHash: h.passwordHash, role: 'host', disabledAt: archivedAt },
+    { tenantId: f.b.id, email: 'client@example.test', passwordHash: h.passwordHash, role: 'client' },
+  ] });
+  // A has 3 active + 2 archived listings, 2 clients + 3 hosts, of whom 2 are enabled.
+  // B deliberately has different counts and the same emails to expose tenant leakage.
+  const expected = { activeListings: 3, archivedListings: 2, accounts: 5, enabledHosts: 2 };
+  const foreignExpected = { activeListings: 1, archivedListings: 1, accounts: 3, enabledHosts: 1 };
   const summary = await get(`${base}/${f.a.id}/summary`).expect(200);
   expect(summary.body.counts).toEqual(expected);
   const list = await get().query({ search: f.a.slug }).expect(200);
+  expect(list.body.total).toBe(1);
   expect(list.body.items.find((item: { id: string }) => item.id === f.a.id).counts).toEqual(expected);
-  await h.db.admin.tenantUser.update({ where: { id: f.host.user.id }, data: { disabledAt: new Date() } });
-  expect((await get(`${base}/${f.a.id}/summary`).expect(200)).body.counts.enabledHosts).toBe(0);
+  expect((await get(`${base}/${f.b.id}/summary`).expect(200)).body.counts).toEqual(foreignExpected);
+  expect((await get().query({ search: f.b.slug }).expect(200)).body.items[0].counts).toEqual(foreignExpected);
+  await post(`${base}/${f.a.id}/accounts/${f.host.user.id}/disable`).send({}).expect(204);
+  const disabledCounts = { activeListings: 3, archivedListings: 2, accounts: 5, enabledHosts: 1 };
+  expect((await get(`${base}/${f.a.id}/summary`).expect(200)).body.counts).toEqual(disabledCounts);
+  await request(h.app.getHttpServer()).delete(`${base}/${f.a.id}`).set(csrf).set('Cookie', f.admin.cookie).expect(204);
+  const deleted = await get(`${base}/${f.a.id}/summary`).expect(200);
+  expect(deleted.body.deletedAt).not.toBeNull(); expect(deleted.body.counts).toEqual(disabledCounts);
+  const retained = await get().query({ search: f.a.slug, status: 'deleted' }).expect(200);
+  expect(retained.body.total).toBe(1); expect(retained.body.items[0].counts).toEqual(disabledCounts);
+  expect((await get().query({ search: f.a.slug }).expect(200)).body).toMatchObject({ total: 0, items: [] });
+  expect((await get(`${base}/${f.b.id}/summary`).expect(200)).body.counts).toEqual(foreignExpected);
   await request(h.app.getHttpServer()).get(`${base}/${f.a.id}/summary`).set('Cookie', f.host.cookie).expect(401);
 });

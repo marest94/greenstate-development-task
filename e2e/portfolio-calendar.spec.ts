@@ -23,9 +23,21 @@ test('host edits a property range in the shared calendar and preserves its view'
   await page.getByLabel('Last night (included)', { exact: true }).fill(last);
   await page.getByLabel('Reason (optional)', { exact: true }).fill('Prepare for guests');
   await expect(page.getByText('3 nights will be blocked', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Block 3 nights', exact: true }).click();
+  const save = page.getByRole('button', { name: 'Block 3 nights', exact: true });
+  await save.scrollIntoViewIfNeeded(); await save.focus();
+  const timeline = page.getByRole('region', { name: 'Property availability timeline', includeHidden: true });
+  await timeline.evaluate(element => { element.scrollLeft = 120; });
+  const beforeSave = await timeline.evaluate(element => ({ left: element.scrollLeft, top: element.scrollTop, pageY: window.scrollY }));
+  expect(beforeSave.left).toBeGreaterThan(0);
+  expect(beforeSave.pageY).toBeGreaterThan(0);
+  // Keyboard submission keeps Playwright from changing scroll as part of pointer actionability.
+  await save.press('Enter');
   await expect(page.getByText('3 nights blocked.', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Remove 3 blocks', exact: true })).toBeVisible();
+  const afterSave = await timeline.evaluate(element => ({ left: element.scrollLeft, top: element.scrollTop, pageY: window.scrollY }));
+  expect(afterSave.left).toBeCloseTo(beforeSave.left, 0);
+  expect(afterSave.top).toBeCloseTo(beforeSave.top, 0);
+  expect(afterSave.pageY).toBeCloseTo(beforeSave.pageY, 0);
   const availability = await (await page.request.get(`/api/v1/t/greenstate/listings/${listing.id}/availability?from=${from}&to=${shift(last, 1)}`)).json();
   expect(availability.days.map((day: { available: boolean }) => day.available)).toEqual([false, false, false]);
   expect(new URL(page.url()).searchParams.get('search')).toBe(title);

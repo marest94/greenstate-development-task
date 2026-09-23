@@ -2,7 +2,8 @@ import { observeBrowserErrors } from './browser-errors.js';
 import { randomUUID } from 'node:crypto';
 import { expect } from '@playwright/test';
 import { test, provisionHostFixture } from './fixtures.js';
-test('first-login host creates, edits, archives, rediscovers and restores inventory with a client shortlist', async ({ page, browser, baseURL, browserErrors }, testInfo) => {
+import { changePassword, login } from './auth-helpers.js';
+test('first-login host creates, edits, archives, rediscovers and restores inventory with a client shortlist', async ({ page, browser, baseURL, viewport, isMobile, hasTouch, browserErrors }, testInfo) => {
   const tenant = await (await page.request.get('/api/v1/t/greenstate')).json();
   const host = await provisionHostFixture(tenant.id); const title = `000 Browser home ${randomUUID()}`; const revised = `${title} updated`;
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
@@ -20,7 +21,7 @@ test('first-login host creates, edits, archives, rediscovers and restores invent
   await page.getByLabel('Title', { exact: true }).fill(revised); await page.getByRole('button', { name: 'Save changes', exact: true }).click();
   await expect(page.getByText('Listing changes saved.', { exact: true })).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath('host-listing.png'), fullPage: true });
-  const clientContext = await browser.newContext({ baseURL }); const client = await clientContext.newPage(); observeBrowserErrors(client, browserErrors);
+  const clientContext = await browser.newContext({ baseURL, viewport, isMobile, hasTouch }); const client = await clientContext.newPage(); observeBrowserErrors(client, browserErrors);
   try {
     await client.goto('/greenstate/register'); await client.getByLabel('Email', { exact: true }).fill(`host-shortlist-${randomUUID()}@example.test`); await client.getByLabel('Password', { exact: true }).fill('A client shortlist password 2026!');
     await client.getByRole('button', { name: 'Create account', exact: true }).click(); await expect(client).toHaveURL(/\/greenstate\/account$/);
@@ -46,4 +47,60 @@ test('first-login host creates, edits, archives, rediscovers and restores invent
     expect((await client.request.get(`/api/v1/t/citystays/listings/${id}`)).status()).toBe(404);
   } finally { await clientContext.close(); }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true); expect(errors).toEqual([]);
+});
+
+test('two hosts editing the same listing keep the second draft after an optimistic version conflict', async ({ page, browser, baseURL, viewport, isMobile, hasTouch, browserErrors }) => {
+  const tenant = await (await page.request.get('/api/v1/t/greenstate')).json();
+  const first = await provisionHostFixture(tenant.id);
+  const second = await provisionHostFixture(tenant.id);
+  const secondContext = await browser.newContext({ baseURL, viewport, isMobile, hasTouch });
+  const otherHost = await secondContext.newPage(); observeBrowserErrors(otherHost, browserErrors);
+  try {
+    await login(page, 'greenstate', first.email, first.password);
+    await changePassword(page, first.password, `First host changed ${randomUUID()}!`, 'greenstate');
+    await login(otherHost, 'greenstate', second.email, second.password);
+    await changePassword(otherHost, second.password, `Second host changed ${randomUUID()}!`, 'greenstate');
+    const firstPrincipal = await (await page.request.get('/api/v1/t/greenstate/auth/me')).json();
+    const secondPrincipal = await (await otherHost.request.get('/api/v1/t/greenstate/auth/me')).json();
+    expect(firstPrincipal.id).not.toBe(secondPrincipal.id);
+    const headers = { Origin: new URL(page.url()).origin, 'X-Requested-By': 'greenstate-web' };
+    const title = `Concurrent hosts ${randomUUID()}`;
+    const created = await page.request.post('/api/v1/t/greenstate/host/listings', { headers, data: { title, description: 'Original shared listing.', city: 'Berlin', country: 'DE', latitude: 52.52, longitude: 13.4, propertyType: 'apartment', maxGuests: 4, bedrooms: 2, pricePerNightCents: 12000 } });
+    expect(created.status()).toBe(201);
+    const listing = await created.json(); const apiPath = `/api/v1/t/greenstate/host/listings/${listing.id}`;
+    await page.goto(`/greenstate/host/listings/${listing.id}`);
+    await otherHost.goto(`/greenstate/host/listings/${listing.id}`);
+    await expect(page.getByLabel('Title', { exact: true })).toHaveValue(title);
+    await expect(otherHost.getByLabel('Title', { exact: true })).toHaveValue(title);
+    const firstTitle = `${title} saved by first host`;
+    const secondTitle = `${title} second host draft`;
+    await otherHost.getByLabel('Title', { exact: true }).fill(secondTitle);
+    await otherHost.getByLabel('Description', { exact: true }).fill('The second host must keep this unsaved description.');
+    await otherHost.getByLabel('Price per night (€)', { exact: true }).fill('149.95');
+    await page.getByLabel('Title', { exact: true }).fill(firstTitle);
+    await page.getByRole('button', { name: 'Save changes', exact: true }).click();
+    await expect(page.getByText('Listing changes saved.', { exact: true })).toBeVisible();
+    const responsePromise = otherHost.waitForResponse(response => new URL(response.url()).pathname === apiPath && response.request().method() === 'PATCH');
+    await otherHost.getByRole('button', { name: 'Save changes', exact: true }).click();
+    const conflict = await responsePromise;
+    expect(conflict.status()).toBe(409);
+    expect((await conflict.json()).code).toBe('STALE_VERSION');
+    await expect(otherHost.getByRole('alert')).toBeVisible();
+    await expect(otherHost.getByLabel('Title', { exact: true })).toHaveValue(secondTitle);
+    await expect(otherHost.getByLabel('Description', { exact: true })).toHaveValue('The second host must keep this unsaved description.');
+    await expect(otherHost.getByLabel('Price per night (€)', { exact: true })).toHaveValue('149.95');
+    await expect(otherHost.getByRole('button', { name: 'Archive listing', exact: true })).toBeDisabled();
+    const persisted = await (await otherHost.request.get(apiPath)).json();
+    expect(persisted).toMatchObject({ title: firstTitle, description: 'Original shared listing.', pricePerNightCents: 12000, version: listing.version + 1 });
+    await otherHost.getByRole('button', { name: 'Reload current version', exact: true }).click();
+    await expect(otherHost.getByLabel('Title', { exact: true })).toHaveValue(firstTitle);
+    await expect(otherHost.getByLabel('Description', { exact: true })).toHaveValue('Original shared listing.');
+    await expect(otherHost.getByLabel('Price per night (€)', { exact: true })).toHaveValue('120.00');
+    await otherHost.getByLabel('Title', { exact: true }).fill(secondTitle);
+    await otherHost.getByRole('button', { name: 'Save changes', exact: true }).click();
+    await expect(otherHost.getByText('Listing changes saved.', { exact: true })).toBeVisible();
+    const resolved = await (await page.request.get(apiPath)).json();
+    expect(resolved).toMatchObject({ title: secondTitle, version: listing.version + 2 });
+    expect((await page.request.post(`${apiPath}/archive`, { headers, data: { version: resolved.version } })).status()).toBe(200);
+  } finally { await secondContext.close(); }
 });
