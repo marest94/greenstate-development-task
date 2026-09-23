@@ -11,7 +11,13 @@ describe('HTTP boundary', () => {
     await request(app.getHttpServer()).post('/api/missing?password=query-secret')
       .set('Cookie', 'session=cookie-secret').send({ password: 'body-secret' }).expect(404);
     expect(logs).toHaveLength(1);
-    expect(logs[0]).toMatchObject({ method: 'POST', path: '/api/missing', status: 404, requestId: expect.any(String) });
+    expect(logs[0]).toMatchObject({ method: 'POST', path: '[unmatched]', status: 404, requestId: expect.any(String) });
+    expect(JSON.stringify(logs)).not.toContain('secret');
+  });
+  it('does not log credentials in an unmatched URL path', async () => {
+    await request(app.getHttpServer()).get('/api/path-secret?password=query-secret').expect(404);
+    expect(logs).toHaveLength(1);
+    expect(logs[0]).toMatchObject({ path: '[unmatched]', status: 404 });
     expect(JSON.stringify(logs)).not.toContain('secret');
   });
   it('serves liveness through the version-independent API health path', async () => {

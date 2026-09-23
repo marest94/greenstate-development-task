@@ -31,12 +31,17 @@ export async function createApp(options: { log?: (record: RequestLog) => void; d
     const app = await NestFactory.create<NestExpressApplication>(AppModule.register(database, privileged, options.clock ?? new Clock(), config, security), { bodyParser: false, logger: false, abortOnError: false });
     app.disable('x-powered-by');
     app.set('trust proxy', security.trustProxyHops);
-    app.use(requestMetadata(options.log ?? ((record) => process.stdout.write(`${JSON.stringify(record)}\n`))));
+    const writeLog = options.log ?? ((record: RequestLog) => { process.stdout.write(`${JSON.stringify(record)}\n`); });
+    const log = (record: RequestLog) => {
+      // Logging failures must never replace an API response or become an unhandled rejection.
+      try { void Promise.resolve(writeLog(record)).catch(() => {}); } catch { /* Keep the HTTP boundary available. */ }
+    };
+    app.use(requestMetadata(log));
     app.use(helmet());
     app.use('/api', (_req: express.Request, res: express.Response, next: express.NextFunction) => { res.setHeader('Cache-Control', 'no-store'); next(); });
     app.use(express.json({ limit: '32kb' }));
     app.use(parserErrors);
-    app.useGlobalFilters(new ApiExceptionFilter());
+    app.useGlobalFilters(new ApiExceptionFilter(log));
     app.enableShutdownHooks();
     return app;
   } catch (error) { await Promise.all([database?.onApplicationShutdown(), privileged?.close()]); throw error; }
