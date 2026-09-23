@@ -23,6 +23,7 @@
     "test:stack": "node --test test/*.test.mjs",
     "db:seed": "npm run db:generate && npm run build -w packages/contracts && npm run db:seed -w apps/api",
     "test:browser": "npm run build -w packages/contracts && playwright test",
+    "audit:dependencies": "npm audit --package-lock-only --include=dev --audit-level=high --registry=https://registry.npmjs.org",
     "admin:recover": "npm run db:generate && npm run build -w packages/contracts && npm run admin:recover -w apps/api --"
   },
   "devDependencies": {

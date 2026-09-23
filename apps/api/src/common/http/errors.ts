@@ -1,6 +1,8 @@
 import { Catch, HttpException, type ArgumentsHost, type ExceptionFilter } from '@nestjs/common';
-import type { ErrorRequestHandler, Response } from 'express';
+import type { ErrorRequestHandler, Request, Response } from 'express';
 import type { ApiError } from '@greenstate/contracts';
+import { Prisma } from '../../generated/prisma/client.js';
+import { requestLogContext, type RequestLog } from './request-id.js';
 
 const errors: Record<number, [string, string]> = {
   400: ['INVALID_REQUEST', 'The request is invalid.'],
@@ -29,11 +31,44 @@ export const parserErrors: ErrorRequestHandler = (error: unknown, _req, res, nex
   if (type === 'entity.parse.failed') return sendError(res, 400, 'INVALID_JSON', 'The request body must be valid JSON.');
   next(error);
 };
+
+// Explicit codes only; never copy arbitrary properties, names, messages, stacks or causes.
+const diagnosticDatabaseCodes = new Set(['P1000', 'P1001', 'P1002', 'P1008', 'P1017', 'P2002', 'P2003', 'P2024', 'P2025', 'P2028', 'P2034']);
+const diagnosticClasses = [
+  [Prisma.PrismaClientKnownRequestError, 'PrismaClientKnownRequestError'],
+  [Prisma.PrismaClientInitializationError, 'PrismaClientInitializationError'],
+  [Prisma.PrismaClientUnknownRequestError, 'PrismaClientUnknownRequestError'],
+  [Prisma.PrismaClientValidationError, 'PrismaClientValidationError'],
+  [Prisma.PrismaClientRustPanicError, 'PrismaClientRustPanicError'],
+  [AppError, 'AppError'], [HttpException, 'HttpException'],
+  [TypeError, 'TypeError'], [RangeError, 'RangeError'], [ReferenceError, 'ReferenceError'],
+  [SyntaxError, 'SyntaxError'], [URIError, 'URIError'], [EvalError, 'EvalError'], [Error, 'Error'],
+] as const;
+function diagnosticError(error: unknown): RequestLog {
+  for (const [ErrorType, errorClass] of diagnosticClasses) {
+    if (!(error instanceof ErrorType)) continue;
+    const record: RequestLog = { errorClass };
+    if (error instanceof Prisma.PrismaClientKnownRequestError || error instanceof Prisma.PrismaClientInitializationError) {
+      // Read a data property once, without invoking a potentially unsafe accessor.
+      const code: unknown = Object.getOwnPropertyDescriptor(error, error instanceof Prisma.PrismaClientKnownRequestError ? 'code' : 'errorCode')?.value;
+      if (typeof code === 'string' && diagnosticDatabaseCodes.has(code)) record.errorCode = code;
+    }
+    return record;
+  }
+  return { errorClass: 'UnknownThrownValue' };
+}
 @Catch()
 export class ApiExceptionFilter implements ExceptionFilter {
+  constructor(private readonly log: (record: RequestLog) => void) {}
   catch(error: unknown, host: ArgumentsHost) {
-    const res = host.switchToHttp().getResponse<Response>();
+    const http = host.switchToHttp();
+    const res = http.getResponse<Response>();
+    const status = error instanceof HttpException ? error.getStatus() : 500;
+    if (status >= 500) this.log({
+      event: 'api_error', requestId: res.locals.requestId,
+      ...requestLogContext(http.getRequest<Request>()), status, ...diagnosticError(error),
+    });
     if (error instanceof AppError) return sendError(res, error.getStatus(), error.code, error.message, error.fields);
-    sendError(res, error instanceof HttpException ? error.getStatus() : 500);
+    sendError(res, status);
   }
 }

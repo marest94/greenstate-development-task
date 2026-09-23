@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createMemoryRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { expect, it, vi } from 'vitest';
-import type { HostCalendar, HostListingView, Principal } from '@greenstate/contracts';
+import type { HostCalendar, HostListingView, PortfolioCalendarPage as PortfolioPage, Principal } from '@greenstate/contracts';
 import { TenantProvider } from '../../app/TenantProvider';
 import { TenantAccountProvider } from '../../app/AccountBoundary';
 import { SignOutButton } from '../auth/AuthForm';
@@ -176,6 +176,81 @@ it('selects a portfolio range and sends an exclusive end date while retaining th
   await screen.findByText('3 nights blocked.');
   expect(requests.find(r => r.url.pathname.endsWith('/block-range'))?.body).toEqual({ from: '2026-10-04', to: '2026-10-07', action: 'block' });
   expect(router.state.location.search).toContain('from=2026-10-01');
+});
+
+const portfolio: PortfolioPage = {
+  today: '2026-10-02', from: '2026-10-01', to: '2026-10-15', page: 1, pageSize: 20, total: 1,
+  items: [{ listing, bookings: [], days: ['2026-10-04', '2026-10-05', '2026-10-06'].map(date => ({ date, status: 'available', bookingIds: [], block: null })) }],
+};
+it('refreshes occupied portfolio nights after a conflict while keeping the selected dates and reason for retry', async () => {
+  let calendar = portfolio;
+  let conflict = true;
+  const booking = { ...first, checkIn: '2026-10-05', checkOut: '2026-10-06' };
+  const requests = intercept({ handle: (url, init) => {
+    if (url.pathname === '/api/v1/t/greenstate/host/calendar') return json(calendar);
+    if (url.pathname === `${base}/block-range` && init.method === 'POST') {
+      if (conflict) {
+        conflict = false;
+        calendar = { ...portfolio, items: [{ listing, bookings: [booking], days: portfolio.items[0]!.days.map(day => day.date === '2026-10-05' ? { ...day, status: 'booked', bookingIds: [booking.id] } : day) }] };
+        return failure(409, 'DATE_OCCUPIED', 'An existing booking occupies this night.');
+      }
+      calendar = { ...calendar, items: [{ ...calendar.items[0]!, days: calendar.items[0]!.days.map(day => day.date === '2026-10-06' ? { ...day, status: 'blocked', block: { ...blocked, reason: 'Prepare for guests' } } : day) }] };
+      return json({ changed: 1 }, 201);
+    }
+  } });
+  const { router } = mount('/greenstate/host/calendar?from=2026-10-01&days=14');
+  const user = userEvent.setup();
+  await user.click(await screen.findByRole('button', { name: `${listing.title}, 4 October 2026, available` }));
+  await user.click(screen.getByRole('button', { name: `${listing.title}, 6 October 2026, available` }));
+  await user.type(screen.getByLabelText('Reason (optional)'), 'Prepare for guests');
+  await user.click(screen.getByRole('button', { name: 'Block 3 nights' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('An existing booking occupies this night.');
+  expect(await screen.findByRole('button', { name: `${listing.title}, 5 October 2026, booked` })).toHaveAttribute('aria-pressed', 'true');
+  expect(screen.getByLabelText('First night')).toHaveValue('2026-10-04');
+  expect(screen.getByLabelText('Last night (included)')).toHaveValue('2026-10-06');
+  expect(screen.getByText('2 available · 1 booked · 0 manually blocked')).toBeVisible();
+  expect(screen.queryByRole('button', { name: /^Block \d/ })).not.toBeInTheDocument();
+  fireEvent.change(screen.getByLabelText('First night'), { target: { value: '2026-10-06' } });
+  expect(screen.getByLabelText('Reason (optional)')).toHaveValue('Prepare for guests');
+  await user.click(screen.getByRole('button', { name: 'Block 1 night' }));
+  expect(await screen.findByText('1 night blocked.')).toBeVisible();
+  expect(await screen.findByRole('button', { name: `${listing.title}, 6 October 2026, blocked` })).toHaveAttribute('aria-pressed', 'true');
+  expect(requests.filter(request => request.url.pathname.endsWith('/block-range')).map(request => request.body)).toEqual([
+    { from: '2026-10-04', to: '2026-10-07', action: 'block', reason: 'Prepare for guests' },
+    { from: '2026-10-06', to: '2026-10-07', action: 'block', reason: 'Prepare for guests' },
+  ]);
+  expect(router.state.location.search).toBe('?from=2026-10-01&days=14');
+});
+
+it.each(['success', 'conflict'])('ignores a late portfolio range %s after signing out', async outcome => {
+  let finish!: (response: Response) => void;
+  let signal: AbortSignal | undefined;
+  intercept({ handle: (url, init) => {
+    if (url.pathname === '/api/v1/t/greenstate/host/calendar') return json(portfolio);
+    if (url.pathname === `${base}/block-range` && init.method === 'POST') {
+      signal = init.signal as AbortSignal;
+      return new Promise<Response>(resolve => { finish = resolve; });
+    }
+  } });
+  const { cache, router } = mount('/greenstate/host/calendar?from=2026-10-01');
+  const publicKey = ['availability', tenant.slug, listing.id];
+  cache.setQueryData(publicKey, { days: [] });
+  const user = userEvent.setup();
+  await user.click(await screen.findByRole('button', { name: `${listing.title}, 4 October 2026, available` }));
+  await user.type(screen.getByLabelText('Reason (optional)'), 'A private range reason');
+  await user.click(screen.getByRole('button', { name: 'Block 1 night' }));
+  expect(screen.getByRole('button', { name: 'Saving…' })).toBeDisabled();
+  await user.click(screen.getByRole('button', { name: 'Sign out' }));
+  await screen.findByRole('heading', { name: 'Sign in' });
+  // Deliberately complete even after abort, as a transport can already have received a response.
+  await act(async () => finish(outcome === 'success' ? json({ changed: 1 }, 201) : failure(409, 'DATE_OCCUPIED', 'An existing booking occupies this night.')));
+  expect(router.state.location.pathname).toBe('/greenstate/login');
+  expect(cache.getQueriesData({ queryKey: ['private'] })).toEqual([]);
+  expect(cache.getQueryState(publicKey)?.isInvalidated).toBe(false);
+  expect(signal?.aborted).toBe(true);
+  expect(screen.queryByLabelText('Reason (optional)')).not.toBeInTheDocument();
+  expect(screen.queryByText('1 night blocked.')).not.toBeInTheDocument();
+  expect(screen.queryByText('An existing booking occupies this night.')).not.toBeInTheDocument();
 });
 
 it('recovers invalid portfolio timeline URLs without crashing', async () => {

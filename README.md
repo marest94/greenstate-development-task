@@ -83,6 +83,7 @@ npm test
 npm run lint
 npm run typecheck
 npm run build
+npm run audit:dependencies
 npm run test:stack  # requires the running Compose stack
 ```
 
@@ -92,10 +93,15 @@ and error states. CI runs clean install, lint, typecheck, these tests, productio
 PostgreSQL integration tests, stack checks and all browser journeys. Failed browser reports and
 traces are retained for seven days.
 
-Final local verification passed 52 API unit tests, 181 web component tests, 258 PostgreSQL
-integration tests, two stack checks and 22 browser cases. Browser journeys were also repeated
-against the same seeded database. An isolated clean-volume startup and a second startup
-preserved all application-table contents, including edited inventory and account state.
+Dependency advisory checks and reviewed weekly updates are configured separately.
+See [security maintenance](docs/security-maintenance.md) for the audit threshold,
+metadata sent to npm, update policy and safe API diagnostics.
+
+Local verification on 23 September 2026 passed 74 API unit tests, 222 web component tests,
+271 PostgreSQL integration tests, two stack checks and 34 browser cases. The dependency
+audit reported no known advisories. The stack used existing images with freshly built API,
+contracts and web output mounted read-only. Earlier startup verification also confirmed
+that restarting preserves edited inventory and account state.
 
 After starting the local database, run:
 
@@ -110,6 +116,8 @@ resolution, real shared/exclusive lock contention, deterministic import/retentio
 filters/pagination, archived and foreign visibility, calendar/search agreement, tenant/platform
 authentication, credential races, throttling, saved-list ownership, archive/restore, calendar blocks,
 booking history, administrative lifecycle ordering, platform recovery and restart-safe initialization. Test
+cases also check portfolio snapshots across concurrent commits, cancelled/overlapping bookings,
+and tenant counts across active, archived, disabled and deleted states. Test
 database ownership matches Compose. `test:stack` verifies request-secret redaction through both
 nginx and the API, including proxy-generated errors. Set `COMPOSE_PROJECT_NAME` and
 `STACK_BASE_URL` if using a custom Compose project or port.
@@ -128,6 +136,8 @@ private shortlists, host create/edit/archive/restore, calendar blocks and bookin
 creation/deletion, host provisioning/disable/re-enable, client promotion and assisted password reset.
 Security journeys also cover cross-tab logout/reset/disable, account switching, malformed listing
 URLs, CSRF, role/ownership injection and escaped listing text. Unexpected browser errors fail tests.
+Additional journeys verify two hosts editing the same version without losing the conflicting
+draft, calendar scroll preservation after saving, and tenant setup/deletion transitions.
 Keyboard checks cover search focus, tenant forms, calendar actions and destructive confirmations.
 Playwright keeps headless tabs focused, so cross-tab tests explicitly deliver the activation event;
 cookies, session refresh, API requests and PostgreSQL remain real.
@@ -221,11 +231,15 @@ via stdin. Do not put the replacement password in shell arguments or history.
 privileged (`gs_admin`) credentials. The ordinary role cannot bypass forced row-level security,
 change ownership, modify the tenant registry, write bookings, or hard-delete listings. The
 privileged role is not a superuser. Runtime startup rejects excessive role/schema privileges.
-All coordinated transactions use READ COMMITTED explicitly; tenant writes take a shared advisory
+Coordinated writes use READ COMMITTED explicitly; tenant writes take a shared advisory
 lock, and lifecycle/configuration changes take the exclusive lock before rereading the tenant.
+Portfolio calendar reads use REPEATABLE READ so totals, rows, bookings and blocks share
+one snapshot even when a concurrent writer commits between queries.
 The privileged pool is kept out of ordinary feature-module providers. nginx logs allowlisted
 method/path/status/request-ID metadata; its free-form per-request error logs are suppressed
 because they include raw query strings. Proxy failures remain visible through HTTP status logs.
+API completion logs use route templates instead of supplied path values. Server failures
+also emit correlated, allowlisted error classifications without raw exception details.
 
 Compose applies migrations automatically. For source development, export
 `MIGRATION_DATABASE_URL` using the local example in `.env.example`, then run `npm run db:migrate`.
