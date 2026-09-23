@@ -14,7 +14,7 @@ it('preserves admin resets, promotion, host disabling and tenant deletion across
   const beforeUsers = await h.db.admin.tenantUser.findMany({ orderBy: { id: 'asc' } }); const beforeTenants = await h.db.admin.tenant.findMany({ orderBy: { id: 'asc' } });
   await runSeed({ db, enabled: true }); await runAccountSeed({ db, enabled: true });
   expect(await h.db.admin.tenantUser.findMany({ orderBy: { id: 'asc' } })).toEqual(beforeUsers); expect(await h.db.admin.tenant.findMany({ orderBy: { id: 'asc' } })).toEqual(beforeTenants);
-  expect(beforeUsers.find(u => u.id === host.id)).toMatchObject({ disabledAt: expect.any(Date), mustChangePassword: true, credentialVersion: 2 }); expect(beforeUsers.find(u => u.id === client.id)).toMatchObject({ role: 'host', mustChangePassword: true, credentialVersion: 2 });
+  expect(beforeUsers.find(u => u.id === host.id)).toMatchObject({ disabledAt: expect.any(Date), mustChangePassword: true, credentialVersion: 3 }); expect(beforeUsers.find(u => u.id === client.id)).toMatchObject({ role: 'host', mustChangePassword: true, credentialVersion: 2 });
   expect(await h.db.admin.listing.count()).toBe(1000); expect(await h.db.admin.booking.count()).toBe(12757);
  } finally { await h.close(); }
 });

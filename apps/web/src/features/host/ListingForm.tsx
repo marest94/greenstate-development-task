@@ -10,6 +10,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { FormFeedback, SessionStatus, useFormProblem, validationProblem } from '../auth/AuthForm';
 import { RequirePermission } from '../auth/RequirePermission';
 import { ErrorScreen } from '../../app/ErrorScreen';
+import { isTemporaryQueryError, QueryRefreshWarning } from '../../app/QueryRefreshWarning';
 export function ListingForm({ mode }: { mode: 'create' | 'edit' }) {
   const auth = useAuth(); const { id } = useParams();
   return <RequirePermission permission="listings:manage">{auth.privateKey ? <OwnedListingForm key={`${auth.privateKey.join(':')}:${mode}:${id ?? ''}`} mode={mode} id={id} /> : <SessionStatus />}</RequirePermission>;
@@ -21,8 +22,8 @@ function OwnedListingForm({ mode, id }: { mode: 'create' | 'edit'; id: string | 
     queryFn: ({ signal }) => api.get(`${apiPath}/${id}`, undefined, HostListingViewSchema, signal) });
   if (!valid) return <ErrorScreen error={new ApiProblem({ status: 404, code: 'RESOURCE_NOT_FOUND', message: 'This listing could not be found.', requestId: '' })} backTo={`${auth.basePath}/host/listings`} />;
   if (mode === 'edit' && query.isPending) return <p role="status">Loading listing…</p>;
-  if (mode === 'edit' && query.isError) return <ErrorScreen error={query.error} onRetry={() => { void query.refetch(); }} backTo={`${auth.basePath}/host/listings`} />;
-  return <Editor initial={mode === 'edit' ? query.data! : null} apiPath={apiPath} />;
+  if (mode === 'edit' && query.isError && (!query.data || !isTemporaryQueryError(query.error))) return <ErrorScreen error={query.error} onRetry={() => { void query.refetch(); }} backTo={`${auth.basePath}/host/listings`} />;
+  return <><QueryRefreshWarning error={mode === 'edit' && query.isError ? query.error : null} onRetry={() => { void query.refetch(); }} retrying={query.isFetching} /><Editor initial={mode === 'edit' ? query.data! : null} apiPath={apiPath} /></>;
 }
 function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath: string }) {
   const auth = useAuth(); const cache = useQueryClient(); const navigate = useNavigate(); const feedback = useFormProblem();

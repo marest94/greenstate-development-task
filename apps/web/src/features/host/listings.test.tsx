@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { focusManager, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createMemoryRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { expect, it, vi } from 'vitest';
 import type { HostListingView, Principal } from '@greenstate/contracts';
@@ -180,4 +180,58 @@ it('requires saving or discarding edits before restoring an archived listing', a
  expect(screen.getByLabelText('Title')).toHaveValue(listing.title);
  expect(screen.getByRole('button', { name: 'Restore listing' })).toBeEnabled();
  expect(requests.some(r => r.init.method === 'POST' || r.init.method === 'PATCH')).toBe(false);
+});
+
+it.each(['listing', 'tenant'] as const)('keeps a dirty listing mounted through a temporary %s refresh failure and retry', async resource => {
+  let unavailable = false;
+  const endpoint = resource === 'listing' ? `${base}/${listing.id}` : '/api/v1/t/greenstate';
+  intercept({ handle: url => url.pathname === endpoint && unavailable ? failure(503, 'UNAVAILABLE', 'Temporarily unavailable.') : undefined });
+  const { cache } = mount(`/greenstate/host/listings/${listing.id}`);
+  await screen.findByLabelText('Title');
+  fill('Title', 'My draft survives refresh');
+  const titleInput = screen.getByLabelText('Title');
+  unavailable = true;
+  await act(() => cache.invalidateQueries({ predicate: query => resource === 'listing' ? query.queryKey.includes('host-listing') : query.queryKey[0] === 'tenant' }));
+  await screen.findByRole('alert');
+  expect(screen.getByLabelText('Title')).toBe(titleInput);
+  expect(titleInput).toHaveValue('My draft survives refresh');
+  unavailable = false;
+  await userEvent.click(screen.getByRole('button', { name: 'Try again' }));
+  await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument());
+  expect(screen.getByLabelText('Title')).toBe(titleInput);
+  expect(titleInput).toHaveValue('My draft survives refresh');
+});
+
+it('preserves the draft when focus refresh fails for a stale listing and the account is unchanged', async () => {
+  let unavailable = false;
+  intercept({ handle: url => url.pathname === `${base}/${listing.id}` && unavailable ? failure(503, 'UNAVAILABLE', 'Temporarily unavailable.') : undefined });
+  const { cache } = mount(`/greenstate/host/listings/${listing.id}`);
+  await screen.findByLabelText('Title'); fill('Title', 'Draft after returning to this tab');
+  unavailable = true;
+  await act(() => cache.invalidateQueries({ predicate: query => query.queryKey.includes('host-listing'), refetchType: 'none' }));
+  try {
+    act(() => { focusManager.setFocused(false); focusManager.setFocused(true); fireEvent.focus(window); });
+    await screen.findByRole('alert');
+    expect(screen.getByLabelText('Title')).toHaveValue('Draft after returning to this tab');
+  } finally { focusManager.setFocused(undefined); }
+});
+
+it.each([403, 404])('withholds cached listing edits after a definitive HTTP %s refresh response', async status => {
+  let unavailable = false;
+  intercept({ handle: url => url.pathname === `${base}/${listing.id}` && unavailable ? failure(status, 'RESOURCE_UNAVAILABLE', 'This listing is no longer available.') : undefined });
+  const { cache } = mount(`/greenstate/host/listings/${listing.id}`);
+  await screen.findByLabelText('Title'); fill('Title', 'A private draft'); unavailable = true;
+  await act(() => cache.invalidateQueries({ predicate: query => query.queryKey.includes('host-listing') }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('This listing is no longer available.');
+  expect(screen.queryByLabelText('Title')).not.toBeInTheDocument();
+});
+
+it('withholds the editor when the tenant disappears during refresh', async () => {
+  let deleted = false;
+  intercept({ handle: url => url.pathname === '/api/v1/t/greenstate' && deleted ? failure(404, 'TENANT_NOT_FOUND', 'This portal is no longer available.') : undefined });
+  const { cache } = mount(`/greenstate/host/listings/${listing.id}`);
+  await screen.findByLabelText('Title'); fill('Title', 'A private draft'); deleted = true;
+  await act(() => cache.invalidateQueries({ queryKey: ['tenant', 'greenstate'] }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('This portal is no longer available.');
+  expect(screen.queryByLabelText('Title')).not.toBeInTheDocument();
 });

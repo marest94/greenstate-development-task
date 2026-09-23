@@ -43,7 +43,7 @@ export class AccountsService {
     return this.db().forTenant(tenantId, 'shared', async tx => {
       const user = await this.lock(tx, tenantId, userId);
       if (user.role !== 'host') throw new AppError(400, 'HOST_REQUIRED', 'Only host accounts can be disabled or re-enabled.');
-      await tx.tenantUser.update({ where: { id: userId, tenantId }, data: { disabledAt: disabled ? user.disabledAt ?? this.clock.now() : null } });
+      await tx.tenantUser.update({ where: { id: userId, tenantId }, data: { disabledAt: disabled ? user.disabledAt ?? this.clock.now() : null, ...(disabled ? { credentialVersion: { increment: 1 } } : {}) } });
       if (disabled) await tx.tenantSession.deleteMany({ where: { tenantId, userId } });
     });
   }
