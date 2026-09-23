@@ -121,6 +121,8 @@ global state framework unless an actual requirement warrants it.
   change it on first sign-in, and the API restricts that session until the change succeeds.
 - Host disabling affects the entire tenant account, revokes its sessions, and retains its
   records and saved listings. Re-enabling permits a new login; old sessions never revive.
+  Disabling invalidates pending login verification even if re-enabled before session issuance;
+  fresh logins after re-enabling still accept the existing password.
   Subsequent requests fail after disabling commits, but an already-authorized in-flight
   operation may finish. Tenant deletion retains its stronger write coordination below.
 - Assisted password reset for clients and hosts uses identity verification and temporary
