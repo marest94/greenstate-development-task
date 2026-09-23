@@ -105,3 +105,29 @@ it('keeps focus on the accounts heading when a successful action removes its row
  await waitFor(() => expect(screen.queryByRole('row', { name: /host@example.test/ })).not.toBeInTheDocument());
  expect(screen.getByRole('heading', { name: 'GreenState accounts' })).toHaveFocus();
 });
+
+it('keeps the tenant configuration draft mounted through a temporary refresh failure and retry', async () => {
+ let unavailable = false;
+ intercept(url => url.pathname === detail && unavailable ? json({ status: 503, code: 'UNAVAILABLE', message: 'Temporarily unavailable.', requestId: 'test' }, 503) : undefined);
+ const { cache } = mount(`/admin/tenants/${tenant.id}`);
+ await screen.findByLabelText('Tenant name'); fill('Tenant name', 'My unsaved tenant name');
+ const nameInput = screen.getByLabelText('Tenant name'); unavailable = true;
+ await act(() => cache.invalidateQueries({ predicate: query => query.queryKey.includes('admin-tenant') }));
+ await screen.findByRole('alert');
+ expect(screen.getByLabelText('Tenant name')).toBe(nameInput);
+ expect(nameInput).toHaveValue('My unsaved tenant name');
+ unavailable = false; await userEvent.click(screen.getByRole('button', { name: 'Try again' }));
+ await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument());
+ expect(screen.getByLabelText('Tenant name')).toBe(nameInput);
+ expect(nameInput).toHaveValue('My unsaved tenant name');
+});
+
+it.each([403, 404])('withholds cached tenant configuration after a definitive HTTP %s refresh response', async status => {
+ let unavailable = false;
+ intercept(url => url.pathname === detail && unavailable ? json({ status, code: 'RESOURCE_UNAVAILABLE', message: 'This tenant is no longer available.', requestId: 'test' }, status) : undefined);
+ const { cache } = mount(`/admin/tenants/${tenant.id}`);
+ await screen.findByLabelText('Tenant name'); fill('Tenant name', 'A private draft'); unavailable = true;
+ await act(() => cache.invalidateQueries({ predicate: query => query.queryKey.includes('admin-tenant') }));
+ expect(await screen.findByRole('alert')).toHaveTextContent('This tenant is no longer available.');
+ expect(screen.queryByLabelText('Tenant name')).not.toBeInTheDocument();
+});

@@ -5,6 +5,7 @@ import { AdminTenantSchema, type AdminTenant } from '@greenstate/contracts';
 import { api, ApiProblem } from '../../lib/api';
 import { useAuth } from '../auth/AuthProvider';
 import { ErrorScreen } from '../../app/ErrorScreen';
+import { isTemporaryQueryError, QueryRefreshWarning } from '../../app/QueryRefreshWarning';
 import { useFormProblem } from '../auth/AuthForm';
 export const tenantsApi = '/admin/tenants';
 export function useAdminRequest() {
@@ -27,8 +28,8 @@ export function TenantResource({ children }: { children: (tenant: AdminTenant) =
  const query = useQuery({ queryKey: [...(auth.privateKey ?? []), 'admin-tenant', tenantId], enabled: !!auth.privateKey && valid, queryFn: ({ signal }) => api.get(`${tenantsApi}/${tenantId}`, undefined, AdminTenantSchema, signal) });
  if (!valid) return <ErrorScreen error={new ApiProblem({ status: 404, code: 'RESOURCE_NOT_FOUND', message: 'This tenant could not be found.', requestId: '' })} />;
  if (query.isPending) return <p role="status">Loading tenant…</p>;
- if (query.isError) return <ErrorScreen error={query.error} onRetry={() => { void query.refetch(); }} />;
- return <>{children(query.data)}</>;
+ if (query.isError && (!query.data || !isTemporaryQueryError(query.error))) return <ErrorScreen error={query.error} onRetry={() => { void query.refetch(); }} />;
+ return <><QueryRefreshWarning error={query.isError ? query.error : null} onRetry={() => { void query.refetch(); }} retrying={query.isFetching} />{children(query.data!)}</>;
 }
 export function AdminField({ label, name, problem, hint, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; name: string; problem?: ApiProblem | null; hint?: string }) {
  const errors = problem?.fields?.[name]; const id = `admin-${name}`;
