@@ -60,6 +60,29 @@ describe('Host inventory HTTP boundary', () => {
       await patch(path(f.listingA.id)).send({ ...fields, version: 1, ...extra }).expect(400);
     }
   });
+  it('rejects cities containing control characters on both create and edit', async () => {
+    for (const city of ['New\nYork', 'New\tYork', 'New\u0000York', 'New\u007fYork']) {
+      await post(path()).send({ ...fields, city }).expect(400);
+      await patch(path(f.listingA.id)).send({ ...fields, city, version: 1 }).expect(400);
+    }
+    expect((await get(path(f.listingA.id)).expect(200)).body.city).toBe('Berlin');
+  });
+  it('makes accepted city names usable from host writes through public facets and search', async () => {
+    const publicPath = `/api/v1/t/${f.a.slug}/listings`;
+    const created = await post(path()).send({ ...fields, city: '  São João  ' }).expect(201);
+    expect(created.body.city).toBe('São João');
+    const facets = await request(app.getHttpServer()).get(`${publicPath}/facets`).expect(200);
+    const city = facets.body.cities.find((value: string) => value === 'São João');
+    expect(city).toBe('São João');
+    const found = await request(app.getHttpServer()).get(publicPath).query({ city }).expect(200);
+    expect(found.body.items.map((item: { id: string }) => item.id)).toContain(created.body.id);
+    await patch(path(created.body.id)).send({ ...fields, city: '  Saint-Jean-d’Angély  ', version: 1 }).expect(200);
+    const updatedFacets = await request(app.getHttpServer()).get(`${publicPath}/facets`).expect(200);
+    expect(updatedFacets.body.cities).toContain('Saint-Jean-d’Angély');
+    expect(updatedFacets.body.cities).not.toContain('São João');
+    const updated = await request(app.getHttpServer()).get(publicPath).query({ city: 'Saint-Jean-d’Angély' }).expect(200);
+    expect(updated.body.items.map((item: { id: string }) => item.id)).toContain(created.body.id);
+  });
   it('bounds and validates writes, versions, IDs, and inventory query inputs', async () => {
     for (const invalid of [{ title: '' }, { description: 'x'.repeat(5001) }, { country: 'de' }, { latitude: 91 }, { longitude: 181 }, { maxGuests: 13 }, { bedrooms: -1 }, { pricePerNightCents: 1.5 }, { propertyType: 'castle' }]) await post(path()).send({ ...fields, ...invalid }).expect(400);
     for (const version of [undefined, 0, -1, 2147483647, 1.5, '1']) {
