@@ -1,3 +1,4 @@
+import { afterAuthentication } from '../features/auth/auth-destination';
 import type { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../features/auth/AuthProvider';
@@ -8,6 +9,6 @@ export function TenantAccountProvider({ children }: { children: ReactNode }) {
 }
 export function ForcePasswordChange({ children }: { children: ReactNode }) {
   const auth = useAuth(); const location = useLocation();
-  if (auth.principal?.mustChangePassword && location.pathname !== `${auth.basePath}/password`) return <Navigate to={`${auth.basePath}/password`} replace />;
+  if (auth.principal?.mustChangePassword && location.pathname !== `${auth.basePath}/password`) return <Navigate to={afterAuthentication(auth.principal, auth.basePath, ['login', 'register'].includes(location.pathname.split('/').at(-1) ?? '') ? new URLSearchParams(location.search).get('returnTo') : `${location.pathname}${location.search}${location.hash}`)} replace />;
   return children;
 }

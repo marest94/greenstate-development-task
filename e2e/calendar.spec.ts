@@ -28,10 +28,12 @@ test('host manages calendar blocks and inspects archived booking history without
   await page.goto('/greenstate/host/bookings'); await expect(page).toHaveURL(/\/greenstate\/password/);
   await expect(page.getByRole('heading', { name: 'Booking history', exact: true })).not.toBeVisible();
   await page.getByLabel('Current password', { exact: true }).fill(host.password); await page.getByLabel('New password', { exact: true }).fill(`Changed calendar host ${randomUUID()}!`);
-  await page.getByRole('button', { name: 'Change password', exact: true }).click(); await expect(page).toHaveURL(/\/greenstate\/account$/);
+  await page.getByRole('button', { name: 'Change password', exact: true }).click(); await expect(page).toHaveURL(/\/greenstate\/host\/bookings$/);
   await page.getByRole('link', { name: 'Host workspace', exact: true }).click(); await page.getByRole('link', { name: 'Create listing', exact: true }).click();
   for (const [label, value] of Object.entries({ Title: title, Description: 'A calendar journey home.', City: 'Berlin', 'Country code': 'DE', Latitude: '52.52', Longitude: '13.4', 'Maximum guests': '4', Bedrooms: '2', 'Price per night (€)': '123.45' })) await page.getByLabel(label, { exact: true }).fill(value);
-  await page.getByRole('button', { name: 'Create listing', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Edit listing', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Create listing', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Your inventory', exact: true })).toBeVisible();
+  await expect(page).toHaveTitle(/Inventory/); expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await page.getByRole('status').getByRole('link', { name: `Edit ${title}`, exact: true }).click(); await expect(page.getByRole('heading', { name: 'Edit listing', exact: true })).toBeVisible();
   const listingId = new URL(page.url()).pathname.split('/').at(-1)!;
   const today = ListingPageSchema.parse(await (await page.request.get('/api/v1/t/greenstate/listings?pageSize=1')).json()).today;
   const stays = await provisionBookingHistory(tenant.id, listingId, today); const freeDay = shiftDate(today, 2); const checkout = shiftDate(freeDay, 1);

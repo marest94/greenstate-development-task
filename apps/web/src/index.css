@@ -26,7 +26,7 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 .portal-shell { max-width: 1440px; min-height: 100vh; margin: 0 auto; padding: 0 clamp(20px, 5vw, 76px); display: flex; flex-direction: column; }
 .portal-shell main { flex: 1; }
 .portal-header { min-height: 100px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
-.portal-header .wordmark { color: var(--tenant-color, var(--ink)); font-size: 19px; letter-spacing: -.025em; overflow-wrap: anywhere; }
+.portal-header .wordmark { color: var(--tenant-wordmark-color, var(--tenant-color, var(--ink))); font-size: 19px; letter-spacing: -.025em; overflow-wrap: anywhere; }
 .portal-header nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 20px; flex-shrink: 1; font-size: 13px; }
 .portal-header nav a { text-decoration: none; padding: 12px 0; border-bottom: 1px solid currentColor; }
 .skip-link { position: absolute; top: -80px; left: 20px; z-index: 10; background: var(--ink); color: #fff; padding: 14px 20px; border-radius: 6px; }

@@ -12,11 +12,13 @@ test('first-login host creates, edits, archives, rediscovers and restores invent
   await page.goto('/greenstate/host/listings/new'); await expect(page).toHaveURL(/\/greenstate\/password/);
   await expect(page.getByRole('heading', { name: 'Create listing', exact: true })).not.toBeVisible();
   await page.getByLabel('Current password', { exact: true }).fill(host.password); await page.getByLabel('New password', { exact: true }).fill(`Changed browser host ${randomUUID()}!`);
-  await page.getByRole('button', { name: 'Change password', exact: true }).click(); await expect(page).toHaveURL(/\/greenstate\/account$/);
+  await page.getByRole('button', { name: 'Change password', exact: true }).click(); await expect(page).toHaveURL(/\/greenstate\/host\/listings\/new$/);
   await page.getByRole('link', { name: 'Host workspace', exact: true }).click();
   await page.getByRole('link', { name: 'Create listing', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Create listing', exact: true })).toBeVisible();
   for (const [label, value] of Object.entries({ Title: title, Description: 'A host-created home with a private courtyard.', City: 'Berlin', 'Country code': 'DE', Latitude: '52.52', Longitude: '13.4', 'Maximum guests': '4', Bedrooms: '2', 'Price per night (€)': '123.45' })) await page.getByLabel(label, { exact: true }).fill(value);
-  await page.getByRole('button', { name: 'Create listing', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Edit listing', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Create listing', exact: true }).click(); await expect(page.getByRole('heading', { name: 'Your inventory', exact: true })).toBeVisible();
+  await expect(page).toHaveTitle(/Inventory/); expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await page.getByRole('status').getByRole('link', { name: `Edit ${title}`, exact: true }).click(); await expect(page.getByRole('heading', { name: 'Edit listing', exact: true })).toBeVisible();
   const id = new URL(page.url()).pathname.split('/').at(-1)!;
   await page.getByLabel('Title', { exact: true }).fill(revised); await page.getByRole('button', { name: 'Save changes', exact: true }).click();
   await expect(page.getByText('Listing changes saved.', { exact: true })).toBeVisible();

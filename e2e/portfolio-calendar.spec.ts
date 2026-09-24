@@ -9,7 +9,7 @@ test('host edits a property range in the shared calendar and preserves its view'
   await page.goto('/greenstate/login'); await page.getByLabel('Email', { exact: true }).fill(host.email); await page.getByLabel('Password', { exact: true }).fill(host.password);
   await page.getByRole('button', { name: 'Sign in', exact: true }).click(); await expect(page).toHaveURL(/\/password/);
   await page.getByLabel('Current password', { exact: true }).fill(host.password); await page.getByLabel('New password', { exact: true }).fill(`Changed portfolio ${randomUUID()}!`);
-  await page.getByRole('button', { name: 'Change password', exact: true }).click(); await expect(page).toHaveURL(/\/account$/);
+  await page.getByRole('button', { name: 'Change password', exact: true }).click(); await expect(page).toHaveURL(/\/host\/listings$/);
   const title = `Portfolio test ${randomUUID()}`;
   const headers = { Origin: new URL(page.url()).origin, 'X-Requested-By': 'greenstate-web' };
   const created = await page.request.post('/api/v1/t/greenstate/host/listings', { headers, data: { title, description: 'A portfolio calendar test property.', city: 'Berlin', country: 'DE', latitude: 52.52, longitude: 13.4, propertyType: 'apartment', maxGuests: 4, bedrooms: 2, pricePerNightCents: 12000 } });

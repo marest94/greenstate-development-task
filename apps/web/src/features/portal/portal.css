@@ -8,7 +8,7 @@ body:has(.portal-shell) { background: #fff; }
 .portal-header nav { gap: 24px; font-size: 13px; }
 .portal-header nav a { border: 0; border-radius: 24px; padding: 11px 3px; }
 .portal-header nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
-.portal-header nav a[aria-current=page] { color: var(--tenant-color); font-weight: 700; }
+.portal-header nav a[aria-current=page] { color: var(--tenant-text-color, var(--tenant-color)); font-weight: 700; }
 .search-intro { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin: 40px 0 28px; }
 .search-intro .eyebrow { margin: 0 0 10px; font-size: 10px; color: #627a61; }
 .search-intro h1 { font-size: clamp(28px, 3vw, 42px); font-weight: 600; line-height: 1.18; letter-spacing: -1.5px; margin: 0; }
@@ -30,7 +30,7 @@ body:has(.portal-shell) { background: #fff; }
 .filter-bottom { margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f1ed; }
 .filter-bottom p { font-size: 11px; }
 .portal-shell .button-primary { border-radius: 12px; background: var(--tenant-color, #173d32); border-color: var(--tenant-color, #173d32); min-height: 44px; font-size: 12px; }
-.portal-shell .button-primary:hover { filter: brightness(1.15); }
+.portal-shell .button-primary:not(:disabled):hover { background: var(--tenant-color, #173d32); box-shadow: 0 0 0 2px var(--tenant-text-color, #173d32); }
 .portal-shell .button-secondary { border-radius: 10px; }
 .search-page > .business-date { font-size: 10px; margin-top: 10px; }
 .search-results { margin-top: 30px; }
@@ -268,3 +268,5 @@ body:has(.portal-shell) { background: #fff; }
   .map-view-toggle { padding-inline: 12px; font-size: 11px; }
   .map-selection img { width: 72px; }
 }
+
+.portal-shell .button-primary { color: var(--tenant-on-color, #fff); }

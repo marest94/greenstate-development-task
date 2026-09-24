@@ -113,7 +113,8 @@ it('creates a listing with exact integer cents and only editable fields', async 
   const requests = intercept({ handle: (url, init) => url.pathname === base && init.method === 'POST' ? json(listing, 201) : undefined });
   const { router } = mount('/greenstate/host/listings/new'); await screen.findByRole('button', { name: 'Create listing' });
   fill('Title', listing.title); fill('Description', 'A restful place.'); fill('City', 'Berlin'); fill('Country code', 'DE'); fill('Latitude', '52.52'); fill('Longitude', '13.4'); fill('Maximum guests', '4'); fill('Bedrooms', '2'); fill('Price per night (€)', '123.45');
-  submit('Create listing'); await waitFor(() => expect(router.state.location.pathname).toBe(`/greenstate/host/listings/${listing.id}`));
+  submit('Create listing'); await waitFor(() => expect(router.state.location.pathname).toBe('/greenstate/host/listings'));
+  expect(await screen.findByText('Listing created.')).toBeVisible();
   expect(requests.find(r => r.init.method === 'POST')?.body).toEqual({ title: listing.title, description: 'A restful place.', city: 'Berlin', country: 'DE', latitude: 52.52, longitude: 13.4, propertyType: 'apartment', maxGuests: 4, bedrooms: 2, pricePerNightCents: 12345 });
 });
 it('rejects fractional cents and missing numeric inputs without making a write', async () => {

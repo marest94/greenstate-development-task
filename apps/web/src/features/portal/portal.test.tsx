@@ -219,13 +219,13 @@ describe('listing detail availability', () => {
     expect(router.state.location.search).toBe('?city=Berlin&guests=4&page=2');
     expect(screen.getByLabelText('City')).toHaveValue('Berlin');
   });
-  it('preserves the listing date and exact supplied coordinates in secondary details', async () => {
+  it('preserves the listing date without raw coordinates in secondary details', async () => {
     intercept(); mount(`/greenstate/listings/${listing.id}`);
     await screen.findByRole('heading', { name: listing.title });
     expect(screen.getByText('Listed on')).toBeVisible();
     expect(screen.getByText('1 January 2026')).toBeVisible();
-    expect(screen.getByText('Coordinates')).toBeVisible();
-    expect(screen.getByText('52.52, 13.405')).toBeVisible();
+    expect(screen.queryByText('Coordinates')).not.toBeInTheDocument();
+    expect(screen.queryByText('52.52, 13.405')).not.toBeInTheDocument();
   });
   it('fetches both displayed months explicitly, leaves unfetched dates loading, and allows historical browsing by keyboard', async () => {
     let resolveOctober!: (response: Response) => void;
@@ -278,7 +278,7 @@ it('preserves keyboard focus through search and clearing dates, including resett
 });
 it.each(['#ffffff', '#f5f4ee'])('keeps a readable wordmark when the tenant chooses %s', async primaryColor => {
  intercept(url => url.pathname === '/api/v1/t/greenstate' ? json({ ...tenant, primaryColor }) : undefined); mount();
- const wordmark = await screen.findByRole('link', { name: tenant.name }); expect(wordmark.closest('.portal-shell')).toHaveStyle({ '--tenant-color': '#173d32' });
+ const wordmark = await screen.findByRole('link', { name: tenant.name }); expect(wordmark.closest('.portal-shell')).toHaveStyle({ '--tenant-color': primaryColor, '--tenant-wordmark-color': '#173d32' });
 });
 it('preserves a readable custom tenant colour', async () => {
  intercept(url => url.pathname === '/api/v1/t/greenstate' ? json({ ...tenant, primaryColor: '#123456' }) : undefined); mount();
@@ -291,4 +291,18 @@ it.each(['not-a-uuid', `..%2F..%2Fcitystays%2Flistings%2F${listing.id}`])('rejec
  expect(screen.queryByRole('heading', { name: 'Another tenant stay' })).not.toBeInTheDocument();
  expect(http.requests.filter(url => url.pathname.includes('/listings'))).toHaveLength(0);
  expect(screen.getByRole('link', { name: 'Back to listings' })).toHaveAttribute('href', '/greenstate');
+});
+
+it('keeps red branding and uses readable button text', async () => {
+ intercept(url => url.pathname === '/api/v1/t/greenstate' ? json({ ...tenant, primaryColor: '#FF0000' }) : undefined); mount();
+ const wordmark = await screen.findByRole('link', { name: tenant.name });
+ expect(wordmark.closest('.portal-shell')).toHaveStyle({ '--tenant-color': '#FF0000', '--tenant-on-color': '#000000' });
+});
+it('sets the browser title for search and removes raw coordinates from property details', async () => {
+ intercept(); const router = mount(); await screen.findByRole('link', { name: listing.title });
+ await waitFor(() => expect(document.title).toBe(`Explore stays · ${tenant.name}`));
+ await act(() => router.navigate(`/greenstate/listings/${listing.id}`));
+ await screen.findByRole('heading', { name: listing.title });
+ expect(screen.queryByText('Coordinates', { exact: true })).not.toBeInTheDocument();
+ expect(document.title).toBe(`Property details · ${tenant.name}`);
 });
