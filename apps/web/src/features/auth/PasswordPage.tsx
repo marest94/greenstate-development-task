@@ -1,10 +1,11 @@
+import { afterAuthentication } from './auth-destination';
 import { type FormEvent } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { PasswordChangeSchema } from '@greenstate/contracts';
 import { useAuth } from './AuthProvider';
 import { AuthField, clearPasswords, FormFeedback, SessionStatus, SignOutButton, useFormProblem, validationProblem } from './AuthForm';
 export function PasswordPage() {
-  const auth = useAuth(); const navigate = useNavigate(); const feedback = useFormProblem();
+  const auth = useAuth(); const navigate = useNavigate(); const location = useLocation(); const feedback = useFormProblem();
   if (auth.isLoading || auth.error) return <SessionStatus />;
   if (!auth.principal) return <Navigate to={`${auth.basePath}/login`} replace />;
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -13,7 +14,7 @@ export function PasswordPage() {
     const parsed = PasswordChangeSchema.safeParse({ currentPassword: data.get('currentPassword'), newPassword: data.get('newPassword') });
     if (!parsed.success) { feedback.report(validationProblem(parsed.error.issues)); return; }
     feedback.clear();
-    try { await auth.changePassword(parsed.data); clearPasswords(form); navigate(`${auth.basePath}/account`, { replace: true, state: { passwordChanged: true } }); }
+    try { const principal = await auth.changePassword(parsed.data); clearPasswords(form); navigate(afterAuthentication(principal, auth.basePath, new URLSearchParams(location.search).get('returnTo')), { replace: true, state: { passwordChanged: true } }); }
     catch (error) { clearPasswords(form); feedback.report(error); }
   }
   return <section className="auth-card" aria-labelledby="password-heading"><p className="eyebrow">Account security</p><h1 id="password-heading">Change your password</h1>

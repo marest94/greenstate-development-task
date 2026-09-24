@@ -61,8 +61,8 @@ function Editor({ initial, apiPath }: { initial: HostListingView | null; apiPath
     try {
       const next = server ? await api.patch(`${apiPath}/${server.id}`, { ...parsed.data, version: server.version }, HostListingViewSchema, controller.signal) : await api.post(apiPath, parsed.data, HostListingViewSchema, controller.signal);
       if (controller.signal.aborted) return;
-      clean(next); accept(next); setRevision(value => value + 1); setMessage(server ? 'Listing changes saved.' : 'Listing created.');
-      if (!server) navigate(`${auth.basePath}/host/listings/${next.id}`, { replace: true });
+      clean(next); accept(next); setRevision(value => value + 1); setMessage(server ? 'Listing changes saved.' : '');
+      if (!server) { document.documentElement.scrollTop = 0; document.body.scrollTop = 0; navigate(`${auth.basePath}/host/listings`, { replace: true, state: { listingCreated: next.title, listingId: next.id } }); }
     } catch (error) { if (!controller.signal.aborted) feedback.report(error); }
     finally { settle(controller); }
   }

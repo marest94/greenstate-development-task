@@ -1,3 +1,4 @@
+import { PageTitle } from './PageTitle';
 import { useEffect, useState } from 'react';
 import { HealthResponseSchema } from '@greenstate/contracts';
 
@@ -14,7 +15,7 @@ export function App() {
       .catch(() => { if (!controller.signal.aborted) setStatus('error'); });
     return () => controller.abort();
   }, []);
-  return <main className="welcome">
+  return <main className="welcome"><PageTitle brand="GreenState Stays" basePath="" />
     <a className="wordmark" href="/">GREENSTATE <span>STAYS</span></a>
     <section className="welcome-card">
       <p className="eyebrow">A PLACE TO FEEL AT HOME</p>

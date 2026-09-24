@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { HostListingsPageSchema, HostListingsQuerySchema } from '@greenstate/contracts';
 import { api } from '../../lib/api';
@@ -7,7 +7,7 @@ import { Pagination } from '../../components/Pagination';
 import { ErrorScreen } from '../../app/ErrorScreen';
 import { formatMoney } from '../../lib/format';
 export function ListingsPage() {
-  const auth = useAuth(); const [params, setParams] = useSearchParams();
+  const auth = useAuth(); const location = useLocation(); const [params, setParams] = useSearchParams();
   const parsed = HostListingsQuerySchema.safeParse(Object.fromEntries(params));
   const filters = parsed.success ? parsed.data : null;
   const enabled = !!auth.privateKey && !!filters && !!auth.principal?.permissions.includes('listings:manage');
@@ -17,6 +17,7 @@ export function ListingsPage() {
   function change(values: Record<string, string>) { const next = new URLSearchParams(params); for (const [key, value] of Object.entries(values)) { if (value) next.set(key, value); else next.delete(key); } setParams(next); }
   return <section aria-labelledby="inventory-heading">
     <div className="host-heading"><div><p className="eyebrow">Host workspace</p><h1 id="inventory-heading">Your inventory</h1><p>Manage the listings shared by your tenant’s hosts.</p></div><Link className="button-primary" to={`${auth.basePath}/host/listings/new`}>Create listing</Link></div>
+    {location.state?.listingCreated && <p className="host-success" role="status">Listing created. <Link to={`${auth.basePath}/host/listings/${location.state.listingId}`}>Edit {location.state.listingCreated}</Link></p>}
     <form key={params.toString()} className="inventory-filters" onSubmit={event => { event.preventDefault(); const form = new FormData(event.currentTarget); change({ search: String(form.get('search') ?? '').trim(), city: String(form.get('city') ?? '').trim(), propertyType: String(form.get('propertyType') ?? ''), sort: String(form.get('sort') ?? 'title'), page: '1' }); }}>
       <label>Property name<input name="search" maxLength={200} defaultValue={parsed.data.search ?? ''} placeholder="Search properties" /></label><label>City<input name="city" maxLength={80} defaultValue={parsed.data.city ?? ''} placeholder="All cities" /></label><label>Property type<select name="propertyType" defaultValue={parsed.data.propertyType ?? ''}><option value="">All types</option>{['apartment','studio','house','loft','room'].map(type => <option key={type}>{type}</option>)}</select></label><label>Sort by<select name="sort" defaultValue={parsed.data.sort}><option value="title">Property name</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select></label><button className="button-secondary">Apply filters</button>
     </form>

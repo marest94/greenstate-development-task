@@ -13,7 +13,9 @@ test('register, change password, sign in with a return path and keep portal acco
   await page.getByRole('link', { name: 'Change password', exact: true }).click();
   await page.getByLabel('Current password', { exact: true }).fill(password); await page.getByLabel('New password', { exact: true }).fill(changed);
   await page.getByRole('button', { name: 'Change password', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Your account', exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/\/greenstate$/); await expect(page.getByText('Password changed successfully.', { exact: true })).toBeVisible();
+  await expect(page).toHaveTitle(/Explore stays/); expect((await page.request.get('/favicon.svg')).status()).toBe(200);
+  await page.getByRole('link', { name: 'Account', exact: true }).click();
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Sign in', exact: true })).toBeVisible();
   expect((await page.request.get('/api/v1/t/greenstate/auth/me')).status()).toBe(401);

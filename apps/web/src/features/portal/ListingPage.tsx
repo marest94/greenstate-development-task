@@ -58,7 +58,7 @@ function ListingDetail({ listing }: { listing: ListingView }) {
     <div className="detail-body"><div className="detail-main">
     <h2 className="stay-overview">Make yourself at home in {listing.city}</h2>
     <dl className="listing-facts"><div><dt>Room for</dt><dd>{listing.maxGuests} {listing.maxGuests === 1 ? 'guest' : 'guests'}</dd></div><div><dt>Bedrooms</dt><dd>{listing.bedrooms}</dd></div><div><dt>Property</dt><dd className="property-name">{listing.propertyType}</dd></div><div><dt>Location</dt><dd>{listing.city}, {listing.country}</dd></div></dl>
-    <dl className="listing-secondary-facts"><div><dt>Listed on</dt><dd><time dateTime={listing.createdAt}>{formatDate(listing.createdAt)}</time></dd></div><div><dt>Coordinates</dt><dd>{listing.latitude}, {listing.longitude}</dd></div></dl>
+    <dl className="listing-secondary-facts"><div><dt>Listed on</dt><dd><time dateTime={listing.createdAt}>{formatDate(listing.createdAt)}</time></dd></div></dl>
     {listing.description && <section className="listing-description"><h2>About this stay</h2><p>{listing.description}</p></section>}
     <section id="availability" className="availability-section" aria-labelledby="availability-heading">
       <div className="availability-heading"><div><h2 id="availability-heading">Availability</h2><p>Explore available nights. Checkout does not occupy a night.</p></div><div className="calendar-navigation"><button className="button-secondary" type="button" aria-label="Previous months" disabled={month <= '0001-02'} onClick={() => navigate(-2)}>← <span>Previous months</span></button><button className="button-secondary" type="button" aria-label="Next months" disabled={month >= '9999-09'} onClick={() => navigate(2)}><span>Next months</span> →</button></div></div>

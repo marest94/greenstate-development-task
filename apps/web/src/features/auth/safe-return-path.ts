@@ -1,6 +1,5 @@
 /** Return destinations must stay within the current tenant or platform portal. */
-export function safeReturnPath(value: string | null, basePath: string): string {
-  const fallback = `${basePath}/account`;
+export function safeReturnPath(value: string | null, basePath: string, fallback = `${basePath}/account`): string {
   if (!value || value.length > 2048 || !value.startsWith('/') || value.startsWith('//') || /[\\\s]/.test(value)) return fallback;
   if ([...value].some(character => character.charCodeAt(0) < 32 || character.charCodeAt(0) === 127)) return fallback;
   const pathname = value.split(/[?#]/, 1)[0]!;

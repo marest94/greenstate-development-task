@@ -34,6 +34,7 @@ function mount(path = '/greenstate/login', scope: AuthScope = { realm: 'tenant',
     { path: `${base}/account`, element: <RequirePermission><AccountPage /></RequirePermission> },
     { path: `${base}/password`, element: <PasswordPage /> },
     { path: `${base}/protected`, element: <RequirePermission permission="listings:manage"><h1>Protected host content</h1></RequirePermission> },
+    { path: `${base}/host/listings`, element: <h1>Your inventory</h1> }, { path: `${base}/tenants`, element: <h1>Tenants</h1> },
     { path: base, element: <h1>Explore stays</h1> },
   ] }], { initialEntries: [path] });
   render(<QueryClientProvider client={cache}><RouterProvider router={router} /></QueryClientProvider>);
@@ -107,10 +108,10 @@ it('prioritizes required password change over the sign-in return path', async ()
   intercept(null, () => json({ ...host, mustChangePassword: true })); mount('/greenstate/login?returnTo=/greenstate/protected'); await credentials('Sign in');
   expect(await screen.findByRole('heading', { name: 'Change your password' })).toBeVisible(); expect(screen.queryByText('Protected host content')).not.toBeInTheDocument();
 });
-it('changes a temporary password and returns to the unrestricted account', async () => {
+it('changes a temporary client password and returns to the portal', async () => {
   const requests = intercept({ ...client, mustChangePassword: true }); mount('/greenstate/password');
   await screen.findByRole('heading', { name: 'Change your password' }); fill('Current password', password); fill('New password', 'A different account password 2026'); submit('Change password');
-  expect(await screen.findByRole('heading', { name: 'Your account' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Explore stays' })).toBeVisible();
   expect(requests[0]).toEqual({ url: '/api/v1/t/greenstate/auth/password', body: { currentPassword: password, newPassword: 'A different account password 2026' } });
 });
 it('offers sign-out from temporary password change and clears private cached data', async () => {
@@ -126,7 +127,8 @@ it('resets the password screen to sign-in when its session expires during a muta
 it('renders platform sign-in without registration and keeps platform account links in that realm', async () => {
   intercept(null, () => json(platform)); mount('/admin/login', { realm: 'platform' });
   await screen.findByRole('heading', { name: 'Sign in' }); expect(screen.queryByRole('link', { name: 'Create account' })).not.toBeInTheDocument();
-  await credentials('Sign in'); expect(await screen.findByRole('heading', { name: 'Your account' })).toBeVisible();
+  await credentials('Sign in'); expect(await screen.findByRole('heading', { name: 'Tenants' })).toBeVisible();
+  fireEvent.click(screen.getByRole('link', { name: 'Account' })); await screen.findByRole('heading', { name: 'Your account' });
   expect(screen.getByRole('link', { name: 'Account' })).toHaveAttribute('href', '/admin/account');
   expect(screen.getByRole('link', { name: 'Change password' })).toHaveAttribute('href', '/admin/password');
 });
@@ -153,4 +155,21 @@ it('keeps the account visible and surfaces a failed sign-out for retry', async (
   intercept(client, () => problem(503, 'Sign-out is temporarily unavailable.')); mount('/greenstate/account');
   await screen.findByRole('heading', { name: 'Your account' }); fireEvent.click(screen.getByRole('button', { name: 'Sign out' }));
   expect(await screen.findByRole('alert')).toHaveTextContent('Sign-out is temporarily unavailable.'); expect(screen.getByText(client.email)).toBeVisible();
+});
+
+it.each([[host, '/greenstate', 'Your inventory'], [client, '/greenstate', 'Explore stays'], [platform, '/admin', 'Tenants']] as const)('lands $0.role in its workspace after login', async (principal, base, heading) => {
+ intercept(null, () => json(principal)); mount(`${base}/login`, principal.realm === 'platform' ? { realm: 'platform' } : { realm: 'tenant', tenantId, slug: 'greenstate' });
+ await credentials('Sign in'); expect(await screen.findByRole('heading', { name: heading })).toBeVisible();
+});
+it.each([[host, '/greenstate', 'Your inventory'], [platform, '/admin', 'Tenants']] as const)('lands $0.role in its workspace after changing its password', async (principal, base, heading) => {
+ intercept({ ...principal, mustChangePassword: true }, () => json(principal)); mount(`${base}/password`, principal.realm === 'platform' ? { realm: 'platform' } : { realm: 'tenant', tenantId, slug: 'greenstate' });
+ await screen.findByRole('heading', { name: 'Change your password' }); fill('Current password', password); fill('New password', 'A different account password 2026'); submit('Change password');
+ expect(await screen.findByRole('heading', { name: heading })).toBeVisible();
+});
+it('preserves a safe return destination through required password change', async () => {
+ let changed = false;
+ intercept(null, url => { if (url.endsWith('/password')) changed = true; return json({ ...host, mustChangePassword: !changed }); });
+ mount('/greenstate/login?returnTo=/greenstate/protected'); await credentials('Sign in');
+ await screen.findByRole('heading', { name: 'Change your password' }); fill('Current password', password); fill('New password', 'A different account password 2026'); submit('Change password');
+ expect(await screen.findByRole('heading', { name: 'Protected host content' })).toBeVisible();
 });
