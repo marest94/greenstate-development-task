@@ -125,4 +125,4 @@ Add selection on another row, exact booking details, invalid date input, conflic
 
 ## Execution outcome
 
-Implemented and verified on 2026-09-23. See `docs/host-admin-workflows.md` for behavior, implementation decisions and exact validation totals. All deliverables are included in the local workflow implementation commit.
+Implemented and verified on 2026-09-23. See `docs/history/host-admin-workflows.md` for behavior, implementation decisions and exact validation totals. All deliverables are included in the local workflow implementation commit.

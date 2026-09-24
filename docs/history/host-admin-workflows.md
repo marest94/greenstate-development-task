@@ -1,5 +1,7 @@
 # Host and superadmin workflows
 
+Historical milestone record, merged as PR #7. Preview and verification details below describe that stage of development. Start with the current [documentation guide](../README.md).
+
 Implemented in the existing isolated UI branch after the user approved the three implementation plans.
 
 ## Host availability
@@ -47,4 +49,4 @@ The full PostgreSQL run passed 263 tests across 25 files; two additional range c
 
 A final review caught a missing dirty-form guard on restoring archived listings. Both archive and restore now require saving or explicitly discarding edits. The editor includes a Discard changes control, and single-night/block calendar copy uses singular labels. Regression coverage includes the archived draft/restore flow and a full 20-property calendar page on desktop and mobile.
 
-The release check passed 250 unit/component tests, lint and typecheck. The production Docker build and focused desktop/mobile host/admin browser checks passed. A fresh independent release review covered the entire public/host/admin branch and found no additional blocker. Delivery is through a GitHub pull request; no merge or production deployment is performed by this task.
+The release check passed 250 unit/component tests, lint and typecheck. The production Docker build and focused desktop/mobile host/admin browser checks passed. A fresh independent release review covered the entire public/host/admin branch and found no additional blocker. At that point, delivery was through a GitHub pull request; it was subsequently merged as PR #7. No production deployment was part of that work.

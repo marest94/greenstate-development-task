@@ -53,9 +53,9 @@ When a finding appears:
    `npm audit fix --force`, hide errors with `|| true`, or silently exclude development
    dependencies to obtain a green result.
 
-These files take effect in GitHub after publication; a successful local check does not
-verify repository-level branch protection. Requiring the `audit` status for merging is
-a separate repository setting.
+These workflow files were published with PR #9. A successful local check does not verify
+repository-level branch protection. Requiring the `audit` status for merging is a separate
+repository setting.
 
 References: [npm audit](https://docs.npmjs.com/cli/v11/commands/npm-audit/),
 [Dependabot options](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference).

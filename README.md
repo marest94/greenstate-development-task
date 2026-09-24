@@ -2,6 +2,10 @@
 
 Fresh implementation of the GreenState accommodation rental challenge.
 
+**Reviewing the project?** Start with the [documentation guide](docs/README.md).
+It links the demo route, current architecture, key flows, challenge requirements,
+data model, and dated verification notes.
+
 Implemented: public tenant portals, accounts and private saved listings, host inventory and
 calendar management, read-only booking history, and platform tenant/account administration.
 The original challenge inputs remain unchanged.
@@ -11,14 +15,9 @@ The original challenge inputs remain unchanged.
 - [Approved design](docs/superpowers/specs/2026-09-22-rental-system-design.md)
 - [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
 
-The 13-task plan records the approved scope. Git history keeps verified task commits and six
-milestone pull requests, with independent reviews after the database, identity and final stages.
-
-Use short-lived milestone branches, starting with `feat/foundation` for tasks 1–3.
-Parallel work uses `feat/task-<number>-<short-name>` branches/worktrees based on the active
-milestone. Sequential tasks receive their own verified commits without requiring extra branches.
-Review each milestone through a pull request into `main`, preserving those commits; start the
-next milestone from the updated `main`. The implementation plan lists all six milestone branches.
+The 13-task plan records the original approved scope and development sequence. Milestone
+branches and pull requests document how the initial implementation was built and reviewed;
+they are historical records, not instructions for using the current application.
 
 ## Architecture
 
