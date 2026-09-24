@@ -1,5 +1,7 @@
 # Public portal design refresh
 
+Historical milestone record, merged as PR #7. Preview URLs, branch names, and test counts below describe that stage of development. Start with the current [documentation guide](../README.md).
+
 Approved direction: Airbnb-inspired browsing with GreenState branding, illustrated banners, a detail gallery, and property maps. Implemented in `ui/property-browsing`, an isolated local checkout.
 
 ## Behavior
