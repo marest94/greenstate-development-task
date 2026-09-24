@@ -1,23 +1,22 @@
-# GreenState Development Task
+# GreenState
 
-Fresh implementation of the GreenState accommodation rental challenge.
-
-**Reviewing the project?** Start with the [documentation guide](docs/README.md).
-It links the demo route, current architecture, key flows, challenge requirements,
-data model, and dated verification notes.
+An implementation of the GreenState accommodation rental challenge.
 
 Implemented: public tenant portals, accounts and private saved listings, host inventory and
 calendar management, read-only booking history, and platform tenant/account administration.
 The original challenge inputs remain unchanged.
 
-## Planning
+**Reviewing the project?** Start with the [documentation guide](docs/README.md) for a demo
+route, architecture, key flows, challenge requirements, data model and dated review notes.
+This README covers setup, commands, API behavior and local development details.
 
-- [Approved design](docs/superpowers/specs/2026-09-22-rental-system-design.md)
-- [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
+## In this README
 
-The 13-task plan records the original approved scope and development sequence. Milestone
-branches and pull requests document how the initial implementation was built and reviewed;
-they are historical records, not instructions for using the current application.
+- [Architecture](#architecture) and [local setup](#run-locally)
+- [API and application behavior](#api-and-application-behavior)
+- [Administrator recovery and database operations](#administrator-recovery-and-database-operations)
+- [Original challenge material](#original-challenge-material) and [demo accounts](#local-demo-accounts)
+- [Deliberate limits](#deliberate-limits) and [development records](#development-records)
 
 ## Architecture
 
@@ -96,11 +95,14 @@ Dependency advisory checks and reviewed weekly updates are configured separately
 See [security maintenance](docs/security-maintenance.md) for the audit threshold,
 metadata sent to npm, update policy and safe API diagnostics.
 
-Local verification on 23 September 2026 passed 74 API unit tests, 222 web component tests,
+### Dated verification record
+
+Local verification on 23 September 2026, at source commit `71ee848`, passed 74 API unit tests, 222 web component tests,
 271 PostgreSQL integration tests, two stack checks and 34 browser cases. The dependency
 audit reported no known advisories. The stack used existing images with freshly built API,
 contracts and web output mounted read-only. Earlier startup verification also confirmed
-that restarting preserves edited inventory and account state.
+that restarting preserves edited inventory and account state. These counts predate PR #12;
+see the [review notes](docs/review-notes.md) for their scope.
 
 After starting the local database, run:
 
@@ -162,6 +164,8 @@ STACK_BASE_URL=http://localhost:18080 \
 The isolated browser stack uses higher login/registration limits to accommodate repeated fixture
 creation. Production defaults and rejection behavior are tested with real API integration cases.
 
+## API and application behavior
+
 Public API routes start with `/api/v1/t/:slug`. `/listings` accepts city, guests,
 `minPriceCents`, `maxPriceCents`, paired `from`/`to` dates, page, and pageSize (maximum 50).
 Unknown keys and incomplete or invalid date ranges return a structured 400 error. Historical
@@ -207,6 +211,8 @@ retaining accounts, listings, bookings, blocks and saved rows. Its slug stays re
 and timezone changes take an exclusive tenant lock; ordinary writes take a shared live-tenant
 lock. Integration cases exercise both transaction orderings for identity, saved-list, listing,
 calendar and administrative mutations. Seed reruns preserve these lifecycle decisions.
+
+## Administrator recovery and database operations
 
 ### Recover a platform administrator
 
@@ -309,3 +315,12 @@ Hosts share management access within their tenant. Dates use the tenant's explic
 timezone rather than each property's local timezone; imported booking status remains unchanged.
 Tenant deletion is soft and its slug remains reserved. Browser automation covers Chromium at
 desktop and 375px widths; Safari/Firefox and a full assistive-technology audit are not verified.
+
+## Development records
+
+- [Approved design](docs/superpowers/specs/2026-09-22-rental-system-design.md)
+- [Implementation plan](docs/superpowers/plans/2026-09-22-rental-system-implementation.md)
+
+The 13-task plan records the original approved scope and development sequence. Milestone
+branches and pull requests document how the initial implementation was built and reviewed;
+they are historical records, not instructions for using the current application.
